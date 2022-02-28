@@ -48,18 +48,19 @@ public class Rider {
             File idFile = new File("code_data.txt");
             Scanner FileReader = new Scanner(idFile);
             while (FileReader.hasNextLine()) {
-            idFileContent += FileReader.nextLine();
+            idFileContent = FileReader.nextLine();
             }
             FileReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
           }
-        this.riderID = Integer.parseInt(idFileContent); //this could easilly be broken by adding mroe data to idFile!!!
+        this.riderID = Integer.parseInt(idFileContent); //this could easilly be broken by adding more data to idFile!!!
         NewIdFileContent = Integer.parseInt(idFileContent) + 1;
+        System.out.println(NewIdFileContent);
         try {
             FileWriter idWriter = new FileWriter("code_data.txt", false); //second parameter causes existing data to be overwritten
-            idWriter.write(NewIdFileContent);
+            idWriter.write(Integer.toString(NewIdFileContent));
             idWriter.close();
             System.out.println("Successfully wrote to the file.");
           } catch (IOException e) {

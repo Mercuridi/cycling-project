@@ -7,6 +7,10 @@ public class Team {
     private String teamName;
     private ArrayList<Rider> ridersInTeam;
     private String teamDescription;
+    private boolean riderFound;
+    private int searchCount;
+    private Rider currentRider;
+    private int tempID;
     //getters and setters
     public int getTeamID() {
         return teamID;
@@ -23,7 +27,28 @@ public class Team {
     public static int getNextTeamID() {
         return nextTeamID;
     }
-    
+    public void addRider(Rider newRider) {
+        this.ridersInTeam.add(newRider);
+    } 
+    public boolean removeRider(String targetRiderId) {
+        while (riderFound == false && searchCount < this.ridersInTeam.size()) {
+            currentRider = (this.ridersInTeam.get(searchCount));
+            tempID = currentRider.getRiderID();
+            if (tempID == (Integer.parseInt(targetRiderId))) {
+                riderFound = true;
+            }
+            else {
+                searchCount += 1;
+            }
+        }
+        if (riderFound == true) {
+            this.ridersInTeam.remove(searchCount);
+            return true;
+        }
+        else
+            return false;
+
+    }
     // public setTeamID(int team) {
 
     //}
@@ -36,6 +61,5 @@ public class Team {
         this.teamDescription = Description;
         this.teamID = ++nextTeamID;
         this.ridersInTeam = new ArrayList<Rider>();
-        
     }
 }

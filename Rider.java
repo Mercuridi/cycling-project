@@ -42,6 +42,6 @@ public class Rider {
         this.teamID = teamID;
         this.name = name;
         this.yearOfBirth = yearOfBirth;
-        riderID = ++nextRiderID;
+        this.riderID = ++nextRiderID;
     }
     }

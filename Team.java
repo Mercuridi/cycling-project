@@ -2,10 +2,10 @@ import java.util.ArrayList;
 
 public class Team {
     //attributes
-    private static int NextTeamID;
+    private static int nextTeamID;
     private int teamID;
     private String teamName;
-    private ArrayList ridersInTeam;
+    private ArrayList<Rider> ridersInTeam;
     private String teamDescription;
     //getters and setters
     public int getTeamID() {
@@ -17,10 +17,25 @@ public class Team {
     public String getTeamDescription() {
         return teamDescription;
     }
-    public ArrayList getRidersInTeam() {
+    public ArrayList<Rider> getRidersInTeam() {
         return ridersInTeam;
     }
+    public static int getNextTeamID() {
+        return nextTeamID;
+    }
+    
+    // public setTeamID(int team) {
+
+    //}
+
     //methods
 
     //constructors
+    public Team(String name, String Description) {
+        this.teamName = name;
+        this.teamDescription = Description;
+        this.teamID = ++nextTeamID;
+        this.ridersInTeam = new ArrayList<Rider>();
+        
+    }
 }

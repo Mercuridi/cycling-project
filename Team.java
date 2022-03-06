@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Team {
     //attributes
-    private static int nextTeamID;
+    private static int nextTeamID = 111;
     private int teamID;
     private String teamName;
     private ArrayList<Rider> ridersInTeam;
@@ -47,14 +47,16 @@ public class Team {
         }
         else
             return false;
-
     }
-    // public setTeamID(int team) {
-
-    //}
-
-    //methods
-
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+    public void setTeamDescription(String teamDesc) {
+        this.teamDescription = teamDesc;
+    }
+    public void setTeamID(int teamID){
+        this.teamID = teamID;
+    }
     //constructors
     public Team(String name, String Description) {
         this.teamName = name;

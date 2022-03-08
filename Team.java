@@ -7,10 +7,6 @@ public class Team {
     private String teamName;
     private ArrayList<Rider> ridersInTeam;
     private String teamDescription;
-    private boolean riderFound;
-    private int searchCount;
-    private Rider currentRider;
-    private int tempID;
     //getters and setters
     public int getTeamID() {
         return teamID;
@@ -30,11 +26,15 @@ public class Team {
     public void addRider(Rider newRider) {
         this.ridersInTeam.add(newRider);
     } 
-    public boolean removeRider(String targetRiderId) {
+    public boolean removeRider(int targetRiderId) {
+        boolean riderFound = false;
+        int searchCount = 0;
+        Rider currentRider;
+        int tempID;
         while (riderFound == false && searchCount < this.ridersInTeam.size()) {
             currentRider = (this.ridersInTeam.get(searchCount));
             tempID = currentRider.getRiderID();
-            if (tempID == (Integer.parseInt(targetRiderId))) {
+            if (tempID == targetRiderId) {
                 riderFound = true;
             }
             else {

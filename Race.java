@@ -35,8 +35,65 @@ public class Race {
     public int getNextRaceID(){
         return nextRaceID;
     }
-    //TODO add stage to race method
-    
+    public void addRiderToRace(Rider newRider){
+        this.ridersInRace.add(newRider);
+    }
+    public void removeRiderFromRace(int targetRiderID){
+        boolean riderFound = false;
+        int searchCount = 0;
+        Rider currentRider;
+        int tempID;
+        while (riderFound == false && searchCount < this.ridersInRace.size()) {
+            currentRider = (this.ridersInRace.get(searchCount));
+            tempID = currentRider.getRiderID();
+            if (tempID == targetRiderID) {
+                riderFound = true;
+            }
+            else {
+                searchCount += 1;
+            }
+        }
+        if (riderFound == true) {
+            this.ridersInTeam.remove(searchCount);
+            //TODO add some verification innit
+        }
+    }
+
+    public void addStageToRace(Stage newStage){
+        this.stages.add(newStage);
+    }
+
+    public void removeStageFromRace(int targetStageID){
+        boolean stageFound = false;
+        int searchCount = 0;
+        Stage currentStage;
+        int tempID;
+        while (stageFound == false && searchCount < this.stages.size()) {
+            currentStage = (this.stages.get(searchCount));
+            if (tempID == targetStageID){
+                stageFound = true;
+            }
+            else {
+                searchCount += 1;
+            }
+        }
+        if (stageFound == true) {
+            this.stages.remove(searchCount);
+        }
+        //TODO add some verification innit
+    }
+    public void setRaceID(int raceID){
+        this.raceID = raceID;
+    }
+    public void setRaceName(String raceName){
+        this.raceName = raceName;
+    }
+    public void setRaceDescription(String raceDescription){
+        this.raceDescription = raceDescription;
+    }
+    public void setRaceLength(double raceLength){
+        this.raceLength = raceLength;
+    }
     public Race(String name, String description) {
         this.raceID = ++nextRaceID;
         this.raceName = name;

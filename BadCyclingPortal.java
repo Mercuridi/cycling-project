@@ -11,21 +11,21 @@ import java.util.ArrayList;
  * @version 1.0
  *
  */
-public class MiniCyclingPortal implements MiniCyclingPortalInterface {
+public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 	public ArrayList<Team> Teams;
 	public ArrayList<Race> Races;
 
 	//our own methods!!!
 
 	public int locateTeam(int teamID) throws IDNotRecognisedException {
-		boolean teamFound = false;
-		int searchCount = 0;
+		boolean teamFound;
+		int searchCount;
 		Team currentTeam;
 		int tempID; 
 		while (teamFound == false && searchCount < Teams.size()) {
             currentTeam = (Teams.get(searchCount));
             tempID = currentTeam.getTeamID();
-            if (tempID == teamID) {
+            if (tempID == (Integer.parseInt(teamID))) {
                 teamFound = true;
             }
             else {
@@ -39,27 +39,6 @@ public class MiniCyclingPortal implements MiniCyclingPortalInterface {
 			return 0; //0 is a rouge value
 	}
 
-	public int locateRace(int raceID) throws IDNotRecognisedException {
-		boolean raceFound = false;
-		int searchCount = 0;
-		Race currentRace;
-		int tempID; 
-		while (raceFound == false && searchCount < Races.size()) {
-            currentRace = (Race.get(searchCount));
-            tempID = currentRace.getRaceID();
-            if (tempID == raceID) {
-                raceFound = true;
-            }
-            else {
-                searchCount += 1;
-            }
-        }
-        if (raceFound == true) {
-            return searchCount; //returns location of race
-        }
-        else
-			return 0; //0 is a rouge value
-	}
 	//end of our own methods
 
 	@Override
@@ -96,20 +75,7 @@ public class MiniCyclingPortal implements MiniCyclingPortalInterface {
 	public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime,
 			StageType type)
 			throws IDNotRecognisedException, IllegalNameException, InvalidNameException, InvalidLengthException {
-			Stage newStage;
-			newStage = new Stage(raceId, stageName, description, length, startTime);
-			try {
-				int targetIndex = locateRace(raceID);
-				if (targetIndex == 0){
-					throw new IDNotRecognisedException();
-				}
-				else {
-					Races.get(targetIndex).getStages().addStageToRace();
-				}
-			}
-			catch(ex IDNotRecognisedException)	{
-				System.out.println("RaceID not recognised!");
-			}
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -128,7 +94,7 @@ public class MiniCyclingPortal implements MiniCyclingPortalInterface {
 	@Override
 	public void removeStageById(int stageId) throws IDNotRecognisedException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -191,17 +157,15 @@ public class MiniCyclingPortal implements MiniCyclingPortalInterface {
 
 	@Override
 	public int[] getTeams() {
-		int []outputArray = new int[Teams.size()];
-		int indexCount = 0;
 		for (Team x:Teams) {
-			outputArray[indexCount] = x.getTeamID();
-			++indexCount;
+			System.out.println(x.getName + " " + x.getTeamDescription);
 		}
-		return outputArray;
+		//Simply retrieve the list of teams and print out certain data!
+		return null;
 	}
 
 	@Override
-	public int[] getTeamRiders(int teamId) throws IDNotRecognisedException { //this needs to be fixed!
+	public int[] getTeamRiders(int teamId) throws IDNotRecognisedException {
 		int targetIndex = locateTeam(teamId);
 		try {
 			if (targetIndex != 0) {
@@ -218,50 +182,20 @@ public class MiniCyclingPortal implements MiniCyclingPortalInterface {
 		}	
 		return null;
 	}
+		
 
 	@Override
 	public int createRider(int teamID, String name, int yearOfBirth)
 			throws IDNotRecognisedException, IllegalArgumentException {
-			Rider newRider;
-            boolean addCheck = false;
-            newRider = new Rider(teamID, name, yearOfBirth);
-            for (Team x:Teams) {
-                if (x.getTeamID() == teamID){
-                    x.addRider(newRider);
-                    addCheck = true;
-                    break;
-                }
-				if (addCheck == false){
-					System.out.println("TeamID not found!");
-					//throw new IDNotRecognisedException();
-				}
-			return 0;
-			}
-        }
+			Rider(teamID, name, yearOfBirth);
+			//add to team!!
+		return 0;
+	}
 
 	@Override
 	public void removeRider(int riderId) throws IDNotRecognisedException {
-		int teamCount = 0;
-		int riderCount = 0;
-		Team currentTeam;
-		Rider currentRider;
-		boolean riderFound = false;
-		while (riderFound != true && teamCount < Teams.size() -1){
-			currentTeam = Teams.get(currentTeam);
-			Rider []RiderArray = new Rider[Teams.getRidersInRace.size()];
-			while (riderFound != true && riderCount < currentTeam.getRidersInRace.size()-1){
-				currentRider = RiderArray[riderCount];
-				if (riderId == currentRider.getRiderID()){
-					Teams.get(currentTeam).remove(riderId);
-					riderFound = true;
-				} 
-				++riderCount; 
-			}
-			++currentTeam;
-		}
-		if (riderFound = false) {
-			throw new IDNotRecognisedException();
-		}
+		// TODO Auto-generated method stub
+		//iterate through each team searching for the riderid
 	}
 
 	@Override

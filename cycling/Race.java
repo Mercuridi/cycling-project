@@ -54,7 +54,7 @@ public class Race {
             }
         }
         if (riderFound == true) {
-            this.ridersInTeam.remove(searchCount);
+            this.ridersInRace.remove(searchCount);
             //TODO add some verification innit
         }
     }

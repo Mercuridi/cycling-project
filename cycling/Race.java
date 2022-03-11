@@ -1,3 +1,5 @@
+package cycling;
+
 import java.security.DrbgParameters.NextBytes;
 import java.util.ArrayList;
 
@@ -70,6 +72,7 @@ public class Race {
         int tempID;
         while (stageFound == false && searchCount < this.stages.size()) {
             currentStage = (this.stages.get(searchCount));
+            tempID = currentStage.getStageID();
             if (tempID == targetStageID){
                 stageFound = true;
             }
@@ -98,7 +101,7 @@ public class Race {
         this.raceID = ++nextRaceID;
         this.raceName = name;
         this.raceDescription = description;
-        this.ridersInRace = new ArrayList<Riders>();
+        this.ridersInRace = new ArrayList<Rider>();
         this.raceLength = 0.0;
         this.stages = new ArrayList<Stage>();
         //this.raceResults = new ArrayList<RaceResult>();

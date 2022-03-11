@@ -1,3 +1,4 @@
+package cycling;
 
 //import java.util.Random;
 public class Rider {
@@ -11,7 +12,7 @@ public class Rider {
     public int getRiderID(){
         return riderID;
     }
-    public String getName(){
+    public String getRiderName(){
         return name;
     }
     public int getTeamID(){

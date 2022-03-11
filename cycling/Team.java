@@ -1,3 +1,5 @@
+package cycling;
+
 import java.util.ArrayList;
 
 public class Team {
@@ -26,27 +28,30 @@ public class Team {
     public void addRider(Rider newRider) {
         this.ridersInTeam.add(newRider);
     } 
-    public boolean removeRider(int targetRiderId) {
-        boolean riderFound = false;
-        int searchCount = 0;
-        Rider currentRider;
-        int tempID;
-        while (riderFound == false && searchCount < this.ridersInTeam.size()) {
-            currentRider = (this.ridersInTeam.get(searchCount));
-            tempID = currentRider.getRiderID();
-            if (tempID == targetRiderId) {
-                riderFound = true;
-            }
-            else {
-                searchCount += 1;
-            }
-        }
-        if (riderFound == true) {
-            this.ridersInTeam.remove(searchCount);
-            return true;
-        }
-        else
-            return false;
+    // public boolean removeRider(int targetRiderId) {
+    //     boolean riderFound = false;
+    //     int searchCount = 0;
+    //     Rider currentRider;
+    //     int tempID;
+    //     while (riderFound == false && searchCount < this.ridersInTeam.size()) {
+    //         currentRider = (this.ridersInTeam.get(searchCount));
+    //         tempID = currentRider.getRiderID();
+    //         if (tempID == targetRiderId) {
+    //             riderFound = true;
+    //         }
+    //         else {
+    //             searchCount += 1;
+    //         }
+    //     }
+    //     if (riderFound == true) {
+    //         this.ridersInTeam.remove(searchCount);
+    //         return true;
+    //     }
+    //     else
+    //         return false;
+    // }
+    public void removeRider(int index) {
+        this.ridersInTeam.remove(index);
     }
     public void setTeamName(String teamName) {
         this.teamName = teamName;

@@ -1,3 +1,5 @@
+package cycling;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -55,7 +57,7 @@ public class Tester {
 		int targetIndex = locateTeam(teamId);
 		if (targetIndex != 0) {
 			for (Rider x:Teams.get(targetIndex).getRidersInTeam()){
-				System.out.println(Integer.toString(x.getRiderID()) + x.getName());
+				System.out.println(Integer.toString(x.getRiderID()) + x.getRiderName());
 			}
 		}
 		else {

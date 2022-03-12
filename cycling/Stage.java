@@ -12,7 +12,7 @@ public class Stage {
     private String stageName;
     private String stageLocation;
     private StageType stageType;
-    //private ArrayList<Segments> segments;
+    private ArrayList<Segment> segments;
     //private ArrayList<StageResult> stageResults;
     private double stageLength;
 
@@ -37,9 +37,9 @@ public class Stage {
     public StageType getStageType(){
         return stageType;
     }
-    //public ArrayList<segment> getSegments(){
-        //return segments;
-    //}
+    public ArrayList<Segment> getSegments(){
+        return segments;
+    }
     //public ArrayList<StageResult> getStageResults(){
         //return stageResults;
     //}

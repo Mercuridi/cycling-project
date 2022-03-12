@@ -9,7 +9,7 @@ public class Race {
     private String raceName;
     private String raceDescription;
     private ArrayList<Rider> ridersInRace;
-    //private ArrayList<RaceResult> raceResults just as we haven't added this yet!
+    private ArrayList<RaceResult> raceResults;
     private ArrayList<Stage> stages;
     private double raceLength;
 
@@ -25,9 +25,9 @@ public class Race {
     public ArrayList<Rider> getRidersInRace(){
         return ridersInRace;
     }
-    //public ArrayList<RaceResult> raceResults() {
-        //return ridersInRace;
-    //}
+    public ArrayList<RaceResult> raceResults() {
+        return raceResults;
+    }
     public ArrayList<Stage> getStages() {
         return stages;
     }
@@ -97,6 +97,7 @@ public class Race {
     public void setRaceLength(double raceLength){
         this.raceLength = raceLength;
     }
+    //TODO add/remove results
     public Race(String name, String description) {
         this.raceID = ++nextRaceID;
         this.raceName = name;
@@ -104,6 +105,6 @@ public class Race {
         this.ridersInRace = new ArrayList<Rider>();
         this.raceLength = 0.0;
         this.stages = new ArrayList<Stage>();
-        //this.raceResults = new ArrayList<RaceResult>();
+        this.raceResults = new ArrayList<RaceResult>();
     }
 }

@@ -6,9 +6,8 @@ public class Segment{
     private int segmentID;
     private int stageID;
     private int raceID;
-    private String segmentName;
     private SegmentType segmentType;
-    // private ArrayList<SegmentResult> segmentResults;
+    private ArrayList<SegmentResult> segmentResults;
     private double segmentLength;
     private Double segmentLocation;
     private Double averageGradient;
@@ -31,10 +30,6 @@ public int getraceID(){
 
 public double getsegmentLength(){
     return segmentLength;
-}
-
-public String getsegmentName(){
-    return segmentName;
 }
 
 public SegmentType getsegmentType(){
@@ -65,10 +60,6 @@ public void setsegmentLength(double segmentLength){
     this.segmentLength = segmentLength;
 }
 
-public void setsegmentName(String segmentName){
-    this.segmentName = segmentName;
-}
-
 public void setsegmentType(SegmentType segmentType){
     this.segmentType = segmentType;
 }
@@ -80,4 +71,27 @@ public void setsegmentLocation(double segmentLocation){
 public void setaverageGradient(double averageGradient){
     this.averageGradient = averageGradient;
 }
+//TODO add/remove results
+
+public Segment(int stageId, Double location, SegmentType type, Double averageGradient, Double length) {
+    this.segmentID = ++nextSegmentID;
+    this.stageID = stageId;
+    this.segmentLocation = location;
+    this.segmentType = type;
+    this.averageGradient = averageGradient;
+    this.segmentLength = length;
+    this.raceID = 0; //rogue value!!! Will be set later :)
+    this.segmentResults = new ArrayList<SegmentResult>();
+}
+
+public Segment(int stageId, double location){
+    this.segmentID = ++nextSegmentID;
+    this.stageID = stageId;
+    this.segmentLocation = location;
+    this.segmentType = SegmentType.SPRINT;
+    this.averageGradient = 0.0; //not used
+    this.segmentLength = 0.0; //not used
+    this.raceID = 0; //rogue value!!! Will be set later :)
+    this.segmentResults = new ArrayList<SegmentResult>();
+}   
 }

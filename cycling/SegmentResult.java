@@ -10,3 +10,4 @@ public void setsegmentID(int segmentID){
     this.segmentID = segmentID;
 }
 }
+//TODO constructors

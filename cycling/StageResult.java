@@ -10,3 +10,4 @@ public void setstageID(int stageID){
     this.stageID = stageID;
 }
 }
+//TODO constructors

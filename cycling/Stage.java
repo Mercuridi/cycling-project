@@ -13,7 +13,7 @@ public class Stage {
     private String stageLocation;
     private StageType stageType;
     private ArrayList<Segment> segments;
-    //private ArrayList<StageResult> stageResults;
+    private ArrayList<StageResult> stageResults;
     private double stageLength;
 
     public int getStageID(){
@@ -40,9 +40,9 @@ public class Stage {
     public ArrayList<Segment> getSegments(){
         return segments;
     }
-    //public ArrayList<StageResult> getStageResults(){
-        //return stageResults;
-    //}
+    public ArrayList<StageResult> getStageResults(){
+        return stageResults;
+    }
     public double getstageLength(){
         return stageLength;
     }
@@ -67,7 +67,7 @@ public class Stage {
     public void setStageLength(double stageLength){
         this.stageLength = stageLength;
     }
-
+    //TODO add/remove results
     public Stage(int raceId, String stageName, String description, double length, LocalDateTime startTime, StageType type){
         this.raceID = raceId;
         this.stageName = stageName;

@@ -1,7 +1,6 @@
 package cycling;
 import java.util.ArrayList;
 
-
 public class Segment{
     private static int nextSegmentID = 11;
     private int segmentID;

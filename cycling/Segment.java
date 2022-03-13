@@ -12,63 +12,63 @@ public class Segment{
     private Double segmentLocation;
     private Double averageGradient;
 
-public int getnextSegmentID(){
+public int getNextSegmentID(){
     return nextSegmentID;
 }
 
-public int getsegmentID(){
+public int getSegmentID(){
     return segmentID;
 }
 
-public int getstageID(){
+public int getStageID(){
     return stageID;
 }
 
-public int getraceID(){
+public int getRaceID(){
     return raceID;
 }
 
-public double getsegmentLength(){
+public double getSegmentLength(){
     return segmentLength;
 }
 
-public SegmentType getsegmentType(){
+public SegmentType getSegmentType(){
     return segmentType;
 }
 
-public double getsegmentLocation(){
+public double getSegmentLocation(){
     return segmentLocation;
 }
 
-public double getaverageGradient(){
+public double getAverageGradient(){
     return averageGradient;
 }
 
-public void setsegmentID(int segmentID){
+public void setSegmentID(int segmentID){
     this.segmentID = segmentID;
 }
 
-public void setstageID(int stageID){
+public void setStageID(int stageID){
     this.stageID = stageID;
 }
 
-public void setraceID(int raceID){
+public void setRaceID(int raceID){
     this.raceID = raceID;
 }
 
-public void setsegmentLength(double segmentLength){
+public void setSegmentLength(double segmentLength){
     this.segmentLength = segmentLength;
 }
 
-public void setsegmentType(SegmentType segmentType){
+public void setSegmentType(SegmentType segmentType){
     this.segmentType = segmentType;
 }
 
-public void setsegmentLocation(double segmentLocation){
+public void setSegmentLocation(double segmentLocation){
     this.segmentLocation = segmentLocation;
 }
 
-public void setaverageGradient(double averageGradient){
+public void setSverageGradient(double averageGradient){
     this.averageGradient = averageGradient;
 }
 //TODO add/remove results

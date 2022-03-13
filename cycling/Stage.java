@@ -67,6 +67,11 @@ public class Stage {
     public void setStageLength(double stageLength){
         this.stageLength = stageLength;
     }
+    public void addSegmentToStage(Segment newSegment){
+        this.segments.add(newSegment);
+    }
+    //TODO potentially remove stage... we'll see
+
     //TODO add/remove results
     public Stage(int raceId, String stageName, String description, double length, LocalDateTime startTime, StageType type){
         this.raceID = raceId;

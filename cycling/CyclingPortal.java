@@ -136,8 +136,30 @@ public class CyclingPortal implements CyclingPortalInterface {
 	public int addCategorizedClimbToStage(int stageId, Double location, SegmentType type, Double averageGradient,
 			Double length) throws IDNotRecognisedException, InvalidLocationException, InvalidStageStateException,
 			InvalidStageTypeException {
-		// TODO Auto-generated method stub
-		return 0;
+		Segment newSegment;
+		newSegment = new Segment(stageId, location, type, averageGradient, length);
+		int raceCount = 0;
+		int stageCount = 0;
+		Stage currentStage;
+		boolean stageFound = false;
+		while (stageFound != true && raceCount < Races.size()-1){
+			Race currentRace = Races.get(raceCount);
+			int numberOfStages = currentRace.getStages().size();
+			while (stageFound != true && stageCount < (numberOfStages-1)){
+				currentStage = Races.get(raceCount).getStages().get(stageCount);
+				if (stageId == currentStage.getStageID()){
+					newSegment.setRaceID(Races.get(raceCount).getRaceID());
+					Races.get(raceCount).getStages().get(stageCount).addSegmentToStage(newSegment);	
+					stageFound = true;
+				} 
+				++stageCount; 
+			}
+			++raceCount;
+		}
+		if (stageFound = false) {
+			throw new IDNotRecognisedException();
+		}
+	 	return 0;
 	}
 
 	@Override
@@ -249,9 +271,8 @@ public class CyclingPortal implements CyclingPortalInterface {
 		while (riderFound != true && teamCount < Teams.size() -1){
 			Team currentTeam = Teams.get(teamCount);
 			int numberOfRiders = currentTeam.getRidersInTeam().size();
-			Rider []RiderArray = new Rider[numberOfRiders];
 			while (riderFound != true && riderCount < (numberOfRiders-1)){
-				currentRider = RiderArray[riderCount];
+				currentRider = currentTeam.getRidersInTeam().get(riderCount);
 				if (riderId == currentRider.getRiderID()){
 					Teams.get(teamCount).removeRider(riderCount);
 					riderFound = true;

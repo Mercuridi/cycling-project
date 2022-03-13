@@ -7,19 +7,19 @@ public class RaceResult {
     private int SprintPnt;
     private int MountPnt;
 
-public int getraceResultID(){
+public int getRaceResultID(){
     return raceResultID;
 }
 
-public int getriderID(){
+public int getRiderID(){
     return riderID;
 }
 
-public int getraceID(){
+public int getRaceID(){
     return raceID;
 }
 
-public double gettime(){
+public double getTime(){
     return time;
 }
 
@@ -31,19 +31,19 @@ public int getMountPnt(){
     return MountPnt;
 }
 
-public void setraceResultID(int raceResultID){
+public void setRaceResultID(int raceResultID){
     this.raceResultID = raceResultID;
 }
 
-public void setriderID(int riderID){
+public void setRiderID(int riderID){
     this.riderID = riderID;
 }
 
-public void setraceID(int raceID){
+public void setRaceID(int raceID){
     this.raceID = raceID;
 }
 
-public void settime(double time){
+public void setTime(double time){
     this.time = time;
 }
 

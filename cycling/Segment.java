@@ -68,9 +68,10 @@ public void setSegmentLocation(double segmentLocation){
     this.segmentLocation = segmentLocation;
 }
 
-public void setSverageGradient(double averageGradient){
+public void setAverageGradient(double averageGradient){
     this.averageGradient = averageGradient;
 }
+
 //TODO add/remove results
 
 public Segment(int stageId, Double location, SegmentType type, Double averageGradient, Double length) {

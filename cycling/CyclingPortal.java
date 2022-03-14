@@ -60,6 +60,35 @@ public class CyclingPortal implements CyclingPortalInterface {
         else
 			return 0; //0 is a rouge value
 	}
+
+	public int[] findStage(int stageID) {
+		int raceCount = 0;
+		int stageCount = 0;
+		boolean stageFound = false;
+		int []output;
+		output = new int[2];
+		while (stageFound != true && raceCount < Races.size()-1){
+			Race currentRace = Races.get(raceCount);
+			int numberOfStages = currentRace.getStages().size();
+			while (stageFound != true && stageCount < (numberOfStages-1)){
+				Stage currentStage = Races.get(raceCount).getStages().get(stageCount);
+				if (stageID == currentStage.getStageID()){
+					stageFound = true;
+				} 
+				++stageCount; 
+			}
+			++raceCount;
+		}
+		if (stageFound == true) {
+			output[0] = stageCount;
+			output[1] = raceCount;
+	
+		}
+		else{
+			output[0] = -1;
+		}
+		return output;
+	}
 	//end of our own methods
 
 	@Override
@@ -138,40 +167,73 @@ public class CyclingPortal implements CyclingPortalInterface {
 			InvalidStageTypeException {
 		Segment newSegment;
 		newSegment = new Segment(stageId, location, type, averageGradient, length);
-		int raceCount = 0;
-		int stageCount = 0;
-		Stage currentStage;
-		boolean stageFound = false;
-		while (stageFound != true && raceCount < Races.size()-1){
-			Race currentRace = Races.get(raceCount);
-			int numberOfStages = currentRace.getStages().size();
-			while (stageFound != true && stageCount < (numberOfStages-1)){
-				currentStage = Races.get(raceCount).getStages().get(stageCount);
-				if (stageId == currentStage.getStageID()){
-					newSegment.setRaceID(Races.get(raceCount).getRaceID());
-					Races.get(raceCount).getStages().get(stageCount).addSegmentToStage(newSegment);	
-					stageFound = true;
-				} 
-				++stageCount; 
+		try {
+			int []indexArray = findStage(stageId);
+			if (indexArray[0] == -1){
+				throw new IDNotRecognisedException();
 			}
-			++raceCount;
+			else {
+				newSegment.setRaceID(Races.get(indexArray[0]).getRaceID());
+				Races.get(indexArray[0]).getStages().get(indexArray[1]).addSegmentToStage(newSegment);	
+
+			}
 		}
-		if (stageFound = false) {
-			throw new IDNotRecognisedException();
+		catch (IDNotRecognisedException ex){
+			System.out.println("Stage with entered stageID was not found!");
+		}		
+	 	return 0;
+	}
+
+	
+	@Override
+	public int addIntermediateSprintToStage(int stageId, double location) throws IDNotRecognisedException,
+			InvalidLocationException, InvalidStageStateException, InvalidStageTypeException {
+		Segment newSegment;
+		newSegment = new Segment(stageId, location);
+		try {
+			int []indexArray = findStage(stageId);
+			if (indexArray[0] == -1){
+				throw new IDNotRecognisedException();
+			}
+			else {
+				newSegment.setRaceID(Races.get(indexArray[0]).getRaceID());
+				Races.get(indexArray[0]).getStages().get(indexArray[1]).addSegmentToStage(newSegment);	
+
+			}
 		}
+		catch (IDNotRecognisedException ex){
+			System.out.println("Stage with entered stageID was not found!");
+		}		
 	 	return 0;
 	}
 
 	@Override
-	public int addIntermediateSprintToStage(int stageId, double location) throws IDNotRecognisedException,
-			InvalidLocationException, InvalidStageStateException, InvalidStageTypeException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public void removeSegment(int segmentId) throws IDNotRecognisedException, InvalidStageStateException {
-		// TODO Auto-generated method stub
+		int raceCount = 0;
+		int stageCount = 0;
+		int segmentCount = 0;
+		boolean segmentFound = false;
+		while (segmentFound != true && raceCount < Races.size()-1){
+			Race currentRace = Races.get(raceCount);
+			int numberOfStages = currentRace.getStages().size();
+			while (segmentFound != true && stageCount < (numberOfStages-1)){
+				Stage currentStage = Races.get(raceCount).getStages().get(stageCount);
+				int numberOfSegments = currentRace.getStages().get(stageCount).getSegments().size();
+				while (segmentFound != true && segmentCount < (numberOfSegments-1)){
+					Segment currentSegment = currentStage.getSegments().get(segmentCount);
+					if (currentSegment.getSegmentID() == segmentId){
+						segmentFound = true;
+						Races.get(raceCount).getStages().get(stageCount).removeSegment(segmentCount);
+					}
+					++segmentCount;
+				}
+				++stageCount; 
+			}
+			++raceCount;
+		}
+		if (segmentFound == false) {
+			throw new IDNotRecognisedException();
+		}
 
 	}
 
@@ -276,6 +338,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 				if (riderId == currentRider.getRiderID()){
 					Teams.get(teamCount).removeRider(riderCount);
 					riderFound = true;
+					//TODO use index to remove as opposed to a second search
 				} 
 				++riderCount; 
 			}

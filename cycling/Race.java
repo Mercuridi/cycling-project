@@ -57,7 +57,7 @@ public class Race {
         }
         if (riderFound == true) {
             this.ridersInRace.remove(searchCount);
-            //TODO add some verification innit
+            //TODO add some verification AND USE THE INDEX INSTEAD GRRR
         }
     }
 

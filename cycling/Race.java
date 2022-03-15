@@ -60,7 +60,6 @@ public class Race {
             //TODO add some verification AND USE THE INDEX INSTEAD GRRR
         }
     }
-
     public void addStageToRace(Stage newStage){
         this.stages.add(newStage);
     }
@@ -96,6 +95,13 @@ public class Race {
     }
     public void setRaceLength(double raceLength){
         this.raceLength = raceLength;
+    }
+    public String createDescription(){
+        String output = "Name: " + this.raceName + " Description: " + this.raceDescription;
+        return output;
+    }
+    public int getNumberOfStages(){
+        return this.stages.size();
     }
     //TODO add/remove results
     public Race(String name, String description) {

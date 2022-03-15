@@ -14,6 +14,10 @@ import java.util.ArrayList;
 public class CyclingPortal implements CyclingPortalInterface {
 	public ArrayList<Team> Teams = new ArrayList<Team>();
 	public ArrayList<Race> Races = new ArrayList<Race>();
+	public ArrayList<RaceResult> RaceResults = new ArrayList<RaceResult>();
+	public ArrayList<StageResult> StageResults = new ArrayList<StageResult>();
+	public ArrayList<SegmentResult> SegmentResults = new ArrayList<SegmentResult>();
+
 
 	//our own methods!!!
 	public int locateTeam(int teamID) throws IDNotRecognisedException {

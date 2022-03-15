@@ -1,9 +1,9 @@
 package cycling;
 
-import java.security.DrbgParameters.NextBytes;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Race {
+public class Race implements Serializable {
     private static int nextRaceID = 11;
     private int raceID;
     private String raceName;
@@ -57,7 +57,6 @@ public class Race {
         }
         if (riderFound == true) {
             this.ridersInRace.remove(searchCount);
-            //TODO add some verification AND USE THE INDEX INSTEAD GRRR
         }
     }
     public void addStageToRace(Stage newStage){

@@ -15,6 +15,7 @@ public class Stage {
     private ArrayList<Segment> segments;
     private ArrayList<StageResult> stageResults;
     private double stageLength;
+    private boolean concluded;
 
     public int getStageID(){
         return stageID;
@@ -46,6 +47,9 @@ public class Stage {
     public double getstageLength(){
         return stageLength;
     }
+    public boolean getConcluded(){
+        return concluded;
+    }
     public void setStageID(int stageID){
         this.stageID = stageID;
     }
@@ -73,6 +77,9 @@ public class Stage {
     public void removeSegment(int targetIndex){
         this.segments.remove(targetIndex);
     }
+    public void setConcluded(boolean concluded){
+        this.concluded = concluded;
+    }
     //TODO add/remove results
     public Stage(int raceId, String stageName, String description, double length, LocalDateTime startTime, StageType type){
         this.raceID = raceId;
@@ -82,6 +89,7 @@ public class Stage {
         this.startTime = startTime;
         this.stageType = type;
         this.stageID = ++nextStageID;
+        this.concluded = false;
         //TODO add array instantiation
     }
 

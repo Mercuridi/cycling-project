@@ -209,8 +209,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}		
 	 	return 0;
 	}
-
-	
 	@Override
 	public int addIntermediateSprintToStage(int stageId, double location) throws IDNotRecognisedException,
 			InvalidLocationException, InvalidStageStateException, InvalidStageTypeException {
@@ -235,7 +233,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}		
 	 	return 0;
 	}
-
 	@Override
 	public void removeSegment(int segmentId) throws IDNotRecognisedException, InvalidStageStateException {
 		int raceCount = 0;
@@ -268,9 +265,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		if (segmentFound == false) {
 			throw new IDNotRecognisedException();
 		}
-
 	}
-
 	@Override
 	public void concludeStagePreparation(int stageId) throws IDNotRecognisedException, InvalidStageStateException {
 		int[] indexArray = findStage(stageId);
@@ -291,7 +286,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		System.out.println(outputArray);
 		return outputArray;
 	}
-
 	@Override
 	public int createTeam(String name, String description) throws IllegalNameException, InvalidNameException {
 		Team newTeam;
@@ -299,7 +293,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		Teams.add(newTeam);
 		return 0;
 	}
-
 	@Override
 	public void removeTeam(int teamId) throws IDNotRecognisedException {
 		try { 
@@ -316,7 +309,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 			
 	}
-
 	@Override
 	public int[] getTeams() {
 		int []outputArray = new int[Teams.size()];
@@ -327,7 +319,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 		return outputArray;
 	}
-
 	@Override
 	public int[] getTeamRiders(int teamId) throws IDNotRecognisedException { //this needs to be fixed!
 		int targetIndex = locateTeam(teamId);
@@ -346,7 +337,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}	
 		return null;
 	}
-
 	@Override
 	public int createRider(int teamID, String name, int yearOfBirth)
 			throws IDNotRecognisedException, IllegalArgumentException {
@@ -366,7 +356,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 			}
 			return 0;
         }
-
 	@Override
 	public void removeRider(int riderId) throws IDNotRecognisedException {
 		int teamCount = 0;
@@ -527,7 +516,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 				}
 		}
 		catch (IOException ex){
-			System.out.println("Load failed - an error occurred.")
+			System.out.println("Load failed - an error occurred.");
 		}
 	}
 	@Override

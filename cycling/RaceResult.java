@@ -61,11 +61,11 @@ public void setMountPnt(int MountPnt){
 }
 
 public RaceResult(int newriderID, int newraceID, double newtime, int newSprintPnt, int newMountPnt){
-    raceResultID = ++nextRaceResultID;
-    riderID = newriderID;
-    raceID = newraceID;
-    time = newtime;
-    SprintPnt = newSprintPnt;
-    MountPnt = newMountPnt;
+    this.raceResultID = ++nextRaceResultID;
+    this.riderID = newriderID;
+    this.raceID = newraceID;
+    this.time = newtime;
+    this.SprintPnt = newSprintPnt;
+    this.MountPnt = newMountPnt;
 }
 }

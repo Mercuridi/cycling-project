@@ -367,7 +367,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		boolean riderFound = false;
 		while (riderFound != true && teamCount < Teams.size() -1){
 			Team currentTeam = Teams.get(teamCount);
-			int numberOfRiders = currentTeam.getRidersInTeam().size();
+			int numberOfRiders = currentTeam.getRidersInTeam().size(); // TODO can we move this out of the loop? should only need assigning once
 			while (riderFound != true && riderCount < (numberOfRiders-1)){
 				currentRider = currentTeam.getRidersInTeam().get(riderCount);
 				if (riderId == currentRider.getRiderID()){
@@ -389,11 +389,27 @@ public class CyclingPortal implements CyclingPortalInterface {
 			InvalidStageStateException {
 		// TODO Auto-generated method stub
 
+
 	}
 
 	@Override
 	public LocalTime[] getRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
 		// TODO Auto-generated method stub
+		Stage currentStage;
+		Rider currentRider;
+		boolean stageFound = false;
+		boolean riderFound = false;
+		int stageCount = 0;
+		int riderCount = 0;
+		while (stageFound != true){
+			currentStage = Race.getStages().get(stageCount);
+			if (stageId == currentStage.getStageID()){
+
+			}
+
+			}
+			++stageCount;
+		}
 		return null;
 	}
 

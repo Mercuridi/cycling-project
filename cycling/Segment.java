@@ -1,7 +1,7 @@
 package cycling;
 import java.util.ArrayList;
-
-public class Segment{
+import java.io.Serializable;
+public class Segment implements Serializable{
     private static int nextSegmentID = 11;
     private int segmentID;
     private int stageID;

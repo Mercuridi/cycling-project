@@ -1,6 +1,8 @@
 package cycling;
 import java.time.LocalTime[];
-
+import java.io.Serializable;
+public class RaceResult implements Serializable{
+    
 public class RaceResult {
     public static int nextRaceResultID = 1;
     public int raceResultID;

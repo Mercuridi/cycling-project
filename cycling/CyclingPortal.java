@@ -43,7 +43,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		int searchCount = 0;
 		Race currentRace;
 		int tempID; 
-		while (raceFound == false && searchCount < Races.size()) {
+		while (raceFound == false && searchCount < Races.size()-1) {
             currentRace = (Races.get(searchCount));
             tempID = currentRace.getRaceID();
             if (tempID == raceID) {
@@ -450,8 +450,8 @@ public class CyclingPortal implements CyclingPortalInterface {
 
 	@Override
 	public void eraseCyclingPortal() {
-		// TODO Auto-generated method stub
-
+		Teams.clear();
+		Races.clear();
 	}
 
 	@Override
@@ -468,9 +468,31 @@ public class CyclingPortal implements CyclingPortalInterface {
 
 	@Override
 	public void removeRaceByName(String name) throws NameNotRecognisedException {
-		// TODO Auto-generated method stub
-
+		boolean raceFound = false;
+		int searchCount = 0;
+		Race currentRace;
+		while (raceFound == false && searchCount < Races.size()) {
+            currentRace = (Races.get(searchCount));
+            String tempName = currentRace.getRaceName();
+            if (tempName == name) {
+                raceFound = true;
+            }
+            else {
+                searchCount += 1;
+            }
+        }
+		try {
+			if (raceFound == true) {
+				Races.remove(searchCount);
+			}
+			else
+				throw new IDNotRecognisedException();
+		}
+		catch (IDNotRecognisedException ex){
+			System.out.println("Input racename was not recognised! No race exists with this name.");
+		}
 	}
+
 
 	@Override
 	public LocalTime[] getGeneralClassificationTimesInRace(int raceId) throws IDNotRecognisedException {

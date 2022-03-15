@@ -73,12 +73,26 @@ public class Stage {
     }
     public void addSegmentToStage(Segment newSegment){
         this.segments.add(newSegment);
+        this.stageLength += newSegment.getSegmentLength();
     }
     public void removeSegment(int targetIndex){
         this.segments.remove(targetIndex);
+        
     }
     public void setConcluded(boolean concluded){
         this.concluded = concluded;
+    }
+    public double calculateLength(){
+        double total = this.stageLength;
+        if (this.segments.size() != 0){
+            for (Segment x:this.segments){
+                total += x.getSegmentLength();
+            }
+        }
+        return total;
+    }
+    public void decreaseLength(double segLength){
+        this.stageLength -= segLength;
     }
     //TODO add/remove results
     public Stage(int raceId, String stageName, String description, double length, LocalDateTime startTime, StageType type){

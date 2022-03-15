@@ -16,7 +16,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 	public ArrayList<Race> Races = new ArrayList<Race>();
 
 	//our own methods!!!
-
 	public int locateTeam(int teamID) throws IDNotRecognisedException {
 		boolean teamFound = false;
 		int searchCount = 0;
@@ -175,10 +174,8 @@ public class CyclingPortal implements CyclingPortalInterface {
 	@Override
 	public void removeStageById(int stageId) throws IDNotRecognisedException {
 		// TODO Auto-generated method stub
-		//ez claps
-		
+		//ez claps	
 	}
-
 	@Override
 	public int addCategorizedClimbToStage(int stageId, Double location, SegmentType type, Double averageGradient,
 			Double length) throws IDNotRecognisedException, InvalidLocationException, InvalidStageStateException,
@@ -249,6 +246,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 						segmentFound = true;
 						if (Races.get(raceCount).getStages().get(stageCount).getConcluded() == false){
 							Races.get(raceCount).getStages().get(stageCount).removeSegment(segmentCount);
+							Races.get(raceCount).getStages().get(stageCount).decreaseLength(currentSegment.getSegmentLength());;
 						}
 						else
 							System.out.println("The concerned Stage has already been concluded and cannot be edited further!");
@@ -270,7 +268,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		int[] indexArray = findStage(stageId);
 		Races.get(indexArray[0]).getStages().get(indexArray[1]).setConcluded(true);
 	}
-
 	@Override
 	public int[] getStageSegments(int stageId) throws IDNotRecognisedException {
 		int[] indexArray = findStage(stageId);

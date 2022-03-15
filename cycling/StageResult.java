@@ -14,6 +14,6 @@ public void setstageID(int stageID){
 
 public StageResult(int newriderID, int newraceID, double newtime, int newSprintPnt, int newMountPnt, int newstageID){
     super (newriderID, newraceID, newtime, newSprintPnt, newMountPnt);
-    stageID = newstageID;
+    this.stageID = newstageID;
 }
 }

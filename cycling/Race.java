@@ -63,26 +63,8 @@ public class Race {
     public void addStageToRace(Stage newStage){
         this.stages.add(newStage);
     }
-
-    public void removeStageFromRace(int targetStageID){
-        boolean stageFound = false;
-        int searchCount = 0;
-        Stage currentStage;
-        int tempID;
-        while (stageFound == false && searchCount < this.stages.size()) {
-            currentStage = (this.stages.get(searchCount));
-            tempID = currentStage.getStageID();
-            if (tempID == targetStageID){
-                stageFound = true;
-            }
-            else {
-                searchCount += 1;
-            }
-        }
-        if (stageFound == true) {
-            this.stages.remove(searchCount);
-        }
-        //TODO add some verification innit
+    public void removeStageFromRace(int index){
+        this.stages.remove(index);
     }
     public void setRaceID(int raceID){
         this.raceID = raceID;
@@ -103,6 +85,7 @@ public class Race {
     public int getNumberOfStages(){
         return this.stages.size();
     }
+
     //TODO add/remove results
     public Race(String name, String description) {
         this.raceID = ++nextRaceID;

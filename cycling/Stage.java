@@ -44,7 +44,7 @@ public class Stage {
     public ArrayList<StageResult> getStageResults(){
         return stageResults;
     }
-    public double getstageLength(){
+    public double getStageLength(){
         return stageLength;
     }
     public boolean getConcluded(){
@@ -81,15 +81,6 @@ public class Stage {
     }
     public void setConcluded(boolean concluded){
         this.concluded = concluded;
-    }
-    public double calculateLength(){
-        double total = this.stageLength;
-        if (this.segments.size() != 0){
-            for (Segment x:this.segments){
-                total += x.getSegmentLength();
-            }
-        }
-        return total;
     }
     public void decreaseLength(double segLength){
         this.stageLength -= segLength;

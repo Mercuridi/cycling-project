@@ -166,15 +166,14 @@ public class CyclingPortal implements CyclingPortalInterface {
 
 	@Override
 	public double getStageLength(int stageId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		//use an instance method for Stage to calculate it's own length (iterating through segments if any are present!)
-		return 0;
+		int[] indexArray = findStage(stageId);
+		return Races.get(indexArray[0]).getStages().get(indexArray[1]).getStageLength();
 	}
 
 	@Override
 	public void removeStageById(int stageId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		//ez claps	
+		int[] indexArray = findStage(stageId);
+		Races.get(indexArray[0]).removeStageFromRace(indexArray[1]);
 	}
 	@Override
 	public int addCategorizedClimbToStage(int stageId, Double location, SegmentType type, Double averageGradient,
@@ -367,7 +366,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		boolean riderFound = false;
 		while (riderFound != true && teamCount < Teams.size() -1){
 			Team currentTeam = Teams.get(teamCount);
-			int numberOfRiders = currentTeam.getRidersInTeam().size(); // TODO can we move this out of the loop? should only need assigning once
+			int numberOfRiders = currentTeam.getRidersInTeam().size();
 			while (riderFound != true && riderCount < (numberOfRiders-1)){
 				currentRider = currentTeam.getRidersInTeam().get(riderCount);
 				if (riderId == currentRider.getRiderID()){

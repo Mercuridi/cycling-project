@@ -1,11 +1,16 @@
 package cycling;
 public class RaceResult {
-    private int raceResultID;
-    private int riderID;
-    private int raceID;
-    private double time;
-    private int SprintPnt;
-    private int MountPnt;
+    public static int nextRaceResultID = 1;
+    public int raceResultID;
+    public int riderID;
+    public int raceID;
+    public double time;
+    public int SprintPnt;
+    public int MountPnt;
+
+public int getnextRaceResultID(){
+    return nextRaceResultID;
+}
 
 public int getRaceResultID(){
     return raceResultID;
@@ -54,5 +59,13 @@ public void setSprintPnt(int SprintPnt){
 public void setMountPnt(int MountPnt){
     this.MountPnt = MountPnt;
 }
+
+public RaceResult(int newriderID, int newraceID, double newtime, int newSprintPnt, int newMountPnt){
+    raceResultID = ++nextRaceResultID;
+    riderID = newriderID;
+    raceID = newraceID;
+    time = newtime;
+    SprintPnt = newSprintPnt;
+    MountPnt = newMountPnt;
 }
-//TODO constructors
+}

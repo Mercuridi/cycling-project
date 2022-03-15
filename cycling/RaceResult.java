@@ -1,5 +1,6 @@
 package cycling;
-public class RaceResult {
+import java.io.Serializable;
+public class RaceResult implements Serializable{
     public static int nextRaceResultID = 1;
     public int raceResultID;
     public int riderID;

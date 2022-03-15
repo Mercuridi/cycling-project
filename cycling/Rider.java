@@ -1,7 +1,8 @@
 package cycling;
 
+import java.io.Serializable;
 //import java.util.Random;
-public class Rider {
+public class Rider implements Serializable{
     //attributes
     private static int nextRiderID = 1111; 
     private int riderID; //example: 1111

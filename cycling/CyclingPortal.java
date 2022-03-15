@@ -1,9 +1,12 @@
 package cycling;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  * 
@@ -405,9 +408,9 @@ public class CyclingPortal implements CyclingPortalInterface {
 		int raceCount = 0;
 		while (stageFound != true){
 			int stageCount = 0;
-			while (raceCount < Races.get(raceCount).getNumberOfStages() -1){
+			while (raceCount < Races.get(raceCount).getNumberOfStages()-1){
 				currentStage = Races.get(raceCount).getStages().get(stageCount);
-			if (stageId == currentStage.getStageID()){
+				if (stageId == currentStage.getStageID()){
 					stageFound = true;
 					break;
 			}
@@ -473,7 +476,16 @@ public class CyclingPortal implements CyclingPortalInterface {
 
 	@Override
 	public void saveCyclingPortal(String filename) throws IOException {
-		// TODO Auto-generated method stub
+		//TODO current method!
+		try {
+			ObjectOutputStream save = new ObjectOutputStream(new FileOutputStream("SavedPortal.txt"));
+			save.writeObject(Teams);
+			save.writeObject(Races);
+			//save.
+		}
+		catch (IOException ex){
+
+		}
 
 	}
 

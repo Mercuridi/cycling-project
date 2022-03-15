@@ -2,8 +2,9 @@ package cycling;
 
 import java.util.ArrayList;
 import java.time.LocalDateTime;
+import java.io.Serializable;
 
-public class Stage {
+public class Stage implements Serializable{
     private static int nextStageID = 11;
     private int stageID;
     private int raceID;

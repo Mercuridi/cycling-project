@@ -173,9 +173,12 @@ public class CyclingPortal implements CyclingPortalInterface {
 				throw new IDNotRecognisedException();
 			}
 			else {
-				newSegment.setRaceID(Races.get(indexArray[0]).getRaceID());
-				Races.get(indexArray[0]).getStages().get(indexArray[1]).addSegmentToStage(newSegment);	
-
+				if (Races.get(indexArray[0]).getStages().get(indexArray[1]).getConcluded() == false) {
+					newSegment.setRaceID(Races.get(indexArray[0]).getRaceID());
+					Races.get(indexArray[0]).getStages().get(indexArray[1]).addSegmentToStage(newSegment);	
+				}
+				else
+					System.out.println("The concerned Stage has already been concluded and cannot be edited further!");
 			}
 		}
 		catch (IDNotRecognisedException ex){
@@ -196,9 +199,12 @@ public class CyclingPortal implements CyclingPortalInterface {
 				throw new IDNotRecognisedException();
 			}
 			else {
-				newSegment.setRaceID(Races.get(indexArray[0]).getRaceID());
-				Races.get(indexArray[0]).getStages().get(indexArray[1]).addSegmentToStage(newSegment);	
-
+				if (Races.get(indexArray[0]).getStages().get(indexArray[1]).getConcluded() == false) {
+					newSegment.setRaceID(Races.get(indexArray[0]).getRaceID());
+					Races.get(indexArray[0]).getStages().get(indexArray[1]).addSegmentToStage(newSegment);
+				}
+				else
+					System.out.println("The concerned Stage has already been concluded and cannot be edited further!");
 			}
 		}
 		catch (IDNotRecognisedException ex){
@@ -223,7 +229,11 @@ public class CyclingPortal implements CyclingPortalInterface {
 					Segment currentSegment = currentStage.getSegments().get(segmentCount);
 					if (currentSegment.getSegmentID() == segmentId){
 						segmentFound = true;
-						Races.get(raceCount).getStages().get(stageCount).removeSegment(segmentCount);
+						if (Races.get(raceCount).getStages().get(stageCount).getConcluded() == false){
+							Races.get(raceCount).getStages().get(stageCount).removeSegment(segmentCount);
+						}
+						else
+							System.out.println("The concerned Stage has already been concluded and cannot be edited further!");
 					}
 					++segmentCount;
 				}
@@ -239,14 +249,24 @@ public class CyclingPortal implements CyclingPortalInterface {
 
 	@Override
 	public void concludeStagePreparation(int stageId) throws IDNotRecognisedException, InvalidStageStateException {
-		// TODO Auto-generated method stub
-
+		int[] indexArray = findStage(stageId);
+		Races.get(indexArray[0]).getStages().get(indexArray[1]).setConcluded(true);
 	}
 
 	@Override
 	public int[] getStageSegments(int stageId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+		int[] indexArray = findStage(stageId);
+		ArrayList<Segment> tempArrayList = new ArrayList<Segment>();
+		tempArrayList = Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments();
+		int[] outputArray;
+		outputArray = new int[tempArrayList.size()];
+		int count = 0;
+		for (Segment x:tempArrayList){
+			outputArray[count] = x.getSegmentID();
+			++count;
+		}
+		System.out.println(outputArray);
+		return outputArray;
 	}
 
 	@Override

@@ -60,7 +60,6 @@ public class Race {
             //TODO add some verification AND USE THE INDEX INSTEAD GRRR
         }
     }
-
     public void addStageToRace(Stage newStage){
         this.stages.add(newStage);
     }

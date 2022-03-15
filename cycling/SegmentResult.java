@@ -10,7 +10,7 @@ public void setSegmentID(int segmentID){
     this.segmentID = segmentID;
 }
 
-public SegmentResult(int newriderID, int newraceID, double newtime, int newSprintPnt, int newMountPnt, int newstageID, int newsegmentID){
+public SegmentResult(int newriderID, int newraceID, LocalTime[] newtime, int newSprintPnt, int newMountPnt, int newstageID, int newsegmentID){
     super (newriderID, newraceID, newtime, newSprintPnt, newMountPnt, newstageID);
     this.segmentID = newsegmentID;
 }

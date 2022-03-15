@@ -12,7 +12,7 @@ public void setstageID(int stageID){
     this.stageID = stageID;
 }
 
-public StageResult(int newriderID, int newraceID, double newtime, int newSprintPnt, int newMountPnt, int newstageID){
+public StageResult(int newriderID, int newraceID, LocalTime[] newtime, int newSprintPnt, int newMountPnt, int newstageID){
     super (newriderID, newraceID, newtime, newSprintPnt, newMountPnt);
     this.stageID = newstageID;
 }

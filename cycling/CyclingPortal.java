@@ -391,40 +391,28 @@ public class CyclingPortal implements CyclingPortalInterface {
 
 	@Override
 	public LocalTime[] getRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
-		// TODO potential of error if index error on races in loop
-		// TODO giving up on this for now because i think i might have programmed it so wrong it needs tearing down and rewriting
-		// we might need to search based on riderID first, not stageID since for each stage
-		// also need to figure out how to find the correct StageResult object using the stage found here
-		Stage currentStage;
-		Rider currentRider;
-		boolean stageFound = false;
+		//TODO check this block, pretty sure it's fine but also liable to throw 400000000000000 errors later
 		boolean riderFound = false;
-		int riderCount = 0;
-		int raceCount = 0;
-		while (stageFound != true){
-			int stageCount = 0;
-			while (raceCount < Races.get(raceCount).getNumberOfStages()-1){
-				currentStage = Races.get(raceCount).getStages().get(stageCount);
-				if (stageId == currentStage.getStageID()){
-					stageFound = true;
-					break;
+		boolean stageFound = true;
+		int stageCount = 0;
+		while (riderFound != true & stageCount < StageResults.size()-1){
+			if (stageId == StageResults.get(stageCount).getstageID()){
+				stageFound = true;
+				StageResult foundStage = StageResults.get(stageCount);
+				if (riderId == foundStage.super.getriderID()){
+					riderFound = true;
+					return foundStage.time;
+				}
+			++stageCount;
 			}
-				++stageCount;
-			}
-			++raceCount;
 		}
 		if (stageFound == false){
 			throw new IDNotRecognisedException();
 		}
-		while (riderFound != true){
-			if (riderId == currentStage.riderID)
-
-
-			++riderCount;
-			}
 		if (riderFound == false){
 			throw new IDNotRecognisedException();
 		}
+		return null;
 	}
 
 	@Override

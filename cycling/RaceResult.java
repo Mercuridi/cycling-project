@@ -1,11 +1,14 @@
 package cycling;
+import java.time.LocalTime[];
 import java.io.Serializable;
 public class RaceResult implements Serializable{
+    
+public class RaceResult {
     public static int nextRaceResultID = 1;
     public int raceResultID;
     public int riderID;
     public int raceID;
-    public double time;
+    public LocalTime[] time;
     public int SprintPnt;
     public int MountPnt;
 
@@ -25,7 +28,7 @@ public int getRaceID(){
     return raceID;
 }
 
-public double getTime(){
+public LocalTime[] getTime(){
     return time;
 }
 
@@ -49,7 +52,7 @@ public void setRaceID(int raceID){
     this.raceID = raceID;
 }
 
-public void setTime(double time){
+public void setTime(LocalTime[] time){
     this.time = time;
 }
 
@@ -61,7 +64,7 @@ public void setMountPnt(int MountPnt){
     this.MountPnt = MountPnt;
 }
 
-public RaceResult(int newriderID, int newraceID, double newtime, int newSprintPnt, int newMountPnt){
+public RaceResult(int newriderID, int newraceID, LocalTime[] newtime, int newSprintPnt, int newMountPnt){
     this.raceResultID = ++nextRaceResultID;
     this.riderID = newriderID;
     this.raceID = newraceID;

@@ -393,23 +393,40 @@ public class CyclingPortal implements CyclingPortalInterface {
 
 	@Override
 	public LocalTime[] getRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
+		// TODO potential of error if index error on races in loop
+		// TODO giving up on this for now because i think i might have programmed it so wrong it needs tearing down and rewriting
+		// we might need to search based on riderID first, not stageID since for each stage
+		// also need to figure out how to find the correct StageResult object using the stage found here
 		Stage currentStage;
 		Rider currentRider;
 		boolean stageFound = false;
 		boolean riderFound = false;
-		int stageCount = 0;
 		int riderCount = 0;
+		int raceCount = 0;
 		while (stageFound != true){
-			currentStage = Race.getStages().get(stageCount);
+			int stageCount = 0;
+			while (raceCount < Races.get(raceCount).getNumberOfStages() -1){
+				currentStage = Races.get(raceCount).getStages().get(stageCount);
 			if (stageId == currentStage.getStageID()){
-
+					stageFound = true;
+					break;
 			}
-
+				++stageCount;
 			}
-			++stageCount;
+			++raceCount;
 		}
-		return null;
+		if (stageFound == false){
+			throw new IDNotRecognisedException();
+		}
+		while (riderFound != true){
+			if (riderId == currentStage.riderID)
+
+
+			++riderCount;
+			}
+		if (riderFound == false){
+			throw new IDNotRecognisedException();
+		}
 	}
 
 	@Override

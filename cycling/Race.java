@@ -96,6 +96,13 @@ public class Race {
     public void setRaceLength(double raceLength){
         this.raceLength = raceLength;
     }
+    public String createDescription(){
+        String output = "Name: " + this.raceName + " Description: " + this.raceDescription;
+        return output;
+    }
+    public int getNumberOfStages(){
+        return this.stages.size();
+    }
     //TODO add/remove results
     public Race(String name, String description) {
         this.raceID = ++nextRaceID;

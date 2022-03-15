@@ -1,7 +1,9 @@
 package cycling;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -476,29 +478,58 @@ public class CyclingPortal implements CyclingPortalInterface {
 	public void eraseCyclingPortal() {
 		Teams.clear();
 		Races.clear();
+		RaceResults.clear();
+		StageResults.clear();
+		SegmentResults.clear();
+		System.out.println("Portal erased successfully!");
 	}
-
 	@Override
 	public void saveCyclingPortal(String filename) throws IOException {
-		//TODO current method!
 		try {
 			ObjectOutputStream save = new ObjectOutputStream(new FileOutputStream("SavedPortal.txt"));
 			save.writeObject(Teams);
 			save.writeObject(Races);
-			//save.
+			save.writeObject(RaceResults);
+			save.writeObject(StageResults);
+			save.writeObject(SegmentResults);
+			System.out.println("saved succesfully!");
+			save.close();
 		}
 		catch (IOException ex){
-
+			System.out.println("Data was not saved - an error occurred.");
 		}
-
 	}
-
 	@Override
 	public void loadCyclingPortal(String filename) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
-
+		try{
+			ObjectInputStream load = new ObjectInputStream(new FileInputStream("SavedPortal.txt"));
+			eraseCyclingPortal();
+			Object objectData = load.readObject();
+			if (objectData instanceof ArrayList){
+				Teams = (ArrayList<Team>) objectData;
+				}
+			objectData = load.readObject();
+			if (objectData instanceof ArrayList){
+				Races = (ArrayList<Race>) objectData;
+				}
+			objectData = load.readObject();
+			if (objectData instanceof ArrayList){
+				RaceResults = (ArrayList<RaceResult>) objectData;
+				}
+			objectData = load.readObject();
+			if (objectData instanceof ArrayList){
+				StageResults = (ArrayList<StageResult>) objectData;
+				}
+			objectData = load.readObject();
+			if (objectData instanceof ArrayList){
+				SegmentResults = (ArrayList<SegmentResult>) objectData;
+				}
+		}
+		catch (IOException ex){
+			System.out.println("Load failed - an error occurred.")
+		}
 	}
-
 	@Override
 	public void removeRaceByName(String name) throws NameNotRecognisedException {
 		boolean raceFound = false;

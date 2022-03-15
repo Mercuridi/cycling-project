@@ -9,5 +9,9 @@ public int getSegmentID(){
 public void setSegmentID(int segmentID){
     this.segmentID = segmentID;
 }
+
+public SegmentResult(int newriderID, int newraceID, double newtime, int newSprintPnt, int newMountPnt, int newstageID, int newsegmentID){
+    super (newriderID, newraceID, newtime, newSprintPnt, newMountPnt, newstageID);
+    segmentID = newsegmentID;
 }
-//TODO constructors
+}

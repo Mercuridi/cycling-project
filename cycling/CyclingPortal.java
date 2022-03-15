@@ -432,13 +432,10 @@ public class CyclingPortal implements CyclingPortalInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
 		// TODO Auto-generated method stub
-
 	}
-
 	@Override
 	public int[] getRidersRankInStage(int stageId) throws IDNotRecognisedException {
 		// TODO Auto-generated method stub
@@ -514,6 +511,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 			if (objectData instanceof ArrayList){
 				SegmentResults = (ArrayList<SegmentResult>) objectData;
 				}
+			load.close();
 		}
 		catch (IOException ex){
 			System.out.println("Load failed - an error occurred.");

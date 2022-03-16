@@ -384,7 +384,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 	public void registerRiderResultsInStage(int stageId, int riderId, LocalTime... checkpoints)
 			throws IDNotRecognisedException, DuplicatedResultException, InvalidCheckpointsException,
 			InvalidStageStateException {
-		// TODO Auto-generated method stub
+		//TODO search StageResults for an existing entry!
 
 
 	}
@@ -396,12 +396,11 @@ public class CyclingPortal implements CyclingPortalInterface {
 		boolean stageFound = true;
 		int stageCount = 0;
 		while (riderFound != true & stageCount < StageResults.size()-1){
-			if (stageId == StageResults.get(stageCount).getstageID()){
+			if (stageId == StageResults.get(stageCount).getStageID()){
 				stageFound = true;
-				StageResult foundStage = StageResults.get(stageCount);
-				if (riderId == foundStage.super.getriderID()){
+				if (riderId == StageResults.get(stageCount).getRiderID()){
 					riderFound = true;
-					return foundStage.time;
+					return StageResults.get(stageCount).getTime();
 				}
 			++stageCount;
 			}

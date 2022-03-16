@@ -1,4 +1,5 @@
 package cycling;
+import java.time.LocalTime;
 public class SegmentResult extends StageResult{
     public int segmentID;
 

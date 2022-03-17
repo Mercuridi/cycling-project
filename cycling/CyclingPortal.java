@@ -44,7 +44,6 @@ public class CyclingPortal implements CyclingPortalInterface {
         else
 			return -1; //0 is a rouge value
 	}
-
 	public int locateRace(int raceID) throws IDNotRecognisedException {
 		boolean raceFound = false;
 		int searchCount = 0;
@@ -67,7 +66,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 			return -1; //0 is a rouge value
 	}
 	//TODO finish up with exception catches after searchs and locations
-
 	public int[] findStage(int stageID) {
 		int raceCount = 0;
 		int stageCount = 0;
@@ -96,7 +94,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 		return output;
 	}
-	
 	public int locateRiderStageResult(int stageID, int riderID){
 		boolean riderFound = false;
 		boolean stageFound = true;
@@ -117,7 +114,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		else
 			return resultsCount;
 	}
-	
 	public ArrayList<RiderStageResult> retrieveResultsForStage(int stageID){
 		ArrayList<RiderStageResult> outputArray = new ArrayList<RiderStageResult>();
 		for (RiderStageResult x:RiderStageResults){
@@ -126,13 +122,36 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 		return outputArray;
 	}
-
 	public RiderStageResult[] sortStageResultsByTime(ArrayList<RiderStageResult> unsortedArray){
 		RiderStageResult[] outputArray;
 		outputArray = new RiderStageResult[unsortedArray.size()];
-
-		
-	}
+		for (RiderStageResult x:unsortedArray){
+			int count = 0;
+			if (outputArray[count] == null){
+				outputArray[count] = x;
+			}
+			else {
+				LocalTime insertTime = x.getElapsedTime();
+				int compareValue = insertTime.compareTo(outputArray[count].getElapsedTime());
+				if (compareValue==0 || compareValue==-1){ //in the case that the current time is below/equal to the current value in the array
+					++count;
+				}
+				else{ //in the case that the current time is above the current value in the array 
+					int pushCount = unsortedArray.size();
+					while (pushCount > count){
+						if (outputArray[pushCount] != null){
+							outputArray[pushCount + 1] = outputArray[pushCount];
+							outputArray[pushCount] = null;
+						}
+						else
+							--pushCount;
+					}
+					outputArray[count] = x;
+				}
+				}
+			}
+		return outputArray;
+		}
 	//end of our own methods
 
 	@Override
@@ -439,7 +458,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 			System.out.println("Rider results in concerned Stage not found!");
 			return null;
 		}
-	
 	}
 	@Override
 	public LocalTime getRiderAdjustedElapsedTimeInStage(int stageId, int riderId) throws IDNotRecognisedException {
@@ -453,10 +471,10 @@ public class CyclingPortal implements CyclingPortalInterface {
 			}
 		}
 		catch(IDNotRecognisedException ex){
-			System.out.println("Rider resulst for the concerned stage were not found!");
+			System.out.println("Rider result for the concerned stage were not found!");
 			return null;
 		}
-		
+		//TODO consider for time trails!
 	}
 	@Override
 	public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
@@ -475,36 +493,46 @@ public class CyclingPortal implements CyclingPortalInterface {
 	}
 	@Override
 	public int[] getRidersRankInStage(int stageId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
 		ArrayList<RiderStageResult> relevantStageResults = retrieveResultsForStage(stageId);
-
-		return null;
+		RiderStageResult[] sortedResultArray = sortStageResultsByTime(relevantStageResults);
+		int [] outputRanks;
+		outputRanks = new int[relevantStageResults.size()];
+		int count = 0; 
+		for (RiderStageResult x:sortedResultArray){
+			outputRanks[count] = x.getRiderID();
+			++count;
+		}
+		return outputRanks;
 	}
-
 	@Override
 	public LocalTime[] getRankedAdjustedElapsedTimesInStage(int stageId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<RiderStageResult> relevantStageResults = retrieveResultsForStage(stageId);
+		RiderStageResult[] sortedResultArray = sortStageResultsByTime(relevantStageResults);
+		LocalTime [] outputRanks;
+		outputRanks = new LocalTime[relevantStageResults.size()];
+		int count = 0; 
+		for (RiderStageResult x:sortedResultArray){
+			outputRanks[count] = x.getElapsedTime();
+			++count;
+		}
+		return outputRanks;
 	}
-
 	@Override
 	public int[] getRidersPointsInStage(int stageId) throws IDNotRecognisedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public int[] getRidersMountainPointsInStage(int stageId) throws IDNotRecognisedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public void eraseCyclingPortal() {
 		Teams.clear();
 		Races.clear();
 		RaceResults.clear();
-		StageResults.clear();
+		RiderStageResults.clear();
 		SegmentResults.clear();
 		System.out.println("Portal erased successfully!");
 	}
@@ -515,7 +543,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 			save.writeObject(Teams);
 			save.writeObject(Races);
 			save.writeObject(RaceResults);
-			save.writeObject(StageResults);
+			save.writeObject(RiderStageResults);
 			save.writeObject(SegmentResults);
 			System.out.println("saved succesfully!");
 			save.close();
@@ -544,7 +572,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 				}
 			objectData = load.readObject();
 			if (objectData instanceof ArrayList){
-				StageResults = (ArrayList<StageResult>) objectData;
+				RiderStageResults = (ArrayList<RiderStageResult>) objectData;
 				}
 			objectData = load.readObject();
 			if (objectData instanceof ArrayList){
@@ -589,31 +617,26 @@ public class CyclingPortal implements CyclingPortalInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public int[] getRidersPointsInRace(int raceId) throws IDNotRecognisedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public int[] getRidersMountainPointsInRace(int raceId) throws IDNotRecognisedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public int[] getRidersGeneralClassificationRank(int raceId) throws IDNotRecognisedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public int[] getRidersPointClassificationRank(int raceId) throws IDNotRecognisedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public int[] getRidersMountainPointClassificationRank(int raceId) throws IDNotRecognisedException {
 		// TODO Auto-generated method stub

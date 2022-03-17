@@ -24,6 +24,10 @@ public LocalTime[] getCheckpoints(){
 public void setstageID(int stageID){
     this.stageID = stageID;
 }
+public LocalTime getElapsedTime(){
+    int finalIndex = this.checkpoints.length - 1;
+	return this.checkpoints[finalIndex];
+}
 public RiderStageResult(int stageID, int riderID, LocalTime[] checkpoints){
     this.stageID = stageID;
     this.riderID = riderID;

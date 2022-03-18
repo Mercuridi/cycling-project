@@ -14,7 +14,6 @@ public class Stage implements Serializable{
     private String stageLocation;
     private StageType stageType;
     private ArrayList<Segment> segments;
-    private ArrayList<StageResult> stageResults;
     private double stageLength;
     private boolean concluded;
 
@@ -41,9 +40,6 @@ public class Stage implements Serializable{
     }
     public ArrayList<Segment> getSegments(){
         return segments;
-    }
-    public ArrayList<StageResult> getStageResults(){
-        return stageResults;
     }
     public double getStageLength(){
         return stageLength;

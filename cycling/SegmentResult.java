@@ -1,6 +1,6 @@
 package cycling;
 import java.time.LocalTime;
-public class SegmentResult extends StageResult{
+public class SegmentResult extends RiderStageResult{
     public int segmentID;
 
 public int getSegmentID(){

@@ -65,7 +65,7 @@ public class CyclingPortal implements CyclingPortalInterface {
         else
 			return -1; //0 is a rouge value
 	}
-	//TODO finish up with exception catches after searchs and locations
+	//TODO finish up with exception catches after searchs and locations - these can all be removed!!
 	public int[] findStage(int stageID) {
 		int raceCount = 0;
 		int stageCount = 0;
@@ -425,6 +425,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		if (riderFound == false) {
 			throw new IDNotRecognisedException();
 		}
+		//TODO Remove rider results!!!
 	}
 	@Override
 	public void registerRiderResultsInStage(int stageId, int riderId, LocalTime... checkpoints)
@@ -461,6 +462,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 	}
 	@Override
 	public LocalTime getRiderAdjustedElapsedTimeInStage(int stageId, int riderId) throws IDNotRecognisedException {
+		
 		try{
 			LocalTime[] timeArray = getRiderResultsInStage(stageId, riderId);
 			if (timeArray == null) 
@@ -475,6 +477,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 			return null;
 		}
 		//TODO consider for time trails!
+		//subtracting one time from another time can return a duration (can be converted back to LocalTime)
 	}
 	@Override
 	public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {

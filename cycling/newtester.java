@@ -17,7 +17,7 @@ public class newtester {
         Teams.add(1, ClassyLunatics);
         Team RedEinsteins = new Team("Red Einsteins", "This is a sample description for the team Red Einsteins.");
         Teams.add(1, RedEinsteins);
-        Team CobaltMonkeys = new Team("CobaltMonkeys", "This is a sample description for the team Cobalt Monkeys.");
+        Team CobaltMonkeys = new Team("Cobalt Monkeys", "This is a sample description for the team Cobalt Monkeys.");
         Teams.add(1, CobaltMonkeys);
 
         Race CheepBeach = new Race("Cheep Cheep Beach", "A temperate and sunny race along Cheep Cheep Beach.");
@@ -97,4 +97,3 @@ public class newtester {
 
     }
 }
-

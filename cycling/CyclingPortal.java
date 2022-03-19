@@ -8,6 +8,9 @@ import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+
+import javax.lang.model.util.ElementScanner14;
+
 import java.time.Duration;
 
 /**
@@ -589,36 +592,41 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 	}
 	@Override
+	@SuppressWarnings("unchecked")
 	public void loadCyclingPortal(String filename) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
-		try{
-			ObjectInputStream load = new ObjectInputStream(new FileInputStream("SavedPortal.txt"));
-			eraseCyclingPortal();
-			Object objectData = load.readObject();
-			if (objectData instanceof ArrayList){
-				Teams = (ArrayList<Team>) objectData;
-				}
-			objectData = load.readObject();
-			if (objectData instanceof ArrayList){
-				Races = (ArrayList<Race>) objectData;
-			 	}
-			// objectData = load.readObject();
-			// if (objectData instanceof ArrayList){
-			// 	RaceResults = (ArrayList<RaceResult>) objectData;
-			// 	}		commented instead of deleted because i feel like this might break now it's commented and i want it here in case we have to leave it in to fix things
-			objectData = load.readObject();
-			if (objectData instanceof ArrayList){
-				RiderStageResults = (ArrayList<RiderStageResult>) objectData;
-				}
-			// objectData = load.readObject();
-			// if (objectData instanceof ArrayList){
-			// 	SegmentResults = (ArrayList<SegmentResult>) objectData;
-			// 	}		commented instead of deleted because i feel like this might break now it's commented and i want it here in case we have to leave it in to fix things
+		ObjectInputStream load = new ObjectInputStream(new FileInputStream("SavedPortal.txt"));
+		eraseCyclingPortal();
+		Object objectData = load.readObject();
+		if (objectData instanceof ArrayList<?>){
+			Teams = (ArrayList<Team>) objectData;
+			}
+		else{
 			load.close();
+			throw new IOException();
+		
 		}
-		catch (IOException ex){
-			System.out.println("Load failed - an error occurred.");
+		objectData = load.readObject();
+		if (objectData instanceof ArrayList){
+			Races = (ArrayList<Race>) objectData;
 		}
+		else{
+			load.close();
+			throw new IOException();
+		}
+		// objectData = load.readObject();
+		// if (objectData instanceof ArrayList){
+		// 	RaceResults = (ArrayList<RaceResult>) objectData;
+		// 	}		commented instead of deleted because i feel like this might break now it's commented and i want it here in case we have to leave it in to fix things
+		objectData = load.readObject();
+		if (objectData instanceof ArrayList){
+			RiderStageResults = (ArrayList<RiderStageResult>) objectData;
+		}
+		else{
+			load.close();
+			throw new IOException();
+		}
+		load.close();
 	}
 	@Override
 	public void removeRaceByName(String name) throws NameNotRecognisedException {

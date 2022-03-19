@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.time.Duration;
 
 /**
  * 
@@ -26,7 +27,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		int searchCount = 0;
 		Team currentTeam;
 		int tempID; 
-		while (teamFound == false && searchCount < Teams.size()) {
+		while (teamFound == false && searchCount < Teams.size()-1) {
             currentTeam = (Teams.get(searchCount));
             tempID = currentTeam.getTeamID();
             if (tempID == teamID) {
@@ -150,6 +151,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 			}
 		return outputArray;
 		}
+
 	//end of our own methods
 
 	@Override
@@ -445,37 +447,32 @@ public class CyclingPortal implements CyclingPortalInterface {
 	}
 	@Override
 	public LocalTime[] getRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
-		try {
-			int targetIndex = locateRiderStageResult(stageId, riderId);
-			if (targetIndex == -1){
-				throw new IDNotRecognisedException();
-			}
-			else
-				return RiderStageResults.get(targetIndex).getCheckpoints();
+		int targetIndex = locateRiderStageResult(stageId, riderId);
+		if (targetIndex == -1){
+			throw new IDNotRecognisedException();
 		}
-		catch (IDNotRecognisedException ex){
-			System.out.println("Rider results in concerned Stage not found!");
-			return null;
+		else 
+			return RiderStageResults.get(targetIndex).getCheckpoints();
 		}
-	}
 	@Override
 	public LocalTime getRiderAdjustedElapsedTimeInStage(int stageId, int riderId) throws IDNotRecognisedException {
-		
-		try{
-			LocalTime[] timeArray = getRiderResultsInStage(stageId, riderId);
-			if (timeArray == null) 
-				throw new IDNotRecognisedException();
-			else {
-				int finalIndex = timeArray.length - 1;
-				return timeArray[finalIndex];
+		int targetRiderIndex = locateRiderStageResult(stageId, riderId);
+		LocalTime adjustTime = RiderStageResults.get(targetRiderIndex).getElapsedTime();
+		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageId);
+		for (RiderStageResult x:relevantResults){
+			if (x.getRiderID() == riderId){
+				break;
+			}
+			else{
+				LocalTime comparisonTime = x.getElapsedTime();
+				Duration timeDifference = Duration.between(adjustTime, comparisonTime);
+				if (timeDifference.getSeconds() < 1);
+					if (comparisonTime.isBefore(adjustTime) == true){
+						adjustTime = comparisonTime;
+					}
 			}
 		}
-		catch(IDNotRecognisedException ex){
-			System.out.println("Rider result for the concerned stage were not found!");
-			return null;
-		}
-		//TODO consider for time trails!
-		//subtracting one time from another time can return a duration (can be converted back to LocalTime)
+		return adjustTime;
 	}
 	@Override
 	public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
@@ -520,8 +517,50 @@ public class CyclingPortal implements CyclingPortalInterface {
 	}
 	@Override
 	public int[] getRidersPointsInStage(int stageId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+		int[] riderRankArray = getRidersRankInStage(stageId);
+		int stageLocation[] = findStage(stageId);
+		StageType stageType = Races.get(stageLocation[0]).getStages().get(stageLocation[1]).getStageType();
+		int[] pointArray;
+		int[] outputArray;
+		switch (stageType){
+			case TT:
+				pointArray = new int[]{20,17,15,13,11,10,9,8,7,6,5,4,3,2,1};
+				break;
+			case FLAT:
+				pointArray = new int[]{50,30,20,18,16,14,12,10,8,7,6,5,4,3,2};
+				break;
+			case MEDIUM_MOUNTAIN:
+				pointArray = new int[]{30,25,22,19,17,15,13,11,9,7,6,5,4,3,2};
+				break;
+			case HIGH_MOUNTAIN:
+				pointArray = new int[]{20,17,15,13,11,10,9,8,7,6,5,4,3,2,1};
+				break;
+			default:
+				pointArray = new int[1];
+				//this should never be called!
+		}
+		int ridersToAllocate = riderRankArray.length;
+		if (ridersToAllocate > 15){
+			outputArray = new int[ridersToAllocate];
+			int count = 15;
+			while (count <= ridersToAllocate - 1){ //TODO really test this!!
+				outputArray[count] = 0;
+				++count;
+			} 
+			return outputArray;
+		}
+		else if (ridersToAllocate == 15){
+			return pointArray;
+		}
+		else{
+			outputArray = new int[ridersToAllocate];
+			int count = 0;
+			while (count < ridersToAllocate-1){
+				outputArray[count] = pointArray[count];
+				++count;
+			}
+		}
+		return outputArray;
 	}
 	@Override
 	public int[] getRidersMountainPointsInStage(int stageId) throws IDNotRecognisedException {

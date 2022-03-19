@@ -7,7 +7,6 @@ public class Segment implements Serializable{
     private int stageID;
     private int raceID;
     private SegmentType segmentType;
-    private ArrayList<SegmentResult> segmentResults;
     private double segmentLength;
     private Double segmentLocation;
     private Double averageGradient;
@@ -82,7 +81,6 @@ public Segment(int stageId, Double location, SegmentType type, Double averageGra
     this.averageGradient = averageGradient;
     this.segmentLength = length;
     this.raceID = 0; //rogue value!!! Will be set later :)
-    this.segmentResults = new ArrayList<SegmentResult>();
 }
 
 public Segment(int stageId, double location){
@@ -93,6 +91,5 @@ public Segment(int stageId, double location){
     this.averageGradient = 0.0; //not used
     this.segmentLength = 0.0; //not used
     this.raceID = 0; //rogue value!!! Will be set later :)
-    this.segmentResults = new ArrayList<SegmentResult>();
 }   
 }

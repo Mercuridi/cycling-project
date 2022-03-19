@@ -18,9 +18,7 @@ import java.util.ArrayList;
 public class CyclingPortal implements CyclingPortalInterface {
 	public ArrayList<Team> Teams = new ArrayList<Team>();
 	public ArrayList<Race> Races = new ArrayList<Race>();
-	public ArrayList<RaceResult> RaceResults = new ArrayList<RaceResult>();
 	public ArrayList<RiderStageResult> RiderStageResults = new ArrayList<RiderStageResult>();
-	public ArrayList<SegmentResult> SegmentResults = new ArrayList<SegmentResult>();
 
 	//our own methods!!!
 	public int locateTeam(int teamID) throws IDNotRecognisedException {
@@ -534,9 +532,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 	public void eraseCyclingPortal() {
 		Teams.clear();
 		Races.clear();
-		RaceResults.clear();
 		RiderStageResults.clear();
-		SegmentResults.clear();
 		System.out.println("Portal erased successfully!");
 	}
 	@Override
@@ -545,9 +541,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 			ObjectOutputStream save = new ObjectOutputStream(new FileOutputStream("SavedPortal.txt"));
 			save.writeObject(Teams);
 			save.writeObject(Races);
-			save.writeObject(RaceResults);
 			save.writeObject(RiderStageResults);
-			save.writeObject(SegmentResults);
 			System.out.println("saved succesfully!");
 			save.close();
 		}
@@ -568,19 +562,19 @@ public class CyclingPortal implements CyclingPortalInterface {
 			objectData = load.readObject();
 			if (objectData instanceof ArrayList){
 				Races = (ArrayList<Race>) objectData;
-				}
-			objectData = load.readObject();
-			if (objectData instanceof ArrayList){
-				RaceResults = (ArrayList<RaceResult>) objectData;
-				}
+			 	}
+			// objectData = load.readObject();
+			// if (objectData instanceof ArrayList){
+			// 	RaceResults = (ArrayList<RaceResult>) objectData;
+			// 	}		commented instead of deleted because i feel like this might break now it's commented and i want it here in case we have to leave it in to fix things
 			objectData = load.readObject();
 			if (objectData instanceof ArrayList){
 				RiderStageResults = (ArrayList<RiderStageResult>) objectData;
 				}
-			objectData = load.readObject();
-			if (objectData instanceof ArrayList){
-				SegmentResults = (ArrayList<SegmentResult>) objectData;
-				}
+			// objectData = load.readObject();
+			// if (objectData instanceof ArrayList){
+			// 	SegmentResults = (ArrayList<SegmentResult>) objectData;
+			// 	}		commented instead of deleted because i feel like this might break now it's commented and i want it here in case we have to leave it in to fix things
 			load.close();
 		}
 		catch (IOException ex){

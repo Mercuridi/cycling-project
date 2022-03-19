@@ -9,7 +9,6 @@ public class Race implements Serializable {
     private String raceName;
     private String raceDescription;
     private ArrayList<Rider> ridersInRace;
-    private ArrayList<RaceResult> raceResults;
     private ArrayList<Stage> stages;
     private double raceLength;
 
@@ -24,9 +23,6 @@ public class Race implements Serializable {
     }
     public ArrayList<Rider> getRidersInRace(){
         return ridersInRace;
-    }
-    public ArrayList<RaceResult> raceResults() {
-        return raceResults;
     }
     public ArrayList<Stage> getStages() {
         return stages;
@@ -93,6 +89,5 @@ public class Race implements Serializable {
         this.ridersInRace = new ArrayList<Rider>();
         this.raceLength = 0.0;
         this.stages = new ArrayList<Stage>();
-        this.raceResults = new ArrayList<RaceResult>();
     }
 }

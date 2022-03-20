@@ -30,24 +30,24 @@ public class CyclingPortalInterfaceTestApp {
         ArrayList<cycling.RiderStageResult> RiderStageResults = new ArrayList<RiderStageResult>();
 
         Team WildPlanets = new Team("Wild Planets", "This is a sample description for the team Wild Planets.");
-        Teams.add(1, WildPlanets);
+        Teams.add(WildPlanets);
         Team RoadBlockers = new Team("Road Blockers", "This is a sample description for the team Road Blockers.");
-        Teams.add(1, RoadBlockers);
+        Teams.add(RoadBlockers);
         Team ClassyLunatics = new Team("Classy Lunatics", "This is a sample description for the team Classy Lunatics.");
-        Teams.add(1, ClassyLunatics);
+        Teams.add(ClassyLunatics);
         Team RedEinsteins = new Team("Red Einsteins", "This is a sample description for the team Red Einsteins.");
-        Teams.add(1, RedEinsteins);
+        Teams.add(RedEinsteins);
         Team CobaltMonkeys = new Team("Cobalt Monkeys", "This is a sample description for the team Cobalt Monkeys.");
-        Teams.add(1, CobaltMonkeys);
+        Teams.add(CobaltMonkeys);
 
         Race CheepBeach = new Race("Cheep Cheep Beach", "A temperate and sunny race along Cheep Cheep Beach.");
-        Races.add(1, CheepBeach);
+        Races.add(CheepBeach);
         Race ShroomRidge = new Race("Shroom Ridge", "A long race along a mountain ridge, with gorgeous views and a dangerous sheer drop.");
-        Races.add(1, ShroomRidge);
+        Races.add(ShroomRidge);
         Race AirshipFortress = new Race ("Airship Fortress", "An exciting race around a flying airship.");
-        Races.add(1, AirshipFortress);
+        Races.add(AirshipFortress);
         Race Excitebike = new Race("Excitebike Arena", "A shorter race on a track constructed in the legendary Excitebike Arena.");
-        Races.add(1, Excitebike);
+        Races.add(Excitebike);
 
         System.out.println("======= Info Checks =======");
         System.out.println("---------------------------");

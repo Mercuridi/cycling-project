@@ -27,15 +27,9 @@ public class CyclingPortalInterfaceTestApp {
         ArrayList<cycling.RiderStageResult> RiderStageResults = new ArrayList<RiderStageResult>();
         try{
             portal.createTeam("Wild Planets", "This is a sample description for the team Wild Planets.");
-        }
-        catch (IllegalNameException ex){
-            System.out.println("fail, name already exists");
-        }
-        catch(InvalidNameException ex){
-            System.out.println("fail, name is empty or too long");
-        }
-        try{
             portal.createTeam("Road Blockers", "This is a sample description for the team Road Blockers.");
+            portal.createTeam("Classy Lunatics", "This is a sample description for the team Classy Lunatics.");
+
         }
         catch (IllegalNameException ex){
             System.out.println("fail, name already exists");
@@ -51,6 +45,8 @@ public class CyclingPortalInterfaceTestApp {
         }
         try{
             portal.createRider(112, "Wawa", 2003);
+            portal.createRider(112, "Wewe", 2006);
+            portal.createRider(112, "WooWoo", 2005);
         }
         catch (IDNotRecognisedException ex){
             System.out.println("fail");
@@ -62,41 +58,42 @@ public class CyclingPortalInterfaceTestApp {
             System.out.println("failed to locate RiderID");
         }
         try{
-            portal.createRider(112, "Wewe", 2006);
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("fail - ID not recognised");
-        }
-        catch (IllegalArgumentException ex){
-            System.out.println("fail - invalid arguments");
-        }
-        try{
-            System.out.println("Team Riders: " + portal.getTeamRiders(112)[0] +", " + portal.getTeamRiders(112)[1]);
+            System.out.println("Team Riders: " + portal.getTeamRiders(112)[0] +", " + portal.getTeamRiders(112)[1] + ", " + portal.getTeamRiders(112)[2]);
         }
         catch (IDNotRecognisedException ex){
             System.out.println("failed to locate RiderID");
         }
-
-        // Team WildPlanets = new Team("Wild Planets", "This is a sample description for the team Wild Planets.");
-        // Teams.add(WildPlanets);
-        // Team RoadBlockers = new Team("Road Blockers", "This is a sample description for the team Road Blockers.");
-        // Teams.add(RoadBlockers);
-        // Team ClassyLunatics = new Team("Classy Lunatics", "This is a sample description for the team Classy Lunatics.");
-        // Teams.add(ClassyLunatics);
-        // Team RedEinsteins = new Team("Red Einsteins", "This is a sample description for the team Red Einsteins.");
-        // Teams.add(RedEinsteins);
-        // Team CobaltMonkeys = new Team("Cobalt Monkeys", "This is a sample description for the team Cobalt Monkeys.");
-        // Teams.add(CobaltMonkeys);
-
-        // Race CheepBeach = new Race("Cheep Cheep Beach", "A temperate and sunny race along Cheep Cheep Beach.");
-        // Races.add(CheepBeach);
-        // Race ShroomRidge = new Race("Shroom Ridge", "A long race along a mountain ridge, with gorgeous views and a dangerous sheer drop.");
-        // Races.add(ShroomRidge);
-        // Race AirshipFortress = new Race ("Airship Fortress", "An exciting race around a flying airship.");
-        // Races.add(AirshipFortress);
-        // Race Excitebike = new Race("Excitebike Arena", "A shorter race on a track constructed in the legendary Excitebike Arena.");
-        // Races.add(Excitebike);
-
+        if (portal.getRaceIds() instanceof int[]){
+            System.out.println("empty array worked!");
+        }
+        String racesList;
+        try{
+            portal.createRace("CheepCheepBeach", "A temperate and sunny race along Cheep Cheep Beach.");
+            portal.createRace("ShroomRidge", "A long race along a mountain ridge, with gorgeous views and a dangerous sheer drop.");
+            portal.createRace("ExcitebikeArena", "A shorter race on a track constructed in the legendary Excitebike Arena.");
+        }
+        catch(IllegalNameException ex){
+            System.out.println("failure - name already exists!");
+        }
+        catch(InvalidNameException ex){
+            System.out.println("failure - name is not valid");
+        }
+        racesList = "Races: " + portal.getRaceIds()[0] + ", " + portal.getRaceIds()[1];
+        System.out.println(racesList); 
+        try{
+            System.out.println(portal.viewRaceDetails(12));
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("that race doesn't exist dumbass");
+        }
+        try{
+            portal.removeRaceById(13);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("that race doesn't exist dumbass");
+        }
+        racesList = "Races: " + portal.getRaceIds()[0] + ", " + portal.getRaceIds()[1];
+        System.out.println(racesList); 
         // System.out.println("======= Info Checks =======");
         // System.out.println("---------------------------");
         

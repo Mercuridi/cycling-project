@@ -25,7 +25,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 	public ArrayList<RiderStageResult> RiderStageResults = new ArrayList<RiderStageResult>();
 
 	//our own methods!!!
-	public int locateTeam(int teamID) throws IDNotRecognisedException {
+	public int locateTeam(int teamID) throws IDNotRecognisedException { //complete!
 		boolean teamFound = false;
 		int searchCount = 0;
 		Team currentTeam;
@@ -156,32 +156,55 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 
 	//end of our own methods
-
 	@Override
-	public int[] getRaceIds() {
-		int[] outputArray;
+	public int[] getRaceIds() { //complete!
 		int count = 0;
-		outputArray = new int[Races.size()];
-		for (Race x:Races){
-			outputArray[count] = x.getRaceID();
-			++count;
+		int[] outputArray;
+		if (Races.size() != 0){
+			outputArray = new int[Races.size()];
+			for (Race x:Races){
+				outputArray[count] = x.getRaceID();
+				++count;
+			}
+			return outputArray;
 		}
-		System.out.println(outputArray); 
-		return outputArray;
+		else {
+			outputArray = new int[0];
+			return outputArray;
+		}
 	}
 	@Override
-	public int createRace(String name, String description) throws IllegalNameException, InvalidNameException {
+	public int createRace(String name, String description) throws IllegalNameException, InvalidNameException { //complete!
+		if ((name.length() > 30) || (name.length() == 0) || (name == null) || (name.contains(" ") == true)){
+			throw new InvalidNameException();
+		}
+		for (Race x:Races){
+			if (x.getRaceName().equals(name)){
+				throw new IllegalNameException();
+			}
+		}
 		Race newRace = new Race(name, description);
 		Races.add(newRace);
-		return 0;
+		return newRace.getRaceID();
 	}
 	@Override
-	public String viewRaceDetails(int raceId) throws IDNotRecognisedException {
-		return Races.get(locateRace(raceId)).createDescription();
+	public String viewRaceDetails(int raceId) throws IDNotRecognisedException { //complete!
+		int targetIndex = locateRace(raceId);
+		if (targetIndex != -1){
+			return Races.get(targetIndex).createDescription();
+		}
+		else
+			throw new IDNotRecognisedException();
+		
 	}
 	@Override
-	public void removeRaceById(int raceId) throws IDNotRecognisedException {
-		Races.remove(locateRace(raceId));
+	public void removeRaceById(int raceId) throws IDNotRecognisedException { //complete!
+		int targetIndex = locateRace(raceId);
+		if (targetIndex != -1){
+			Races.remove(targetIndex);
+		}
+		else
+			throw new IDNotRecognisedException();
 	}
 	@Override
 	public int getNumberOfStages(int raceId) throws IDNotRecognisedException {
@@ -337,7 +360,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		return outputArray;
 	}
 	@Override
-	public int createTeam(String name, String description) throws IllegalNameException, InvalidNameException {
+	public int createTeam(String name, String description) throws IllegalNameException, InvalidNameException { //complete!
 		Team newTeam;
 		if ((name.length() > 30) || (name.length() == 0) || (name == null)){
 			throw new InvalidNameException();
@@ -378,7 +401,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		return outputArray;
 	}
 	@Override
-	public int[] getTeamRiders(int teamId) throws IDNotRecognisedException { //this needs to be fixed!
+	public int[] getTeamRiders(int teamId) throws IDNotRecognisedException { //complete!
 		int targetIndex = locateTeam(teamId);
 		int[] outputArray; 
 		if (targetIndex != -1) {
@@ -395,7 +418,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		return outputArray;
 	}
 	@Override
-	public int createRider(int teamID, String name, int yearOfBirth)
+	public int createRider(int teamID, String name, int yearOfBirth) //complete!
 			throws IDNotRecognisedException, IllegalArgumentException {
 			if ((yearOfBirth >= 1900) && (name.length() != 0) && (name != null)){
 				Rider newRider;

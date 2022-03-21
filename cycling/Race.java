@@ -74,7 +74,9 @@ public class Race implements Serializable {
         this.raceLength = raceLength;
     }
     public String createDescription(){
-        String output = "Name: " + this.raceName + " Description: " + this.raceDescription;
+        String output = "RaceID: " + this.raceID + "\n" + "Name: " + this.raceName + 
+        "\n" + "Description: " + this.raceDescription + "\n" + "Number Of Stages: " + this.stages.size() + "\n"
+        + "Race Length: " + this.raceLength;
         return output;
     }
     public int getNumberOfStages(){

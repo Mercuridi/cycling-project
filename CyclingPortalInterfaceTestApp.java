@@ -158,7 +158,13 @@ public class CyclingPortalInterfaceTestApp {
         catch(InvalidStageTypeException ex){
             System.out.println("That stage is a time trial, idot");
         }
-        //still need to check that this ol fruity pie actually added a damned fuckin stage yeehaw
+        try{
+            System.out.println(portal.getStageSegments(12).length);
+        }
+        catch(IDNotRecognisedException ex){
+            System.out.println("that stage doesn't exist dumbass");
+        }
+
         
         //Kai work down here!
 

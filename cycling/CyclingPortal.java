@@ -252,7 +252,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 	@Override
 	public void removeStageById(int stageId) throws IDNotRecognisedException { //complete!
 		int[] indexArray = findStage(stageId);
-		System.out.println("Value 1: " + indexArray[0] + " Value 2: " + indexArray[1]);
 		if (indexArray[0] != -1){
 			Races.get(indexArray[0]).removeStageFromRace(indexArray[1]);
 		}
@@ -260,7 +259,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 			throw new IDNotRecognisedException();
 	}
 	@Override
-	public int addCategorizedClimbToStage(int stageId, Double location, SegmentType type, Double averageGradient,
+	public int addCategorizedClimbToStage(int stageId, Double location, SegmentType type, Double averageGradient, //complete!
 			Double length) throws IDNotRecognisedException, InvalidLocationException, InvalidStageStateException,
 			InvalidStageTypeException {
 		Segment newSegment;
@@ -274,7 +273,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 			if (concernedStage.getConcluded() == true) {
 				throw new InvalidStageStateException();
 			}
-			else if ((concernedStage.getStageLength()) < length){
+			else if ((concernedStage.getStageLength()) < location){
 				throw new InvalidLocationException();
 			}
 			else if (concernedStage.getStageType() == StageType.TT){
@@ -292,24 +291,27 @@ public class CyclingPortal implements CyclingPortalInterface {
 			InvalidLocationException, InvalidStageStateException, InvalidStageTypeException {
 		Segment newSegment;
 		newSegment = new Segment(stageId, location);
-		try {
-			int []indexArray = findStage(stageId);
-			if (indexArray[0] == -1){
-				throw new IDNotRecognisedException();
-			}
-			else {
-				if (Races.get(indexArray[0]).getStages().get(indexArray[1]).getConcluded() == false) {
-					newSegment.setRaceID(Races.get(indexArray[0]).getRaceID());
-					Races.get(indexArray[0]).getStages().get(indexArray[1]).addSegmentToStage(newSegment);
-				}
-				else
-					System.out.println("The concerned Stage has already been concluded and cannot be edited further!");
-			}
+		int []indexArray = findStage(stageId);
+		if (indexArray[0] == -1){
+			throw new IDNotRecognisedException();
 		}
-		catch (IDNotRecognisedException ex){
-			System.out.println("Stage with entered stageID was not found!");
+		else {
+			Stage concernedStage = Races.get(indexArray[0]).getStages().get(indexArray[1]);
+			if (concernedStage.getConcluded() == true) {
+				throw new InvalidStageStateException();
+			}
+			else if ((concernedStage.getStageLength()) < location){
+				throw new InvalidLocationException();
+			}
+			else if (concernedStage.getStageType() == StageType.TT){
+				throw new InvalidStageTypeException();
+			}
+			else{
+				newSegment.setRaceID(Races.get(indexArray[0]).getRaceID());
+				Races.get(indexArray[0]).getStages().get(indexArray[1]).addSegmentToStage(newSegment);
+				return newSegment.getSegmentID();
+			}
 		}		
-	 	return 0;
 	}
 	@Override
 	public void removeSegment(int segmentId) throws IDNotRecognisedException, InvalidStageStateException {
@@ -350,19 +352,23 @@ public class CyclingPortal implements CyclingPortalInterface {
 		Races.get(indexArray[0]).getStages().get(indexArray[1]).setConcluded(true);
 	}
 	@Override
-	public int[] getStageSegments(int stageId) throws IDNotRecognisedException {
+	public int[] getStageSegments(int stageId) throws IDNotRecognisedException { //complete!
 		int[] indexArray = findStage(stageId);
-		ArrayList<Segment> tempArrayList = new ArrayList<Segment>();
-		tempArrayList = Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments();
-		int[] outputArray;
-		outputArray = new int[tempArrayList.size()];
-		int count = 0;
-		for (Segment x:tempArrayList){
-			outputArray[count] = x.getSegmentID();
-			++count;
+		if (indexArray[0] != -1) {
+			ArrayList<Segment> tempArrayList = new ArrayList<Segment>();
+			tempArrayList = Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments();
+			int[] outputArray;
+			outputArray = new int[tempArrayList.size()];
+			int count = 0;
+			for (Segment x:tempArrayList){
+				outputArray[count] = x.getSegmentID();
+				++count;
+			}
+			return outputArray;
 		}
-		System.out.println(outputArray);
-		return outputArray;
+		else
+			throw new IDNotRecognisedException();
+		
 	}
 	@Override
 	public int createTeam(String name, String description) throws IllegalNameException, InvalidNameException { //complete!

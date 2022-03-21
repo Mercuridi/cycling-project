@@ -287,9 +287,9 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 	}
 	@Override
-	public int addIntermediateSprintToStage(int stageId, double location) throws IDNotRecognisedException,
-			InvalidLocationException, InvalidStageStateException, InvalidStageTypeException {
-		Segment newSegment;
+	public int addIntermediateSprintToStage(int stageId, double location) //complete!
+		throws IDNotRecognisedException, InvalidLocationException, InvalidStageStateException, InvalidStageTypeException {
+		Segment newSegment; 
 		newSegment = new Segment(stageId, location);
 		int []indexArray = findStage(stageId);
 		if (indexArray[0] == -1){
@@ -314,18 +314,18 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}		
 	}
 	@Override
-	public void removeSegment(int segmentId) throws IDNotRecognisedException, InvalidStageStateException {
+	public void removeSegment(int segmentId) throws IDNotRecognisedException, InvalidStageStateException { //complete!
 		int raceCount = 0;
-		int stageCount = 0;
-		int segmentCount = 0;
 		boolean segmentFound = false;
-		while (segmentFound != true && raceCount < Races.size()-1){
+		while (segmentFound != true && raceCount <= Races.size()-1){
+			int stageCount = 0;
 			Race currentRace = Races.get(raceCount);
 			int numberOfStages = currentRace.getStages().size();
-			while (segmentFound != true && stageCount < (numberOfStages-1)){
+			while (segmentFound != true && stageCount <= (numberOfStages-1)){
+				int segmentCount = 0;
 				Stage currentStage = Races.get(raceCount).getStages().get(stageCount);
 				int numberOfSegments = currentRace.getStages().get(stageCount).getSegments().size();
-				while (segmentFound != true && segmentCount < (numberOfSegments-1)){
+				while (segmentFound != true && segmentCount <= (numberOfSegments-1)){
 					Segment currentSegment = currentStage.getSegments().get(segmentCount);
 					if (currentSegment.getSegmentID() == segmentId){
 						segmentFound = true;
@@ -334,7 +334,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 							Races.get(raceCount).getStages().get(stageCount).decreaseLength(currentSegment.getSegmentLength());;
 						}
 						else
-							System.out.println("The concerned Stage has already been concluded and cannot be edited further!");
+							throw new InvalidStageStateException();
 					}
 					++segmentCount;
 				}
@@ -347,9 +347,16 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 	}
 	@Override
-	public void concludeStagePreparation(int stageId) throws IDNotRecognisedException, InvalidStageStateException {
+	public void concludeStagePreparation(int stageId) throws IDNotRecognisedException, InvalidStageStateException { //complete!
 		int[] indexArray = findStage(stageId);
-		Races.get(indexArray[0]).getStages().get(indexArray[1]).setConcluded(true);
+		if (indexArray[0] == -1){
+			throw new IDNotRecognisedException();
+		}
+		else if (Races.get(indexArray[0]).getStages().get(indexArray[1]).getConcluded() == true){
+			throw new InvalidStageStateException();
+		}
+		else
+			Races.get(indexArray[0]).getStages().get(indexArray[1]).setConcluded(true);
 	}
 	@Override
 	public int[] getStageSegments(int stageId) throws IDNotRecognisedException { //complete!
@@ -387,19 +394,12 @@ public class CyclingPortal implements CyclingPortalInterface {
 	}
 	@Override
 	public void removeTeam(int teamId) throws IDNotRecognisedException {
-		try { 
-			int targetIndex = locateTeam(teamId);
-			if (targetIndex != 0) {
-				Teams.remove(targetIndex);
-            	System.out.println("Team removed successfully!");
-			}
-			else 
-				throw new IDNotRecognisedException();
-        }
-        catch (IDNotRecognisedException ex ) {
-			System.out.println("Team with entered teamID not found!");
+		int targetIndex = locateTeam(teamId);
+		if (targetIndex != -1) {
+			Teams.remove(targetIndex);
 		}
-			
+		else 
+			throw new IDNotRecognisedException();
 	}
 	@Override
 	public int[] getTeams() {

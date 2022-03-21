@@ -30,7 +30,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		int searchCount = 0;
 		Team currentTeam;
 		int tempID; 
-		while (teamFound == false && searchCount < Teams.size()-1) {
+		while (teamFound == false && searchCount <= Teams.size()-1) {
             currentTeam = (Teams.get(searchCount));
             tempID = currentTeam.getTeamID();
             if (tempID == teamID) {
@@ -51,7 +51,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		int searchCount = 0;
 		Race currentRace;
 		int tempID; 
-		while (raceFound == false && searchCount < Races.size()-1) {
+		while (raceFound == false && searchCount <= Races.size()-1) {
             currentRace = (Races.get(searchCount));
             tempID = currentRace.getRaceID();
             if (tempID == raceID) {
@@ -74,10 +74,10 @@ public class CyclingPortal implements CyclingPortalInterface {
 		boolean stageFound = false;
 		int []output;
 		output = new int[2];
-		while (stageFound != true && raceCount < Races.size()-1){
+		while (stageFound != true && raceCount <= Races.size()-1){
 			Race currentRace = Races.get(raceCount);
 			int numberOfStages = currentRace.getStages().size();
-			while (stageFound != true && stageCount < (numberOfStages-1)){
+			while (stageFound != true && stageCount <= (numberOfStages-1)){
 				Stage currentStage = Races.get(raceCount).getStages().get(stageCount);
 				if (stageID == currentStage.getStageID()){
 					stageFound = true;
@@ -100,7 +100,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		boolean riderFound = false;
 		boolean stageFound = true;
 		int resultsCount = 0;
-		while (riderFound != true & resultsCount < RiderStageResults.size()-1){
+		while (riderFound != true & resultsCount <= RiderStageResults.size()-1){
 			if (stageID == RiderStageResults.get(resultsCount).getStageID()){
 				stageFound = true;
 				if (riderID == RiderStageResults.get(resultsCount).getRiderID()){
@@ -339,6 +339,14 @@ public class CyclingPortal implements CyclingPortalInterface {
 	@Override
 	public int createTeam(String name, String description) throws IllegalNameException, InvalidNameException {
 		Team newTeam;
+		if ((name.length() > 30) || (name.length() == 0) || (name == null)){
+			throw new InvalidNameException();
+		}
+		for (Team x:Teams){
+			if (x.getTeamName().equals(name)){
+				throw new IllegalNameException();
+			}
+		}
 		newTeam = new Team(name, description);
 		Teams.add(newTeam);
 		return 0;
@@ -372,25 +380,25 @@ public class CyclingPortal implements CyclingPortalInterface {
 	@Override
 	public int[] getTeamRiders(int teamId) throws IDNotRecognisedException { //this needs to be fixed!
 		int targetIndex = locateTeam(teamId);
-		try {
-			if (targetIndex != 0) {
-				for (Rider x:Teams.get(targetIndex).getRidersInTeam()){
-					System.out.println(Integer.toString(x.getRiderID()) + x.getRiderName());
-				}
-			}
-			else {
+		int[] outputArray; 
+		if (targetIndex != -1) {
+			outputArray = new int[Teams.get(targetIndex).getRidersInTeam().size()];
+			int count = 0;
+			for (Rider x: Teams.get(targetIndex).getRidersInTeam()){
+				outputArray[count] = x.getRiderID();
+				++count;
+			} 
+		}
+		else {
 				throw new IDNotRecognisedException();
 			}
-		}
-		catch (IDNotRecognisedException ex) {
-			System.out.println("Team with entered teamID not found!");
-		}	
-		return null;
+		return outputArray;
 	}
 	@Override
 	public int createRider(int teamID, String name, int yearOfBirth)
 			throws IDNotRecognisedException, IllegalArgumentException {
-			Rider newRider;
+			if ((yearOfBirth >= 1900) && (name.length() != 0) && (name != null)){
+				Rider newRider;
             boolean addCheck = false;
             newRider = new Rider(teamID, name, yearOfBirth);
             for (Team x:Teams) {
@@ -400,11 +408,14 @@ public class CyclingPortal implements CyclingPortalInterface {
                     break;
                 }
 				if (addCheck == false){
-					System.out.println("TeamID not found!");
-					//throw new IDNotRecognisedException();
+					throw new IDNotRecognisedException();
 				}
 			}
 			return 0;
+			}
+			else{
+				throw new IllegalArgumentException();
+			}
         }
 	@Override
 	public void removeRider(int riderId) throws IDNotRecognisedException {

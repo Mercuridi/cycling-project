@@ -92,7 +92,7 @@ public class Stage implements Serializable{
         this.stageType = type;
         this.stageID = ++nextStageID;
         this.concluded = false;
-        //TODO add array instantiation
+        this.segments = new ArrayList<Segment>();
     }
 
 }

@@ -265,24 +265,27 @@ public class CyclingPortal implements CyclingPortalInterface {
 			InvalidStageTypeException {
 		Segment newSegment;
 		newSegment = new Segment(stageId, location, type, averageGradient, length);
-		try {
-			int []indexArray = findStage(stageId);
-			if (indexArray[0] == -1){
-				throw new IDNotRecognisedException();
+		int []indexArray = findStage(stageId);
+		if (indexArray[0] == -1){
+			throw new IDNotRecognisedException();
+		}
+		else {
+			Stage concernedStage = Races.get(indexArray[0]).getStages().get(indexArray[1]);
+			if (concernedStage.getConcluded() == true) {
+				throw new InvalidStageStateException();
 			}
-			else {
-				if (Races.get(indexArray[0]).getStages().get(indexArray[1]).getConcluded() == false) {
-					newSegment.setRaceID(Races.get(indexArray[0]).getRaceID());
-					Races.get(indexArray[0]).getStages().get(indexArray[1]).addSegmentToStage(newSegment);	
-				}
-				else
-					System.out.println("The concerned Stage has already been concluded and cannot be edited further!");
+			else if ((concernedStage.getStageLength()) < length){
+				throw new InvalidLocationException();
+			}
+			else if (concernedStage.getStageType() == StageType.TT){
+				throw new InvalidStageTypeException();
+			}
+			else{
+				newSegment.setRaceID(Races.get(indexArray[0]).getRaceID());
+				Races.get(indexArray[0]).getStages().get(indexArray[1]).addSegmentToStage(newSegment);
+				return newSegment.getSegmentID();
 			}
 		}
-		catch (IDNotRecognisedException ex){
-			System.out.println("Stage with entered stageID was not found!");
-		}		
-	 	return 0;
 	}
 	@Override
 	public int addIntermediateSprintToStage(int stageId, double location) throws IDNotRecognisedException,

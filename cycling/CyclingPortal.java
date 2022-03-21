@@ -1,5 +1,6 @@
 package cycling;
 
+import java.beans.IndexedPropertyChangeEvent;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,95 +27,73 @@ public class CyclingPortal implements CyclingPortalInterface {
 
 	//our own methods!!!
 	public int locateTeam(int teamID) throws IDNotRecognisedException { //complete!
-		boolean teamFound = false;
 		int searchCount = 0;
 		Team currentTeam;
 		int tempID; 
-		while (teamFound == false && searchCount <= Teams.size()-1) {
+		while (searchCount <= Teams.size()-1) {
             currentTeam = (Teams.get(searchCount));
             tempID = currentTeam.getTeamID();
             if (tempID == teamID) {
-                teamFound = true;
+                return searchCount;
             }
             else {
                 searchCount += 1;
             }
         }
-        if (teamFound == true) {
-            return searchCount; //returns location of team
-        }
-        else
-			return -1; //0 is a rouge value
+		return -1; //0 is a rouge value
 	}
-	public int locateRace(int raceID) throws IDNotRecognisedException {
-		boolean raceFound = false;
+	public int locateRace(int raceID) throws IDNotRecognisedException { //complete!
 		int searchCount = 0;
 		Race currentRace;
 		int tempID; 
-		while (raceFound == false && searchCount <= Races.size()-1) {
+		while (searchCount <= Races.size()-1) {
             currentRace = (Races.get(searchCount));
             tempID = currentRace.getRaceID();
             if (tempID == raceID) {
-                raceFound = true;
+				return searchCount;
             }
             else {
                 searchCount += 1;
             }
         }
-        if (raceFound == true) {
-            return searchCount; //returns location of race
-        }
-        else
-			return -1; //0 is a rouge value
+		return -1; //-1 is a rouge value
 	}
 	//TODO finish up with exception catches after searchs and locations - these can all be removed!!
-	public int[] findStage(int stageID) {
+	public int[] findStage(int stageID) { //complete!
 		int raceCount = 0;
-		int stageCount = 0;
-		boolean stageFound = false;
-		int []output;
+		int[] output;
 		output = new int[2];
-		while (stageFound != true && raceCount <= Races.size()-1){
+		while (raceCount <= Races.size()-1){
+			int stageCount = 0;
 			Race currentRace = Races.get(raceCount);
 			int numberOfStages = currentRace.getStages().size();
-			while (stageFound != true && stageCount <= (numberOfStages-1)){
+			while (stageCount <= numberOfStages-1){
 				Stage currentStage = Races.get(raceCount).getStages().get(stageCount);
 				if (stageID == currentStage.getStageID()){
-					stageFound = true;
+					output[0] = raceCount;
+					output[1] = stageCount;
+					return output;
 				} 
 				++stageCount; 
 			}
 			++raceCount;
 		}
-		if (stageFound == true) {
-			output[0] = stageCount;
-			output[1] = raceCount;
-	
-		}
-		else{
-			output[0] = -1;
-		}
+		output[0] = -1;
+		output[1] = -1;
 		return output;
 	}
 	public int locateRiderStageResult(int stageID, int riderID){
-		boolean riderFound = false;
-		boolean stageFound = true;
 		int resultsCount = 0;
-		while (riderFound != true & resultsCount <= RiderStageResults.size()-1){
+		while (resultsCount <= RiderStageResults.size()-1){
 			if (stageID == RiderStageResults.get(resultsCount).getStageID()){
-				stageFound = true;
 				if (riderID == RiderStageResults.get(resultsCount).getRiderID()){
-					riderFound = true;
 					return resultsCount;
 				}
 				else
 					++resultsCount;
 			}
 		}
-		if ((stageFound == false) || (riderFound == false))
-			return -1;
-		else
-			return resultsCount;
+		return -1;
 	}
 	public ArrayList<RiderStageResult> retrieveResultsForStage(int stageID){
 		ArrayList<RiderStageResult> outputArray = new ArrayList<RiderStageResult>();
@@ -207,55 +186,78 @@ public class CyclingPortal implements CyclingPortalInterface {
 			throw new IDNotRecognisedException();
 	}
 	@Override
-	public int getNumberOfStages(int raceId) throws IDNotRecognisedException {
+	public int getNumberOfStages(int raceId) throws IDNotRecognisedException { //complete!
 		int raceIndex = locateRace(raceId); 
-		return Races.get(raceIndex).getNumberOfStages();
+		if (raceIndex != -1){
+			return Races.get(raceIndex).getNumberOfStages();
+		}
+		else{
+			throw new IDNotRecognisedException();
+		}
 	}
 	@Override
-	public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime,
+	public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime, //complete!
 			StageType type)
 			throws IDNotRecognisedException, IllegalNameException, InvalidNameException, InvalidLengthException {
-			Stage newStage;
-			newStage = new Stage(raceId, stageName, description, length, startTime, type);
-			try {
-				int targetIndex = locateRace(raceId);
-				if (targetIndex == -1){
-					throw new IDNotRecognisedException();
-				}
-				else {
-			newStage = new Stage(raceId, stageName, description, length, startTime, type);
-					Races.get(targetIndex).addStageToRace(newStage);
-				}
-			}
-			catch(IDNotRecognisedException ex)	{
-				System.out.println("RaceID not recognised!");
-			}
-		return 0;
-	}
-	@Override
-	public int[] getRaceStages(int raceId) throws IDNotRecognisedException {
-		int raceIndex = locateRace(raceId);
-		ArrayList<Stage> tempArrayList = new ArrayList<Stage>();
-		int[] outputArray;
-		tempArrayList = Races.get(raceIndex).getStages();
-		outputArray = new int[tempArrayList.size()];
-		int count = 0;
-		for (Stage x:tempArrayList){
-			outputArray[count] = x.getStageID();
-			++count;
+		Stage newStage;
+		if ((stageName.length() > 30) || (stageName.length() == 0) || (stageName == null)){
+			throw new InvalidNameException();
 		}
-		System.out.println(outputArray);
-		return outputArray;
+		if (length < 5)
+			throw new InvalidLengthException();
+		int targetIndex = locateRace(raceId);
+		if (targetIndex == -1){
+			throw new IDNotRecognisedException();
+		}
+		else {
+			ArrayList<Stage> ExistingStages = Races.get(targetIndex).getStages(); 
+			for (Stage x:ExistingStages){
+				if (x.getStageName().equals(stageName)){
+					throw new IllegalNameException();
+				}
+			}
+			newStage = new Stage(raceId, stageName, description, length, startTime, type);
+			Races.get(targetIndex).addStageToRace(newStage);
+			return newStage.getStageID();
+		}
+		
 	}
 	@Override
-	public double getStageLength(int stageId) throws IDNotRecognisedException {
-		int[] indexArray = findStage(stageId);
-		return Races.get(indexArray[0]).getStages().get(indexArray[1]).getStageLength();
+	public int[] getRaceStages(int raceId) throws IDNotRecognisedException { //complete!
+		int raceIndex = locateRace(raceId);
+		if (raceIndex != -1){
+			ArrayList<Stage> tempArrayList = new ArrayList<Stage>();
+			int[] outputArray;
+			tempArrayList = Races.get(raceIndex).getStages();
+			outputArray = new int[tempArrayList.size()];
+			int count = 0;
+			for (Stage x:tempArrayList){
+				outputArray[count] = x.getStageID();
+				++count;
+			}
+			return outputArray;
+		}
+		else
+			throw new IDNotRecognisedException();
 	}
 	@Override
-	public void removeStageById(int stageId) throws IDNotRecognisedException {
+	public double getStageLength(int stageId) throws IDNotRecognisedException { //complete!
 		int[] indexArray = findStage(stageId);
-		Races.get(indexArray[0]).removeStageFromRace(indexArray[1]);
+		if (indexArray[0] != -1){
+			return Races.get(indexArray[0]).getStages().get(indexArray[1]).getStageLength();
+		}
+		else
+			throw new IDNotRecognisedException();
+	}
+	@Override
+	public void removeStageById(int stageId) throws IDNotRecognisedException { //complete!
+		int[] indexArray = findStage(stageId);
+		System.out.println("Value 1: " + indexArray[0] + " Value 2: " + indexArray[1]);
+		if (indexArray[0] != -1){
+			Races.get(indexArray[0]).removeStageFromRace(indexArray[1]);
+		}
+		else
+			throw new IDNotRecognisedException();
 	}
 	@Override
 	public int addCategorizedClimbToStage(int stageId, Double location, SegmentType type, Double averageGradient,

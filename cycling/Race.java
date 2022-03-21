@@ -41,7 +41,7 @@ public class Race implements Serializable {
         int searchCount = 0;
         Rider currentRider;
         int tempID;
-        while (riderFound == false && searchCount < this.ridersInRace.size()) {
+        while (riderFound == false && searchCount <= this.ridersInRace.size()) {
             currentRider = (this.ridersInRace.get(searchCount));
             tempID = currentRider.getRiderID();
             if (tempID == targetRiderID) {

@@ -2,6 +2,7 @@ import cycling.CyclingPortalInterface;
 import cycling.CyclingPortal;
 import cycling.*;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 /**
  * A short program to illustrate an app testing some minimal functionality of a
@@ -78,7 +79,7 @@ public class CyclingPortalInterfaceTestApp {
         catch(InvalidNameException ex){
             System.out.println("failure - name is not valid");
         }
-        racesList = "Races: " + portal.getRaceIds()[0] + ", " + portal.getRaceIds()[1];
+        racesList = "Races: " + portal.getRaceIds()[0] + ", " + portal.getRaceIds()[1] + ", " + portal.getRaceIds()[2];
         System.out.println(racesList); 
         try{
             System.out.println(portal.viewRaceDetails(12));
@@ -86,14 +87,62 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("that race doesn't exist dumbass");
         }
+        // try{
+        //     portal.removeRaceById(13);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("that race doesn't exist dumbass");
+        // }
+        racesList = "Races: " + portal.getRaceIds()[0] + ", " + portal.getRaceIds()[1] + ", " + portal.getRaceIds()[2];
+        System.out.println(racesList);
+        LocalDateTime dateTime = LocalDateTime.now();
         try{
-            portal.removeRaceById(13);
+            System.out.println(portal.addStageToRace(12, "Test Flat Stage Innit", "It's just a stage bruh", 5.0, dateTime, StageType.FLAT));
+            dateTime = LocalDateTime.now();
+            System.out.println(portal.addStageToRace(12, "TestHighMountainStageInnit", "It's just a stage bruh", 5.0, dateTime, StageType.HIGH_MOUNTAIN));
+            dateTime = LocalDateTime.now();
+            System.out.println(portal.addStageToRace(12, "TestMediumMountainStageInnit", "It's just a stage bruh", 5.0, dateTime, StageType.MEDIUM_MOUNTAIN));
+            System.out.println("Stages added!");
+        }
+        catch (IllegalNameException ex){
+            System.out.println("Name already exists in race dumbass");
+        }
+        catch (InvalidNameException ex){
+            System.out.println("Name is invalid dumbass");
+        }
+        catch (InvalidLengthException ex){
+            System.out.println("Length is too short");
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Don't think that race exists mate");
+        }
+        try{
+            System.out.println(portal.getNumberOfStages(12));
         }
         catch (IDNotRecognisedException ex){
             System.out.println("that race doesn't exist dumbass");
         }
-        racesList = "Races: " + portal.getRaceIds()[0] + ", " + portal.getRaceIds()[1];
-        System.out.println(racesList); 
+        try{
+            System.out.println(portal.getRaceStages(12).length);
+            System.out.println(portal.getRaceStages(12)[0]);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("that race doesn't exist dumbass");
+        }
+        try{
+            System.out.println(portal.getStageLength(12));
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("that race doesn't exist dumbass");
+        }
+        try{
+            System.out.println(portal.getRaceStages(12).length);
+            portal.removeStageById(14);
+            System.out.println(portal.getRaceStages(12).length);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("that stage doesn't exist dumbass");
+        }
         // System.out.println("======= Info Checks =======");
         // System.out.println("---------------------------");
         

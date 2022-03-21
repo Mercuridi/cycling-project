@@ -616,16 +616,16 @@ public class CyclingPortal implements CyclingPortalInterface {
 		return null;
 	}
 	@Override
-	public void eraseCyclingPortal() {
+	public void eraseCyclingPortal() { //complete!
 		Teams.clear();
 		Races.clear();
 		RiderStageResults.clear();
 		System.out.println("Portal erased successfully!");
 	}
 	@Override
-	public void saveCyclingPortal(String filename) throws IOException {
+	public void saveCyclingPortal(String filename) throws IOException { //complete!
 		try {
-			ObjectOutputStream save = new ObjectOutputStream(new FileOutputStream("SavedPortal.txt"));
+			ObjectOutputStream save = new ObjectOutputStream(new FileOutputStream(filename));
 			save.writeObject(Teams);
 			save.writeObject(Races);
 			save.writeObject(RiderStageResults);
@@ -633,22 +633,22 @@ public class CyclingPortal implements CyclingPortalInterface {
 			save.close();
 		}
 		catch (IOException ex){
-			System.out.println("Data was not saved - an error occurred.");
+			throw new IOException();
 		}
 	}
 	@Override
 	@SuppressWarnings("unchecked")
-	public void loadCyclingPortal(String filename) throws IOException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		ObjectInputStream load = new ObjectInputStream(new FileInputStream("SavedPortal.txt"));
-		eraseCyclingPortal();
+	public void loadCyclingPortal(String filename) throws IOException, ClassNotFoundException { //complete!
+		try{
+			ObjectInputStream load = new ObjectInputStream(new FileInputStream(filename));
+			eraseCyclingPortal();
 		Object objectData = load.readObject();
 		if (objectData instanceof ArrayList<?>){
 			Teams = (ArrayList<Team>) objectData;
 			}
 		else{
 			load.close();
-			throw new IOException();
+			throw new ClassNotFoundException();
 		
 		}
 		objectData = load.readObject();
@@ -657,7 +657,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 		else{
 			load.close();
-			throw new IOException();
+			throw new ClassNotFoundException();
 		}
 		// objectData = load.readObject();
 		// if (objectData instanceof ArrayList){
@@ -669,9 +669,14 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 		else{
 			load.close();
-			throw new IOException();
+			throw new ClassNotFoundException();
 		}
 		load.close();
+		}
+		catch (IOException ex){
+			throw new IOException();
+		}
+		
 	}
 	@Override
 	public void removeRaceByName(String name) throws NameNotRecognisedException {

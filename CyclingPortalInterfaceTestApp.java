@@ -246,6 +246,15 @@ public class CyclingPortalInterfaceTestApp {
         catch(IOException ex){
             System.out.println("saving failed! L");
         }
+        catch(ClassNotFoundException ex){
+            System.out.println("class retrieval failure! L");
+        }
+        try{
+            System.out.println(portal.getTeamRiders(112).length);
+        }
+        catch(IDNotRecognisedException ex){
+            System.out.println("fail");
+        }
         // try{
 
         // }

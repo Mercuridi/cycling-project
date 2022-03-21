@@ -3,6 +3,7 @@ import cycling.CyclingPortal;
 import cycling.*;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * A short program to illustrate an app testing some minimal functionality of a
@@ -158,10 +159,29 @@ public class CyclingPortalInterfaceTestApp {
         catch(InvalidStageTypeException ex){
             System.out.println("That stage is a time trial, idot");
         }
-        //still need to check that this ol fruity pie actually added a damned fuckin stage yeehaw
-        
-        //Kai work down here!
+        try{
+            System.out.println("checking stage Exists: " + Integer.toString(portal.getRaceStages(12).length));
+            System.out.println("should return > 0");
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Race ID not recognised for checking if stages exist");
+        }
 
+        try{
+            portal.registerRiderResultsInStage(3, 1113, LocalTime.of(0, 12, 31));
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Stage or Rider ID not recognised (registerRiderResultsInStage)");
+        }
+        catch (DuplicatedResultException ex){
+
+        }
+        catch (InvalidCheckpointsException ex){
+
+        }
+        catch (InvalidStageStateException ex){
+            
+        }
 	}
 
 }

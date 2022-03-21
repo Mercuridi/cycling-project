@@ -206,7 +206,6 @@ public class CyclingPortalInterfaceTestApp {
         catch(InvalidStageTypeException ex){
             System.out.println("That stage is a time trial, idot");
         }
-<<<<<<< HEAD
         try{
             portal.removeTeam(113);
         }
@@ -263,16 +262,7 @@ public class CyclingPortalInterfaceTestApp {
         // catch(){
         //    System.out.println("");
         // }
-=======
-        //still need to check that this ol fruity pie actually added a damned fuckin stage yeehaw
-        
->>>>>>> parent of 13737d6 (registerriderresults push)
         //Kai work down here!
-
-        }
-        catch (InvalidStageStateException ex){
-
-        }
 	}
 
 }

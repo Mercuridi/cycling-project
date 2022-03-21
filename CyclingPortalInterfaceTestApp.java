@@ -3,6 +3,7 @@ import cycling.CyclingPortal;
 import cycling.*;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * A short program to illustrate an app testing some minimal functionality of a
@@ -240,6 +241,10 @@ public class CyclingPortalInterfaceTestApp {
 >>>>>>> parent of 13737d6 (registerriderresults push)
         //Kai work down here!
 
+        }
+        catch (InvalidStageStateException ex){
+
+        }
 	}
 
 }

@@ -2,6 +2,7 @@ import cycling.CyclingPortalInterface;
 import cycling.CyclingPortal;
 import cycling.*;
 import java.util.ArrayList;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 /**
@@ -226,7 +227,25 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("failed to locate RiderID");
         }
-        
+        try{
+            portal.saveCyclingPortal("SavedPortal.txt");
+        }
+        catch(IOException ex){
+            System.out.println("saving failed! L");
+        }
+        portal.eraseCyclingPortal();
+        try{
+            portal.getTeamRiders(112);
+        }
+        catch(IDNotRecognisedException ex){
+            System.out.println("fail");
+        }
+        try{
+            portal.loadCyclingPortal("SavedPortal.txt");
+        }
+        catch(IOException ex){
+            System.out.println("saving failed! L");
+        }
         // try{
 
         // }

@@ -393,7 +393,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		return 0;
 	}
 	@Override
-	public void removeTeam(int teamId) throws IDNotRecognisedException {
+	public void removeTeam(int teamId) throws IDNotRecognisedException { //complete!
 		int targetIndex = locateTeam(teamId);
 		if (targetIndex != -1) {
 			Teams.remove(targetIndex);
@@ -402,7 +402,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 			throw new IDNotRecognisedException();
 	}
 	@Override
-	public int[] getTeams() {
+	public int[] getTeams() { //complete!
 		int []outputArray = new int[Teams.size()];
 		int indexCount = 0;
 		for (Team x:Teams) {
@@ -452,15 +452,15 @@ public class CyclingPortal implements CyclingPortalInterface {
 			}
         }
 	@Override
-	public void removeRider(int riderId) throws IDNotRecognisedException {
+	public void removeRider(int riderId) throws IDNotRecognisedException { //NOT COMPLETE! Results will need to be removed :)
 		int teamCount = 0;
-		int riderCount = 0;
 		Rider currentRider;
 		boolean riderFound = false;
-		while (riderFound != true && teamCount < Teams.size() -1){
+		while (riderFound == false && teamCount <= Teams.size() -1){
+			int riderCount = 0;
 			Team currentTeam = Teams.get(teamCount);
 			int numberOfRiders = currentTeam.getRidersInTeam().size();
-			while (riderFound != true && riderCount < (numberOfRiders-1)){
+			while (riderFound == false && riderCount <= (numberOfRiders-1)){
 				currentRider = currentTeam.getRidersInTeam().get(riderCount);
 				if (riderId == currentRider.getRiderID()){
 					Teams.get(teamCount).removeRider(riderCount);
@@ -611,7 +611,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		return outputArray;
 	}
 	@Override
-	public int[] getRidersMountainPointsInStage(int stageId) throws IDNotRecognisedException {
+	public int[] getRidersMountainPointsInStage(int stageId) throws IDNotRecognisedException { //not coded yet, probs should
 		// TODO Auto-generated method stub
 		return null;
 	}

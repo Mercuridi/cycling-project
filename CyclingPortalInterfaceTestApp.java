@@ -123,26 +123,72 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("that race doesn't exist dumbass");
         }
-        try{
-            System.out.println(portal.getRaceStages(12).length);
-            System.out.println(portal.getRaceStages(12)[0]);
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("that race doesn't exist dumbass");
-        }
+        // try{
+        //     System.out.println(portal.getRaceStages(12).length);
+        //     System.out.println(portal.getRaceStages(12)[0]);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("that race doesn't exist dumbass");
+        // }
         try{
             System.out.println(portal.getStageLength(12));
         }
         catch (IDNotRecognisedException ex){
             System.out.println("that race doesn't exist dumbass");
         }
+        // try{
+        //     System.out.println(portal.getRaceStages(12).length);
+        //     portal.removeStageById(14);
+        //     System.out.println(portal.getRaceStages(12).length);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("that stage doesn't exist dumbass");
+        // }
         try{
-            System.out.println(portal.getRaceStages(12).length);
-            portal.removeStageById(14);
-            System.out.println(portal.getRaceStages(12).length);
+            portal.addCategorizedClimbToStage(12, 3.0, SegmentType.C1, 15.0, 2.0);
+            portal.addIntermediateSprintToStage(12, 4.0);
         }
-        catch (IDNotRecognisedException ex){
+        catch(IDNotRecognisedException ex){
+            System.out.println("That stage don't exist bruv");
+        }
+        catch(InvalidLocationException ex){
+            System.out.println("That location will not fit in the stage, duh");
+        }
+        catch(InvalidStageStateException ex){
+            System.out.println("That stage is concluded forehead");
+        }
+        catch(InvalidStageTypeException ex){
+            System.out.println("That stage is a time trial, idot");
+        }
+        try{
+            System.out.println(portal.getStageSegments(12).length);
+        }
+        catch(IDNotRecognisedException ex){
             System.out.println("that stage doesn't exist dumbass");
+        }
+        try{
+            portal.removeSegment(1112);
+        }
+        catch(IDNotRecognisedException ex){
+            System.out.println("that segment doesn't exist dumbass");
+        }
+        catch(InvalidStageStateException ex){
+            System.out.println("That stage is concluded forehead");
+        }
+        try{
+            System.out.println(portal.getStageSegments(12).length);
+        }
+        catch(IDNotRecognisedException ex){
+            System.out.println("that stage doesn't exist dumbass");
+        }
+        try{
+            portal.concludeStagePreparation(12);
+        }
+        catch(IDNotRecognisedException ex){
+            System.out.println("that stage doesn't exist dumbass");
+        }
+        catch(InvalidStageStateException ex){
+            System.out.println("that stage is already concluded you silly goose!");
         }
         try{
             portal.addCategorizedClimbToStage(12, 3.0, SegmentType.C1, 15.0, 2.0);
@@ -197,7 +243,7 @@ public class CyclingPortalInterfaceTestApp {
 
         }
         catch (InvalidStageStateException ex){
-            
+
         }
 	}
 

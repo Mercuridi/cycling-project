@@ -98,11 +98,11 @@ public class CyclingPortalInterfaceTestApp {
         System.out.println(racesList);
         LocalDateTime dateTime = LocalDateTime.now();
         try{
-            System.out.println(portal.addStageToRace(12, "Test Flat Stage Innit", "It's just a stage bruh", 5.0, dateTime, StageType.FLAT));
+            portal.addStageToRace(12, "Test Flat Stage Innit", "It's just a stage bruh", 5.0, dateTime, StageType.FLAT);
             dateTime = LocalDateTime.now();
-            System.out.println(portal.addStageToRace(12, "TestHighMountainStageInnit", "It's just a stage bruh", 5.0, dateTime, StageType.HIGH_MOUNTAIN));
+            portal.addStageToRace(12, "TestHighMountainStageInnit", "It's just a stage bruh", 5.0, dateTime, StageType.HIGH_MOUNTAIN);
             dateTime = LocalDateTime.now();
-            System.out.println(portal.addStageToRace(12, "TestMediumMountainStageInnit", "It's just a stage bruh", 5.0, dateTime, StageType.MEDIUM_MOUNTAIN));
+            portal.addStageToRace(12, "TestMediumMountainStageInnit", "It's just a stage bruh", 5.0, dateTime, StageType.MEDIUM_MOUNTAIN);
             System.out.println("Stages added!");
         }
         catch (IllegalNameException ex){
@@ -206,23 +206,35 @@ public class CyclingPortalInterfaceTestApp {
             System.out.println("That stage is a time trial, idot");
         }
         try{
-            System.out.println("checking stage Exists: " + Integer.toString(portal.getRaceStages(12).length));
-            System.out.println("should return > 0");
+            portal.removeTeam(113);
         }
-        catch (IDNotRecognisedException ex){
-            System.out.println("Race ID not recognised for checking if stages exist");
+        catch(IDNotRecognisedException ex){
+            System.out.println("that team doesn't exist dumbass");
         }
-
+        int[] testingArray = portal.getTeams();
+        for (int x:testingArray){
+            System.out.println(x);
+        }
         try{
-            portal.registerRiderResultsInStage(3, 1113, LocalTime.of(0, 12, 31));
+            portal.removeRider(1112);
+        }
+        catch(IDNotRecognisedException ex){
+           System.out.println("ID not recognised you pillock");
+        }
+        try{
+            System.out.println("Team Riders: " + portal.getTeamRiders(112)[0] + ", " + portal.getTeamRiders(112)[1]);
         }
         catch (IDNotRecognisedException ex){
-            System.out.println("Stage or Rider ID not recognised (registerRiderResultsInStage)");
+            System.out.println("failed to locate RiderID");
         }
-        catch (DuplicatedResultException ex){
+        
+        // try{
 
-        }
-        catch (InvalidCheckpointsException ex){
+        // }
+        // catch(){
+        //    System.out.println("");
+        // }
+        //Kai work down here!
 
         }
         catch (InvalidStageStateException ex){

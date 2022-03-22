@@ -381,7 +381,7 @@ public class CyclingPortalInterfaceTestApp {
             portal.getRidersMountainPointsInStage(11);
         }
         catch (IDNotRecognisedException ex){ // method not programmed yet
-            System.out.println("Stage ID not recognised (getRidersMountainPointsInStage)")
+            System.out.println("Stage ID not recognised (getRidersMountainPointsInStage)");
         }
         try{
             portal.saveCyclingPortal("testSavePortal");
@@ -408,7 +408,5 @@ public class CyclingPortalInterfaceTestApp {
         catch (NameNotRecognisedException ex){
             System.out.println("Name of race does not exist - unexpected error (removeRaceByName)");
         }
-        }
-	}
-
+    }
 }

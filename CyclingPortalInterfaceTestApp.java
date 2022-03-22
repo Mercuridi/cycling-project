@@ -377,6 +377,38 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("Stage ID not recognised (getRidersPointsInStage) EXPECTED A FAILURE OK (bad StageID)");
         }
+        try{
+            portal.getRidersMountainPointsInStage(11);
+        }
+        catch (IDNotRecognisedException ex){ // method not programmed yet
+            System.out.println("Stage ID not recognised (getRidersMountainPointsInStage)")
+        }
+        try{
+            portal.saveCyclingPortal("testSavePortal");
+        }
+        catch (IOException ex){
+            System.out.println("IO Error (saveCyclingPortal)");
+        }
+
+        try{
+            portal.loadCyclingPortal("testSavePortal");
+        }
+        catch (IOException ex){
+            System.out.println("IO Error (loadCyclingPortal)");
+        }
+        catch (ClassNotFoundException ex){
+            System.out.println("Class not found - is the read data corrupt or formatted wrong? (loadCyclingPortal)");
+        }
+
+        try{
+            portal.removeRaceByName("ShroomRidge");
+            System.out.println("Attempted to remove ShroomRidge; races...");
+            System.out.println(racesList);
+        }
+        catch (NameNotRecognisedException ex){
+            System.out.println("Name of race does not exist - unexpected error (removeRaceByName)");
+        }
+        }
 	}
 
 }

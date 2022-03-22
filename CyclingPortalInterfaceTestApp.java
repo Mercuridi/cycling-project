@@ -261,6 +261,7 @@ public class CyclingPortalInterfaceTestApp {
            System.out.println("Name of said race is not recognised.");
         }
         testingArray = portal.getRaceIds();
+        System.out.println("Race IDs:");
         for (int x:testingArray){
             System.out.println(x);
         }
@@ -287,12 +288,94 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("Rider or Stage ID not recognised (getRiderResultsInStage)");
         }
+        try{
+            System.out.println(portal.getRiderResultsInStage(10000, 1113));
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Rider or Stage ID not recognised (getRiderResultsInStage) EXPECTED A FAILURE OK (bad StageID)");
+        }
+        try{
+            portal.getRiderResultsInStage(11, 1);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Rider or Stage ID not recognised (getRiderResultsInStage) EXPECTED A FAILURE OK (bad RiderID)");
+        }
 
         try{
             portal.getRiderAdjustedElapsedTimeInStage(11, 1113);
         }
         catch (IDNotRecognisedException ex){
-            System.out.println("Rider or Stage ID not recogised (getRiderAdjustedTimeInStage");
+            System.out.println("Rider or Stage ID not recogised (getRiderAdjustedTimeInStage)");
+        }
+        try{
+            portal.getRiderAdjustedElapsedTimeInStage(0, 1113);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Rider or Stage ID not recogised (getRiderAdjustedTimeInStage) EXPECTED A FAILURE OK (bad RaceID)");
+        }
+        try{
+            portal.getRiderAdjustedElapsedTimeInStage(11, 0);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Rider or Stage ID not recogised (getRiderAdjustedTimeInStage) EXPECTED A FAILURE OK (bad StageID)");
+        }
+
+        try{
+            portal.deleteRiderResultsInStage(11, 1113);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage)");
+        }
+        try{
+            portal.deleteRiderResultsInStage(0, 1113);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad RaceID)");
+        }
+        try{
+            portal.deleteRiderResultsInStage(11, 0);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad StageID)");
+        }
+
+        try{
+            portal.getRidersRankInStage(11);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("StageID not recognised (getRidersRankInStage)");
+        }
+        try{
+            portal.getRidersRankInStage(0);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("StageID not recognised (getRidersRankInStage) EXPECTED A FAILURE OK (bad StageID)");
+        }
+
+        try{
+            portal.getRankedAdjustedElapsedTimesInStage(11);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("StageID not recognised (getRankedAdjustedElapsedTimesInStage)");
+        }
+        try{
+            portal.getRankedAdjustedElapsedTimesInStage(0);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("StageID not recognised (getRankedAdjustedElapsedTimesInStage) EXPECTED A FAILURE OK (bad StageID)");
+        }
+
+        try{
+            portal.getRidersPointsInStage(11);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Stage ID not recognised (getRidersPointsInStage)");
+        }
+        try{
+            portal.getRidersPointsInStage(0);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Stage ID not recognised (getRidersPointsInStage) EXPECTED A FAILURE OK (bad StageID)");
         }
 	}
 

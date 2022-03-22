@@ -485,7 +485,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 		//TODO Remove rider results!!!
 	}
-	@Override
+	@Override // complete
 	public void registerRiderResultsInStage(int stageId, int riderId, LocalTime... checkpoints)
 			throws IDNotRecognisedException, DuplicatedResultException, InvalidCheckpointsException,
 			InvalidStageStateException {
@@ -503,7 +503,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 			System.out.println("Stage result for rider already exists!");
 		}
 	}
-	@Override
+	@Override // complete
 	public LocalTime[] getRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
 		int targetIndex = locateRiderStageResult(stageId, riderId);
 		if (targetIndex == -1){
@@ -512,7 +512,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		else 
 			return RiderStageResults.get(targetIndex).getCheckpoints();
 		}
-	@Override
+	@Override // complete
 	public LocalTime getRiderAdjustedElapsedTimeInStage(int stageId, int riderId) throws IDNotRecognisedException {
 		int targetRiderIndex = locateRiderStageResult(stageId, riderId);
 		LocalTime adjustTime = RiderStageResults.get(targetRiderIndex).getElapsedTime();

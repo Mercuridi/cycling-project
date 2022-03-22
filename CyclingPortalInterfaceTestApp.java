@@ -271,12 +271,11 @@ public class CyclingPortalInterfaceTestApp {
             LocalTime[] checkpointArray2;
             LocalTime[] checkpointArray3;
             checkpointArray1 = new LocalTime[]{LocalTime.of(00, 12, 41), LocalTime.of(00, 16, 42), LocalTime.of(01, 01, 12)};
-            checkpointArray2 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(01, 01, 12, 45)};
-            checkpointArray3 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(01, 01, 13, 04)};
-            portal.registerRiderResultsInStage(12, 1113, checkpointArray1);
-            portal.registerRiderResultsInStage(12, 1112, checkpointArray2);
+            checkpointArray2 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(01, 01, 12, 50)};
+            checkpointArray3 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(01, 01, 13)};
+            portal.registerRiderResultsInStage(12, 1112, checkpointArray1);
+            portal.registerRiderResultsInStage(12, 1113, checkpointArray2);
             portal.registerRiderResultsInStage(12, 1114, checkpointArray3);
-            System.out.println("success?");
         }
         catch (IDNotRecognisedException ex){
             System.out.println("Stage or Rider ID not recognised (registerRiderResultsInStage)");
@@ -311,7 +310,7 @@ public class CyclingPortalInterfaceTestApp {
             System.out.println("Rider or Stage ID not recognised (getRiderResultsInStage) EXPECTED A FAILURE OK (bad RiderID)");
         }
         try{
-            System.out.println(portal.getRiderAdjustedElapsedTimeInStage(12, 1113));
+            System.out.println(portal.getRiderAdjustedElapsedTimeInStage(12, 1114));
         }
         catch (IDNotRecognisedException ex){
             System.out.println("Rider or Stage ID not recogised (getRiderAdjustedTimeInStage)");
@@ -328,26 +327,25 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("Rider or Stage ID not recogised (getRiderAdjustedTimeInStage) EXPECTED A FAILURE OK (bad StageID)");
         }
-
-        try{
-            portal.deleteRiderResultsInStage(12, 1113);
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage)");
-        }
-        try{
-            portal.deleteRiderResultsInStage(0, 1113);
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad RaceID)");
-        }
-        try{
-            portal.deleteRiderResultsInStage(11, 0);
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad StageID)");
-        }
-
+        
+        // try{
+        //     portal.deleteRiderResultsInStage(12, 1113);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage)");
+        // }
+        // try{
+        //     portal.deleteRiderResultsInStage(0, 1113);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad RaceID)");
+        // }
+        // try{
+        //     portal.deleteRiderResultsInStage(11, 0);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad StageID)");
+        // }
         try{
             portal.getRidersRankInStage(12);
         }

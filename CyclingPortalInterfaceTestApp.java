@@ -264,13 +264,36 @@ public class CyclingPortalInterfaceTestApp {
         for (int x:testingArray){
             System.out.println(x);
         }
-        // try{
 
-        // }
-        // catch(){
-        //    System.out.println("");
-        // }
-        //Kai work down here!
+        try{
+            portal.registerRiderResultsInStage(11, 1113, LocalTime.of(00, 12, 41));
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Stage or Rider ID not recognised (registerRiderResultsInStage)");
+        }
+        catch (DuplicatedResultException ex){
+            System.out.println("The result already exists in the stage (registerRiderResultsInStage)");
+        }
+        catch (InvalidCheckpointsException ex){
+            System.out.println("Checkpoint times invalid (registerRiderResultsInStage)");
+        }
+        catch (InvalidStageStateException ex){
+            System.out.println("Stage state incompatible with action (registerRiderResultsInStage)");
+        }
+
+        try{
+            portal.getRiderResultsInStage(11, 1113);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Rider or Stage ID not recognised (getRiderResultsInStage)");
+        }
+
+        try{
+            portal.getRiderAdjustedElapsedTimeInStage(11, 1113);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Rider or Stage ID not recogised (getRiderAdjustedTimeInStage");
+        }
 	}
 
 }

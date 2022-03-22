@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.jar.Attributes.Name;
 
 import javax.lang.model.util.ElementScanner14;
 
@@ -473,6 +474,13 @@ public class CyclingPortal implements CyclingPortalInterface {
 		if (riderFound == false) {
 			throw new IDNotRecognisedException();
 		}
+		int count = 0;
+		for (RiderStageResult x:RiderStageResults){
+			if (x.getRiderID() == riderId){
+				RiderStageResults.remove(count);
+			}
+			++count;
+		}
 		//TODO Remove rider results!!!
 	}
 	@Override
@@ -679,30 +687,26 @@ public class CyclingPortal implements CyclingPortalInterface {
 		
 	}
 	@Override
-	public void removeRaceByName(String name) throws NameNotRecognisedException {
+	public void removeRaceByName(String name) throws NameNotRecognisedException { //complete!
 		boolean raceFound = false;
 		int searchCount = 0;
 		Race currentRace;
-		while (raceFound == false && searchCount < Races.size()) {
+		while (raceFound == false && searchCount <= Races.size() - 1) {
             currentRace = (Races.get(searchCount));
             String tempName = currentRace.getRaceName();
-            if (tempName == name) {
+            if (tempName.equals(name)) {
                 raceFound = true;
             }
             else {
                 searchCount += 1;
             }
         }
-		try {
-			if (raceFound == true) {
-				Races.remove(searchCount);
-			}
-			else
-				throw new IDNotRecognisedException();
+		if (raceFound == true) {
+			Races.remove(searchCount);
 		}
-		catch (IDNotRecognisedException ex){
-			System.out.println("Input racename was not recognised! No race exists with this name.");
-		}
+		else
+			throw new NameNotRecognisedException();
+
 	}
 
 

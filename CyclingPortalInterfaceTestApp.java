@@ -25,9 +25,7 @@ public class CyclingPortalInterfaceTestApp {
 	 */
 	public static void main(String[] args) {
 		System.out.println("The system compiled and started the execution...");
-
 		CyclingPortalInterface portal = new CyclingPortal();
-        ArrayList<cycling.RiderStageResult> RiderStageResults = new ArrayList<RiderStageResult>();
         try{
             portal.createTeam("Wild Planets", "This is a sample description for the team Wild Planets.");
             portal.createTeam("Road Blockers", "This is a sample description for the team Road Blockers.");
@@ -89,14 +87,14 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("that race doesn't exist dumbass");
         }
-         try{
-             portal.removeRaceById(13);
-        }
-        catch (IDNotRecognisedException ex){
-             System.out.println("that race doesn't exist dumbass");
-        }
-        racesList = "Races: " + portal.getRaceIds()[0] + ", " + portal.getRaceIds()[1];
-        System.out.println(racesList);
+        // try{
+        //      portal.removeRaceById(13);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //      System.out.println("that race doesn't exist dumbass");
+        // }
+        // racesList = "Races: " + portal.getRaceIds()[0] + ", " + portal.getRaceIds()[1];
+        // System.out.println(racesList);
         LocalDateTime dateTime = LocalDateTime.now();
         try{
             portal.addStageToRace(12, "Test Flat Stage Innit", "It's just a stage bruh", 5.0, dateTime, StageType.FLAT);
@@ -255,6 +253,16 @@ public class CyclingPortalInterfaceTestApp {
         }
         catch(IDNotRecognisedException ex){
             System.out.println("fail");
+        }
+        try{
+            portal.removeRaceByName("CheepCheepBeach");
+        }
+        catch(NameNotRecognisedException ex){
+           System.out.println("Name of said race is not recognised.");
+        }
+        testingArray = portal.getRaceIds();
+        for (int x:testingArray){
+            System.out.println(x);
         }
         // try{
 

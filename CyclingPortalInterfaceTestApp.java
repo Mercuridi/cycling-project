@@ -116,12 +116,12 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("Don't think that race exists mate");
         }
-        try{
-            System.out.println(portal.getNumberOfStages(12));
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("that race doesn't exist dumbass");
-        }
+        // try{
+        //     System.out.println(portal.getNumberOfStages(12));
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("that race doesn't exist dumbass");
+        // }
         // try{
         //     System.out.println(portal.getRaceStages(12).length);
         //     System.out.println(portal.getRaceStages(12)[0]);
@@ -129,12 +129,12 @@ public class CyclingPortalInterfaceTestApp {
         // catch (IDNotRecognisedException ex){
         //     System.out.println("that race doesn't exist dumbass");
         // }
-        try{
-            System.out.println(portal.getStageLength(12));
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("that race doesn't exist dumbass");
-        }
+        // try{
+        //     System.out.println(portal.getStageLength(12));
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("that race doesn't exist dumbass");
+        // }
         // try{
         //     System.out.println(portal.getRaceStages(12).length);
         //     portal.removeStageById(14);
@@ -214,52 +214,52 @@ public class CyclingPortalInterfaceTestApp {
         for (int x:testingArray){
             System.out.println(x);
         }
-        try{
-            portal.removeRider(1112);
-        }
-        catch(IDNotRecognisedException ex){
-           System.out.println("ID not recognised you pillock");
-        }
-        try{
-            System.out.println("Team Riders: " + portal.getTeamRiders(112)[0] + ", " + portal.getTeamRiders(112)[1]);
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("failed to locate RiderID");
-        }
-        try{
-            portal.saveCyclingPortal("SavedPortal.txt");
-        }
-        catch(IOException ex){
-            System.out.println("saving failed! L");
-        }
-        portal.eraseCyclingPortal();
-        try{
-            portal.getTeamRiders(112);
-        }
-        catch(IDNotRecognisedException ex){
-            System.out.println("fail");
-        }
-        try{
-            portal.loadCyclingPortal("SavedPortal.txt");
-        }
-        catch(IOException ex){
-            System.out.println("saving failed! L");
-        }
-        catch(ClassNotFoundException ex){
-            System.out.println("class retrieval failure! L");
-        }
-        try{
-            System.out.println(portal.getTeamRiders(112).length);
-        }
-        catch(IDNotRecognisedException ex){
-            System.out.println("fail");
-        }
-        try{
-            portal.removeRaceByName("CheepCheepBeach");
-        }
-        catch(NameNotRecognisedException ex){
-           System.out.println("Name of said race is not recognised.");
-        }
+        // try{
+        //     portal.removeRider(1112);
+        // }
+        // catch(IDNotRecognisedException ex){
+        //    System.out.println("ID not recognised you pillock");
+        // }
+        // try{
+        //     System.out.println("Team Riders: " + portal.getTeamRiders(112)[0] + ", " + portal.getTeamRiders(112)[1]);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("failed to locate RiderID");
+        // }
+        // try{
+        //     portal.saveCyclingPortal("SavedPortal.txt");
+        // }
+        // catch(IOException ex){
+        //     System.out.println("saving failed! L");
+        // }
+        // portal.eraseCyclingPortal();
+        // try{
+        //     portal.getTeamRiders(112);
+        // }
+        // catch(IDNotRecognisedException ex){
+        //     System.out.println("fail");
+        // }
+        // try{
+        //     portal.loadCyclingPortal("SavedPortal.txt");
+        // }
+        // catch(IOException ex){
+        //     System.out.println("saving failed! L");
+        // }
+        // catch(ClassNotFoundException ex){
+        //     System.out.println("class retrieval failure! L");
+        // }
+        // try{
+        //     System.out.println(portal.getTeamRiders(112).length);
+        // }
+        // catch(IDNotRecognisedException ex){
+        //     System.out.println("fail");
+        // }
+        // try{
+        //     portal.removeRaceByName("CheepCheepBeach");
+        // }
+        // catch(NameNotRecognisedException ex){
+        //    System.out.println("Name of said race is not recognised.");
+        // }
         testingArray = portal.getRaceIds();
         System.out.println("Race IDs:");
         for (int x:testingArray){
@@ -267,7 +267,16 @@ public class CyclingPortalInterfaceTestApp {
         }
 
         try{
-            portal.registerRiderResultsInStage(11, 1113, LocalTime.of(00, 12, 41));
+            LocalTime[] checkpointArray1;
+            LocalTime[] checkpointArray2;
+            LocalTime[] checkpointArray3;
+            checkpointArray1 = new LocalTime[]{LocalTime.of(00, 12, 41), LocalTime.of(00, 16, 42), LocalTime.of(01, 01, 12)};
+            checkpointArray2 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(01, 01, 12, 45)};
+            checkpointArray3 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(01, 01, 13, 04)};
+            portal.registerRiderResultsInStage(12, 1113, checkpointArray1);
+            portal.registerRiderResultsInStage(12, 1112, checkpointArray2);
+            portal.registerRiderResultsInStage(12, 1114, checkpointArray3);
+            System.out.println("success?");
         }
         catch (IDNotRecognisedException ex){
             System.out.println("Stage or Rider ID not recognised (registerRiderResultsInStage)");
@@ -281,15 +290,16 @@ public class CyclingPortalInterfaceTestApp {
         catch (InvalidStageStateException ex){
             System.out.println("Stage state incompatible with action (registerRiderResultsInStage)");
         }
-
         try{
-            portal.getRiderResultsInStage(11, 1113);
+            LocalTime[] outputArray = portal.getRiderResultsInStage(12, 1113);
+            System.out.println(outputArray.length);
         }
         catch (IDNotRecognisedException ex){
             System.out.println("Rider or Stage ID not recognised (getRiderResultsInStage)");
         }
         try{
-            System.out.println(portal.getRiderResultsInStage(10000, 1113));
+            LocalTime[] outputArray = portal.getRiderResultsInStage(10000, 1113);
+            System.out.println(outputArray.length);
         }
         catch (IDNotRecognisedException ex){
             System.out.println("Rider or Stage ID not recognised (getRiderResultsInStage) EXPECTED A FAILURE OK (bad StageID)");
@@ -300,9 +310,8 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("Rider or Stage ID not recognised (getRiderResultsInStage) EXPECTED A FAILURE OK (bad RiderID)");
         }
-
         try{
-            portal.getRiderAdjustedElapsedTimeInStage(11, 1113);
+            System.out.println(portal.getRiderAdjustedElapsedTimeInStage(12, 1113));
         }
         catch (IDNotRecognisedException ex){
             System.out.println("Rider or Stage ID not recogised (getRiderAdjustedTimeInStage)");
@@ -321,7 +330,7 @@ public class CyclingPortalInterfaceTestApp {
         }
 
         try{
-            portal.deleteRiderResultsInStage(11, 1113);
+            portal.deleteRiderResultsInStage(12, 1113);
         }
         catch (IDNotRecognisedException ex){
             System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage)");
@@ -340,7 +349,7 @@ public class CyclingPortalInterfaceTestApp {
         }
 
         try{
-            portal.getRidersRankInStage(11);
+            portal.getRidersRankInStage(12);
         }
         catch (IDNotRecognisedException ex){
             System.out.println("StageID not recognised (getRidersRankInStage)");
@@ -377,12 +386,12 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("Stage ID not recognised (getRidersPointsInStage) EXPECTED A FAILURE OK (bad StageID)");
         }
-        try{
-            portal.getRidersMountainPointsInStage(11);
-        }
-        catch (IDNotRecognisedException ex){ // method not programmed yet
-            System.out.println("Stage ID not recognised (getRidersMountainPointsInStage)");
-        }
+        // try{
+        //     portal.getRidersMountainPointsInStage(11);
+        // }
+        // catch (IDNotRecognisedException ex){ // method not programmed yet
+        //     System.out.println("Stage ID not recognised (getRidersMountainPointsInStage)");
+        // }
         try{
             portal.saveCyclingPortal("testSavePortal");
         }
@@ -408,5 +417,7 @@ public class CyclingPortalInterfaceTestApp {
         catch (NameNotRecognisedException ex){
             System.out.println("Name of race does not exist - unexpected error (removeRaceByName)");
         }
-    }
-}
+        }
+	}
+
+

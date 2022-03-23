@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 // creation of Race class
 /**
- * class Race for use in CyclingPortal.java
+ * class Race for use in CyclingPortal.java and other project files
  * holds all relevant information and data for races
  * @author Laurie Harbord and Kai Barber
  * @version 1.0
@@ -23,21 +23,21 @@ public class Race implements Serializable {
 
     /**
      * Method to obtain raceID for a given race
-     * @return the raceID of the current race
+     * @return the int raceID of the current race
      */
     public int getRaceID(){
         return raceID;
     }
     /**
      * Method to obtain raceName for a given race
-     * @return the raceName of the current race
+     * @return the String raceName of the current race
      */
     public String getRaceName() {
         return raceName;
     }
     /**
      * Method to obtain raceDescription for a given race
-     * @return the raceDescription of the current race
+     * @return the String raceDescription of the current race
      */
     public String getRaceDescription(){
         return raceDescription;

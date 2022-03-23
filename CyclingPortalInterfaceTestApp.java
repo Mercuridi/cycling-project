@@ -171,8 +171,8 @@ public class CyclingPortalInterfaceTestApp {
         
         //test adding segments to stages
         try{
-            portal.addCategorizedClimbToStage(12, 3.0, SegmentType.C1, 15.0, 2.0);
-            portal.addIntermediateSprintToStage(12, 4.0);
+            //portal.addCategorizedClimbToStage(12, 3.0, SegmentType.C1, 15.0, 2.0);
+            portal.addIntermediateSprintToStage(12, 2.0);
         }
         catch(IDNotRecognisedException ex){
             System.out.println("That stage don't exist bruv");
@@ -194,22 +194,22 @@ public class CyclingPortalInterfaceTestApp {
             System.out.println("that stage doesn't exist dumbass");
         }
         // test removal of specific segments
-        try{
-            portal.removeSegment(1112);
-        }
-        catch(IDNotRecognisedException ex){
-            System.out.println("that segment doesn't exist dumbass");
-        }
-        catch(InvalidStageStateException ex){
-            System.out.println("That stage is concluded forehead");
-        }
+        // try{
+        //     portal.removeSegment(1112);
+        // }
+        // catch(IDNotRecognisedException ex){
+        //     System.out.println("that segment doesn't exist dumbass");
+        // }
+        // catch(InvalidStageStateException ex){
+        //     System.out.println("That stage is concluded forehead");
+        // }
         // verify last test was successful
-        try{
-            System.out.println("Segments in stage after deletion:" + portal.getStageSegments(12).length);
-        }
-        catch(IDNotRecognisedException ex){
-            System.out.println("that stage doesn't exist dumbass");
-        }
+        // try{
+        //     System.out.println("Segments in stage after deletion:" + portal.getStageSegments(12).length);
+        // }
+        // catch(IDNotRecognisedException ex){
+        //     System.out.println("that stage doesn't exist dumbass");
+        // }
         // test stage prep state
         try{
             portal.concludeStagePreparation(12);
@@ -308,10 +308,10 @@ public class CyclingPortalInterfaceTestApp {
             LocalTime[] checkpointArray2;
             LocalTime[] checkpointArray3;
             LocalTime[] checkpointArray4;
-            checkpointArray1 = new LocalTime[]{LocalTime.of(00, 12, 41), LocalTime.of(00, 16, 42), LocalTime.of(01, 01, 12)};
-            checkpointArray2 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(01, 01, 13)};
-            checkpointArray3 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(01, 01, 14)};
-            checkpointArray4 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(01, 01, 11)};
+            checkpointArray1 = new LocalTime[]{LocalTime.of(00, 12, 41), LocalTime.of(00, 16, 42), LocalTime.of(00, 30, 0), LocalTime.of(01, 01, 12)};
+            checkpointArray2 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(00, 35, 0), LocalTime.of(01, 01, 13)};
+            checkpointArray3 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(00, 40, 0), LocalTime.of(01, 01, 14)};
+            checkpointArray4 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(00, 45, 0), LocalTime.of(01, 01, 11)};
             portal.registerRiderResultsInStage(12, 1112, checkpointArray1);
             portal.registerRiderResultsInStage(12, 1114, checkpointArray3);
             portal.registerRiderResultsInStage(12, 1113, checkpointArray2);
@@ -379,24 +379,24 @@ public class CyclingPortalInterfaceTestApp {
         // catch (IDNotRecognisedException ex){
         //     System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage)");
         // }
-        try{
-            portal.removeRider(1112);
-        }
-        catch(IDNotRecognisedException ex){
-           System.out.println("ID not recognised you pillock");
-        }
-        try{
-            portal.deleteRiderResultsInStage(0, 1113);
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad RaceID)");
-        }
-        try{
-            portal.deleteRiderResultsInStage(11, 0);
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad StageID)");
-        }
+        // try{
+        //     portal.removeRider(1112);
+        // }
+        // catch(IDNotRecognisedException ex){
+        //    System.out.println("ID not recognised you pillock");
+        // }
+        // try{
+        //     portal.deleteRiderResultsInStage(0, 1113);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad RaceID)");
+        // }
+        // try{
+        //     portal.deleteRiderResultsInStage(11, 0);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad StageID)");
+        // }
         // try{
         //     portal.deleteRiderResultsInStage(0, 1113);
         // }
@@ -441,6 +441,7 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("StageID not recognised (getRankedAdjustedElapsedTimesInStage)");
         }
+
         // try{
         //     portal.getRankedAdjustedElapsedTimesInStage(0);
         // }
@@ -449,7 +450,7 @@ public class CyclingPortalInterfaceTestApp {
         // }
 
         // try{
-        //     portal.getRidersPointsInStage(11);
+        //     portal.getRidersPointsInStage(12);
         // }
         // catch (IDNotRecognisedException ex){
         //     System.out.println("Stage ID not recognised (getRidersPointsInStage)");
@@ -466,15 +467,20 @@ public class CyclingPortalInterfaceTestApp {
 
 
         // same test again with bad data (expecting error)
-        try{
-            portal.getRankedAdjustedElapsedTimesInStage(0);
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("StageID not recognised (getRankedAdjustedElapsedTimesInStage) EXPECTED A FAILURE OK (bad StageID)");
-        }
+        // try{
+        //     portal.getRankedAdjustedElapsedTimesInStage(0);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("StageID not recognised (getRankedAdjustedElapsedTimesInStage) EXPECTED A FAILURE OK (bad StageID)");
+        // }
         // test points being retrieved per rider properly
         try{
-            portal.getRidersPointsInStage(12);
+            System.out.println("Look here!");
+            System.out.println(portal.getStageSegments(12).length);
+            int[] pointArray = portal.getRidersPointsInStage(12);
+            for (int j:pointArray){
+                System.out.println(j);
+            }
         }
         catch (IDNotRecognisedException ex){
             System.out.println("Stage ID not recognised (getRidersPointsInStage)");

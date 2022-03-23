@@ -19,6 +19,8 @@ import java.time.Duration;
  *
  */
 
+//TODO add some assertions grrr
+
  // class implements all relevant methods
 public class CyclingPortal implements CyclingPortalInterface {
 	// setup for all the main objects we use:
@@ -93,7 +95,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		outputArray[1] = -1;
 		return outputArray;
 	}
-	//TODO finish up with exception catches after searchs and locations - these can all be removed!!
 	public int[] findStage(int stageID) { //complete!
 		int raceCount = 0;
 		int[] output;
@@ -863,32 +864,26 @@ public class CyclingPortal implements CyclingPortalInterface {
 
 	@Override
 	public LocalTime[] getGeneralClassificationTimesInRace(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public int[] getRidersPointsInRace(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public int[] getRidersMountainPointsInRace(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public int[] getRidersGeneralClassificationRank(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public int[] getRidersPointClassificationRank(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public int[] getRidersMountainPointClassificationRank(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

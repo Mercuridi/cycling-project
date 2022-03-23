@@ -1,5 +1,4 @@
 package cycling;
-import java.util.ArrayList;
 import java.io.Serializable;
 public class Segment implements Serializable{
     private static int nextSegmentID = 1111;
@@ -70,8 +69,6 @@ public void setSegmentLocation(double segmentLocation){
 public void setAverageGradient(double averageGradient){
     this.averageGradient = averageGradient;
 }
-
-//TODO add/remove results
 
 public Segment(int stageId, Double location, SegmentType type, Double averageGradient, Double length) {
     this.segmentID = ++nextSegmentID;

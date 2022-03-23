@@ -1,8 +1,10 @@
 package cycling;
 
+// imports for Race class
 import java.io.Serializable;
 import java.util.ArrayList;
 
+// creation of Race class
 public class Race implements Serializable {
     private static int nextRaceID = 11;
     private int raceID;

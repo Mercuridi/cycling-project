@@ -64,8 +64,8 @@ public class Race implements Serializable {
         return raceLength;
     }
     /**
-     * Method to obtain the nextRaceID in relation to the given race
-     * @return int "nextRaceID" in relation to the current race
+     * Method to obtain the next RaceID in relation to the given race
+     * @return the int "nextRaceID" in relation to the current race
      */
     public int getNextRaceID(){
         return nextRaceID;
@@ -78,7 +78,7 @@ public class Race implements Serializable {
         this.ridersInRace.add(newRider);
     }
     /**
-     * Method to remove a rider from a race's list of riders, found vie riderID
+     * Method to remove a rider from a race's list of riders, found via riderID
      * @param targetRiderID the riderID of the rider to be removed from the race
      */
     public void removeRiderFromRace(int targetRiderID){

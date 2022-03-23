@@ -51,7 +51,7 @@ public class CyclingPortal implements CyclingPortalInterface {
                 searchCount += 1;
             }
         }
-		return -1; //0 is a rouge value
+		return -1; //-1 is a rouge value
 	}
 	public int locateRace(int raceID) throws IDNotRecognisedException { //complete!
 		int searchCount = 0;
@@ -195,7 +195,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		// }
 		return outputArray;
 		}
-
 	public int gatherSprintPoints(int stageID){
 		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageID);
 		int[] indexArray = findStage(stageID);
@@ -211,13 +210,73 @@ public class CyclingPortal implements CyclingPortalInterface {
 				int[] pointsArray;
 				pointsArray = new int[]{20,17,15,13,11,10,9,8,7,6,5,4,3,2,1};
 				int count = 0;
-				while (count <= sortedResults.length){
-					sortedResults[count].addToMountainPoints(pointsArray[count]);
+				while ((count <= sortedResults.length - 1) & (count != 15)){
+					sortedResults[count].addToSprintPoints(pointsArray[count]);
+					System.out.print(pointsArray[count] + " sprint points given to " + sortedResults[count].getRiderID() + "\n");
 					++count;
 				}
-				
+				int replaceCount = 0;
+				for (RiderStageResult z:sortedResults){
+					if (RiderStageResults.get(replaceCount).getResultID() == z.getResultID()){
+						RiderStageResults.remove(replaceCount);
+						RiderStageResults.add(z);
+					}
+					++replaceCount;
+				}
 			}
 
+		}
+		return 0;
+			
+	}
+	public int gatherMountainPoints(int stageID){
+		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageID);
+		int[] indexArray = findStage(stageID);
+		if (Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments().size() == 0){
+			//no segments present = no extra mountain points
+			return 0;
+		}
+		int segmentIndex = 0;
+		for (Segment x:Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments()){
+			segmentIndex = 2*segmentIndex + 2;
+			if (x.getSegmentType() != SegmentType.SPRINT){
+				RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, segmentIndex);
+				int[] pointsArray;
+				switch (x.getSegmentType()){
+					case C1:
+						pointsArray = new int[]{1};
+						break;
+					case C2:
+						pointsArray = new int[]{2, 1};
+						break;
+					case C3:
+						pointsArray = new int[]{5, 3, 2, 1};
+						break;
+					case C4:
+						pointsArray = new int[]{10, 8, 6, 4, 2, 1};
+						break;
+					case HC:
+						pointsArray = new int[]{20, 15, 12, 10, 8, 6, 4, 2};
+					break;
+					default:
+						pointsArray = new int[1];
+						//this should never be called!
+				}
+				int count = 0;
+				while ((count <= sortedResults.length - 1) & (count != 15)){
+					sortedResults[count].addToMountainPoints(pointsArray[count]);
+					System.out.print(pointsArray[count] + " mountain points given to " + sortedResults[count].getRiderID() + "\n");
+					++count;
+				}
+				int replaceCount = 0;
+				for (RiderStageResult z:sortedResults){
+					if (RiderStageResults.get(replaceCount).getResultID() == z.getResultID()){
+						RiderStageResults.remove(replaceCount);
+						RiderStageResults.add(z);
+					}
+					++replaceCount;
+				}
+			}
 		}
 		return 0;
 			
@@ -642,9 +701,14 @@ public class CyclingPortal implements CyclingPortalInterface {
 		return outputRanks;
 	}
 	@Override
-	public int[] getRidersPointsInStage(int stageId) throws IDNotRecognisedException { //TODO not finished! Segment sprint points need to be considered within rankings
-		int[] riderRankArray = getRidersRankInStage(stageId);
+	public int[] getRidersPointsInStage(int stageId) throws IDNotRecognisedException { //TODO not QUITE finished! test with 16 riders :)
 		int stageLocation[] = findStage(stageId);
+		if (stageLocation[0] == -1){
+			throw new IDNotRecognisedException();
+		}
+		gatherSprintPoints(stageId);
+		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageId);
+		RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, -1);
 		StageType stageType = Races.get(stageLocation[0]).getStages().get(stageLocation[1]).getStageType();
 		int[] pointArray;
 		int[] outputArray;
@@ -665,89 +729,45 @@ public class CyclingPortal implements CyclingPortalInterface {
 				pointArray = new int[1];
 				//this should never be called!
 		}
-		int ridersToAllocate = riderRankArray.length;
-		if (ridersToAllocate > 15){
-			outputArray = new int[ridersToAllocate];
-			int count = 15;
-			while (count <= ridersToAllocate - 1){ //TODO really test this!!
-				outputArray[count] = 0;
-				++count;
-			} 
-			return outputArray;
+		int ridersToAllocate = sortedResults.length;
+		outputArray = new int[ridersToAllocate];
+		int count = 0; 
+		while ((count != 15) & (count <= ridersToAllocate - 1)){
+			outputArray[count] = pointArray[count] + sortedResults[count].getSprintPoints();
+			++count;
 		}
-		else if (ridersToAllocate == 15){
-			return pointArray;
+		if (count == 15){
+			while (count <= ridersToAllocate - 1){ 
+					outputArray[count] = 0 + sortedResults[count].getSprintPoints();
+					++count;
+				}
 		}
-		else{
-			outputArray = new int[ridersToAllocate];
-			int count = 0;
-			while (count < ridersToAllocate-1){
-				outputArray[count] = pointArray[count];
-				++count;
-			}
-		}
-		return outputArray;
+		return outputArray;	
 	}
 	@Override
 	public int[] getRidersMountainPointsInStage(int stageId) throws IDNotRecognisedException { //not coded yet, probs should
-		int [] indexArray = findStage(stageId);
-		ArrayList<Integer> segmentIndexArray; //each entry in this array equates to a mountain segment, 
-		//with the value set as its index within a list of checkpoints
-		segmentIndexArray = new ArrayList<Integer>();
-		boolean noMountainPoints = false;
-		if (indexArray[0] == -1){
+		int stageLocation[] = findStage(stageId);
+		if (stageLocation[0] == -1){
 			throw new IDNotRecognisedException();
 		}
-		if (Races.get(indexArray[0]).getStages().get(indexArray[1]).getStageType() == StageType.TT){
-			noMountainPoints = true;
+		gatherMountainPoints(stageId);
+		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageId);
+		RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, -1);
+		int[] outputArray;
+		int ridersToAllocate = sortedResults.length;
+		outputArray = new int[ridersToAllocate];
+		int count = 0; 
+		while ((count != 15) & (count <= ridersToAllocate - 1)){
+			outputArray[count] = sortedResults[count].getMountainPoints();
+			++count;
 		}
-		else{
-			int count = 0;
-			ArrayList<Segment> relevantSegments = Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments();
-			for (Segment x:relevantSegments){
-				if (x.getSegmentType() != SegmentType.SPRINT){
-					segmentIndexArray.add(2*count + 2);
+		if (count == 15){
+			while (count <= ridersToAllocate - 1){ 
+					outputArray[count] = 0 + sortedResults[count].getMountainPoints();
 					++count;
 				}
-			}
-			if (segmentIndexArray.size() == 0){
-				noMountainPoints = true;
-			}
 		}
-		if (noMountainPoints == true){
-			//create an array of zeros equal in size to the amount of riders in the race
-		}
-		else{
-			int count = 0;
-			//checkpointIndex must equal to the finishing time of the stage
-			ArrayList<RiderStageResult> relevantStageResults = retrieveResultsForStage(stageId);
-			for (int x:segmentIndexArray){ //iterates through every segment that involves mountain points
-				SegmentType currentSegmentType = Races.get(indexArray[0]).getStages().
-				get(indexArray[1]).getSegments().get((segmentIndexArray.get(count)-2)/2).getSegmentType();
-				if (currentSegmentType == SegmentType.C4){ 
-					int shortestTimeIndex = 0;
-					int currentRiderResultIndex = 0;
-					LocalTime localMinTime = LocalTime.of(0, 0, 0);
-					for (RiderStageResult y:relevantStageResults){
-						if (y.getCheckpoints()[segmentIndexArray.get(count)].compareTo(localMinTime) == -1){
-							localMinTime = y.getCheckpoints()[segmentIndexArray.get(count)];
-							shortestTimeIndex = currentRiderResultIndex;
-						}
-						++currentRiderResultIndex;
-					}
-					relevantStageResults.get(shortestTimeIndex).addToMountainPoints(1);
-				}
-				if (currentSegmentType == SegmentType.C3){ 
-				}
-				if (currentSegmentType == SegmentType.C2){ 
-				}
-				if (currentSegmentType == SegmentType.C1){ 
-				}
-				if (currentSegmentType == SegmentType.HC){
-				}
-		}
-		}
-		return null;
+		return outputArray;	
 	}
 	@Override
 	public void eraseCyclingPortal() { //complete!

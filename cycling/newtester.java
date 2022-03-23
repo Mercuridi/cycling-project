@@ -7,7 +7,6 @@ public class newtester {
         // add random sample data to the arrays to use for testing
         ArrayList<cycling.Team> Teams = new ArrayList<Team>();
         ArrayList<cycling.Race> Races = new ArrayList<Race>();
-        ArrayList<cycling.RiderStageResult> RiderStageResults = new ArrayList<RiderStageResult>();
 
         Team WildPlanets = new Team("Wild Planets", "This is a sample description for the team Wild Planets.");
         Teams.add(1, WildPlanets);

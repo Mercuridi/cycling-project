@@ -1,7 +1,6 @@
 import cycling.CyclingPortalInterface;
 import cycling.CyclingPortal;
 import cycling.*;
-import java.util.ArrayList;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -171,7 +170,7 @@ public class CyclingPortalInterfaceTestApp {
         
         //test adding segments to stages
         try{
-            //portal.addCategorizedClimbToStage(12, 3.0, SegmentType.C1, 15.0, 2.0);
+            portal.addCategorizedClimbToStage(12, 3.0, SegmentType.HC, 15.0, 2.0);
             portal.addIntermediateSprintToStage(12, 2.0);
         }
         catch(IDNotRecognisedException ex){
@@ -308,10 +307,10 @@ public class CyclingPortalInterfaceTestApp {
             LocalTime[] checkpointArray2;
             LocalTime[] checkpointArray3;
             LocalTime[] checkpointArray4;
-            checkpointArray1 = new LocalTime[]{LocalTime.of(00, 12, 41), LocalTime.of(00, 16, 42), LocalTime.of(00, 30, 0), LocalTime.of(01, 01, 12)};
-            checkpointArray2 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(00, 35, 0), LocalTime.of(01, 01, 13)};
-            checkpointArray3 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(00, 40, 0), LocalTime.of(01, 01, 14)};
-            checkpointArray4 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(00, 45, 0), LocalTime.of(01, 01, 11)};
+            checkpointArray1 = new LocalTime[]{LocalTime.of(00, 12, 41), LocalTime.of(00, 12, 42), LocalTime.of(00, 13, 00), LocalTime.of(00, 16, 42), LocalTime.of(00, 30, 0), LocalTime.of(01, 01, 12)};
+            checkpointArray2 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 12, 42), LocalTime.of(00, 14, 00), LocalTime.of(00, 14, 42), LocalTime.of(00, 35, 0), LocalTime.of(01, 01, 13)};
+            checkpointArray3 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 12, 42), LocalTime.of(00, 15, 00), LocalTime.of(00, 20, 42), LocalTime.of(00, 40, 0), LocalTime.of(01, 01, 14)};
+            checkpointArray4 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 12, 42), LocalTime.of(00, 16, 00), LocalTime.of(00, 21, 42), LocalTime.of(00, 45, 0), LocalTime.of(01, 01, 11)};
             portal.registerRiderResultsInStage(12, 1112, checkpointArray1);
             portal.registerRiderResultsInStage(12, 1114, checkpointArray3);
             portal.registerRiderResultsInStage(12, 1113, checkpointArray2);
@@ -475,7 +474,6 @@ public class CyclingPortalInterfaceTestApp {
         // }
         // test points being retrieved per rider properly
         try{
-            System.out.println("Look here!");
             System.out.println(portal.getStageSegments(12).length);
             int[] pointArray = portal.getRidersPointsInStage(12);
             for (int j:pointArray){
@@ -492,12 +490,16 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("Stage ID not recognised (getRidersPointsInStage) EXPECTED A FAILURE OK (bad StageID)");
         }
-        // try{
-        //     portal.getRidersMountainPointsInStage(11);
-        // }
-        // catch (IDNotRecognisedException ex){ // method not programmed yet
-        //     System.out.println("Stage ID not recognised (getRidersMountainPointsInStage)");
-        // }
+        try{
+            System.out.println("Look here!");
+            int[] pointArray = portal.getRidersMountainPointsInStage(12);
+            for (int j:pointArray){
+                System.out.println(j);
+            }
+        }
+        catch (IDNotRecognisedException ex){ // method not programmed yet
+            System.out.println("Stage ID not recognised (getRidersMountainPointsInStage)");
+        }
 
         // test saving and loading the portal
         try{

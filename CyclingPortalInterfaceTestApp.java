@@ -1,7 +1,6 @@
 import cycling.CyclingPortalInterface;
 import cycling.CyclingPortal;
 import cycling.*;
-import java.util.ArrayList;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;

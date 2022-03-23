@@ -1,5 +1,6 @@
 package cycling;
 
+// all imports for the package
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,12 +18,25 @@ import java.time.Duration;
  * @version 1.0
  *
  */
+
+ // class implements all relevant methods
 public class CyclingPortal implements CyclingPortalInterface {
+	// setup for all the main objects we use:
+	// Teams contains all Riders
+	// Races contains all Races, and by extension all Stages, Segments, and point allocations
+	// RiderStageResults is used in conjunction with both to allocate correct points to each 
+	// rider in correspondence with their placement in each race segment/stage
 	public ArrayList<Team> Teams = new ArrayList<Team>();
 	public ArrayList<Race> Races = new ArrayList<Race>();
 	public ArrayList<RiderStageResult> RiderStageResults = new ArrayList<RiderStageResult>();
 
 	//our own methods!!!
+	/**
+	 * 
+	 * @param teamID the ID of the team to be located
+	 * @return returns the index of the requested TeamID's team in the array of teams "Teams"
+	 * @throws IDNotRecognisedException if the ID is not recognised as any ID in the system
+	 */
 	public int locateTeam(int teamID) throws IDNotRecognisedException { //complete!
 		int searchCount = 0;
 		Team currentTeam;

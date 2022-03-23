@@ -126,9 +126,10 @@ public class CyclingPortal implements CyclingPortalInterface {
 	public RiderStageResult[] sortStageResultsByTime(ArrayList<RiderStageResult> unsortedArray, int checkpointIndex){
 		RiderStageResult[] outputArray;
 		outputArray = new RiderStageResult[unsortedArray.size()];
-		boolean inserted = false;
 		for (RiderStageResult x:unsortedArray){
+			boolean inserted = false;
 			int internalCount = 0;
+			System.out.println("Current inspected element: " + outputArray[internalCount]);
 			while (inserted == false){
 				if (outputArray[internalCount] == null){
 					outputArray[internalCount] = x;
@@ -136,24 +137,27 @@ public class CyclingPortal implements CyclingPortalInterface {
 				}
 				else {
 					LocalTime insertTime;
-					if (checkpointIndex == -1){
-					try{
-						insertTime = getRiderAdjustedElapsedTimeInStage(x.getStageID(), x.getRiderID());
+					if (checkpointIndex == -1){ //uses the input checkpointIndex int to determine whether the results will be sorted 
+						//by their final result, or by another one.
+						try{
+							insertTime = getRiderAdjustedElapsedTimeInStage(x.getStageID(), x.getRiderID());
+						}
+						catch (IDNotRecognisedException ex){
+							return null;
+						}
 					}
-					catch (IDNotRecognisedException ex){
-						return null;
-					}
-				}
 					else{
-					insertTime = x.getCheckpoints()[checkpointIndex];
+						insertTime = x.getCheckpoints()[checkpointIndex];
 					}
 					int compareValue = 2; //can't be processed
 					try{
+						//still not quite finished... this needs to consider for instances where checkpointIndex isn't -1. should be easy tho.
 						compareValue = insertTime.compareTo(getRiderAdjustedElapsedTimeInStage(outputArray[internalCount].getStageID(), outputArray[internalCount].getRiderID()));
-						if (compareValue==0 || compareValue==1){ //in the case that the current time is above/equal to the current value in the array
-							continue;
+						if (compareValue==0 || compareValue==1){ //in the case that the current time is below/equal to the current value in the array
+							System.out.println("current index is lower than the inserting value");
 						}
-						else{ //in the case that the current time is above the current value in the array 
+						else{ //in the case that the current time is above the current value in the array
+							System.out.println("current index is higher than the inserting value - insert begins!"); 
 							int pushCount = unsortedArray.size() - 1;
 							while (pushCount >= internalCount){
 								if ((outputArray[pushCount] != null) & (pushCount != unsortedArray.size() - 1)){
@@ -169,9 +173,13 @@ public class CyclingPortal implements CyclingPortalInterface {
 					catch(IDNotRecognisedException ex){
 						return null;
 					}
-				}
-			++internalCount;
+					}
+				++internalCount;
 			}
+		}
+		System.out.println("Returning Array:");
+		for (RiderStageResult z:outputArray){
+			System.out.println(z);
 		}
 		return outputArray;
 		}
@@ -572,9 +580,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		int [] outputRanks;
 		outputRanks = new int[relevantStageResults.size()];
 		int count = 0; 
-		System.out.println(sortedResultArray[0].getRiderID());
-		System.out.println(sortedResultArray[1].getRiderID());
-		System.out.println(sortedResultArray[2].getRiderID());
 		for (RiderStageResult x:sortedResultArray){
 			outputRanks[count] = x.getRiderID();
 			++count;

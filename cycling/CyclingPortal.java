@@ -182,6 +182,32 @@ public class CyclingPortal implements CyclingPortalInterface {
 		return outputArray;
 		}
 
+	public int gatherSprintPoints(int stageID){
+		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageID);
+		int[] indexArray = findStage(stageID);
+		if (Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments().size() == 0){
+			//no segments present = no extra sprint points
+			return 0;
+		}
+		int segmentIndex = 0;
+		for (Segment x:Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments()){
+			segmentIndex = 2*segmentIndex + 2;
+			if (x.getSegmentType() == SegmentType.SPRINT){
+				RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, segmentIndex);
+				int[] pointsArray;
+				pointsArray = new int[]{20,17,15,13,11,10,9,8,7,6,5,4,3,2,1};
+				int count = 0;
+				while (count <= sortedResults.length){
+					sortedResults[count].addToMountainPoints(pointsArray[count]);
+					++count;
+				}
+				
+			}
+
+		}
+		return 0;
+			
+	}
 	//end of our own methods
 	@Override
 	public int[] getRaceIds() { //complete!
@@ -702,6 +728,8 @@ public class CyclingPortal implements CyclingPortalInterface {
 				if (currentSegmentType == SegmentType.C2){ 
 				}
 				if (currentSegmentType == SegmentType.C1){ 
+				}
+				if (currentSegmentType == SegmentType.HC){
 				}
 		}
 		}

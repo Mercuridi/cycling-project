@@ -129,7 +129,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 		for (RiderStageResult x:unsortedArray){
 			boolean inserted = false;
 			int internalCount = 0;
-			System.out.println("Current inspected element: " + outputArray[internalCount]);
 			while (inserted == false){
 				if (outputArray[internalCount] == null){
 					outputArray[internalCount] = x;
@@ -152,12 +151,11 @@ public class CyclingPortal implements CyclingPortalInterface {
 					int compareValue = 2; //can't be processed
 					try{
 						//still not quite finished... this needs to consider for instances where checkpointIndex isn't -1. should be easy tho.
-						compareValue = insertTime.compareTo(getRiderAdjustedElapsedTimeInStage(outputArray[internalCount].getStageID(), outputArray[internalCount].getRiderID()));
-						if (compareValue==0 || compareValue==1){ //in the case that the current time is below/equal to the current value in the array
-							System.out.println("current index is lower than the inserting value");
-						}
-						else{ //in the case that the current time is above the current value in the array
-							System.out.println("current index is higher than the inserting value - insert begins!"); 
+						if (checkpointIndex == -1)
+							compareValue = insertTime.compareTo(getRiderAdjustedElapsedTimeInStage(outputArray[internalCount].getStageID(), outputArray[internalCount].getRiderID()));
+						else
+							compareValue = insertTime.compareTo(outputArray[internalCount].getCheckpoints()[checkpointIndex]);
+						if (compareValue==-1){ //in the case that the current time is below the current value in the array
 							int pushCount = unsortedArray.size() - 1;
 							while (pushCount >= internalCount){
 								if ((outputArray[pushCount] != null) & (pushCount != unsortedArray.size() - 1)){
@@ -177,10 +175,10 @@ public class CyclingPortal implements CyclingPortalInterface {
 				++internalCount;
 			}
 		}
-		System.out.println("Returning Array:");
-		for (RiderStageResult z:outputArray){
-			System.out.println(z);
-		}
+		// System.out.println("Returning Array:");
+		// for (RiderStageResult z:outputArray){
+		// 	System.out.println(z.getRiderID());
+		// }
 		return outputArray;
 		}
 
@@ -502,18 +500,18 @@ public class CyclingPortal implements CyclingPortalInterface {
 			}
         }
 	@Override
-	public void removeRider(int riderId) throws IDNotRecognisedException { //NOT COMPLETE! Results will need to be removed :)
+	public void removeRider(int riderId) throws IDNotRecognisedException { //complete!
 		int[] indexArray = locateRider(riderId);
 		if (indexArray[0] == -1)
-			throw new IDNotRecognisedException();		
-		Teams.get(indexArray[0]).removeRider(indexArray[1]);
-		int count = 0;
+			throw new IDNotRecognisedException();
+		ArrayList<RiderStageResult>	tempList = new ArrayList<RiderStageResult>();
 		for (RiderStageResult x:RiderStageResults){
-			if (x.getRiderID() == riderId){
-				RiderStageResults.remove(count);
+			if (x.getRiderID() != riderId){
+				tempList.add(x);
 			}
-			++count;
 		}
+		RiderStageResults = tempList;
+		Teams.get(indexArray[0]).removeRider(indexArray[1]);
 	}
 	@Override
 	public void registerRiderResultsInStage(int stageId, int riderId, LocalTime... checkpoints) //complete!
@@ -564,7 +562,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		return adjustTime;
 	}
 	@Override
-	public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
+	public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException { //complete!
 		int targetIndex = locateRiderStageResult(stageId, riderId);
 		if (targetIndex == -1)
 			throw new IDNotRecognisedException();
@@ -572,7 +570,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 			RiderStageResults.remove(targetIndex);
 	}
 	@Override
-	public int[] getRidersRankInStage(int stageId) throws IDNotRecognisedException { //NOT COMPLETE! Needs to use adjusted times!!!
+	public int[] getRidersRankInStage(int stageId) throws IDNotRecognisedException { //complete!
 		ArrayList<RiderStageResult> relevantStageResults = retrieveResultsForStage(stageId);
 		RiderStageResult[] sortedResultArray = sortStageResultsByTime(relevantStageResults, -1);
 		if (sortedResultArray == null)
@@ -587,14 +585,18 @@ public class CyclingPortal implements CyclingPortalInterface {
 		return outputRanks;
 	}
 	@Override
-	public LocalTime[] getRankedAdjustedElapsedTimesInStage(int stageId) throws IDNotRecognisedException {
+	public LocalTime[] getRankedAdjustedElapsedTimesInStage(int stageId) throws IDNotRecognisedException { //complete!
 		ArrayList<RiderStageResult> relevantStageResults = retrieveResultsForStage(stageId);
+		System.out.println(relevantStageResults.size());
 		RiderStageResult[] sortedResultArray = sortStageResultsByTime(relevantStageResults, -1);
+		if (sortedResultArray == null){
+			throw new IDNotRecognisedException();
+		}
 		LocalTime [] outputRanks;
 		outputRanks = new LocalTime[relevantStageResults.size()];
 		int count = 0; 
 		for (RiderStageResult x:sortedResultArray){
-			outputRanks[count] = x.getElapsedTime();
+			outputRanks[count] = getRiderAdjustedElapsedTimeInStage(x.getStageID(), x.getRiderID());
 			++count;
 		}
 		return outputRanks;

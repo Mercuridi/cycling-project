@@ -134,7 +134,7 @@ public class CyclingPortalInterfaceTestApp {
         //     System.out.println(portal.getStageLength(12));
         // }
         // catch (IDNotRecognisedException ex){
-        //     System.out.println("that race doesn't exist dumbass");
+        //     System.out.println("that stage doesn't exist dumbass");
         // }
         // try{
         //     System.out.println(portal.getRaceStages(12).length);
@@ -338,57 +338,69 @@ public class CyclingPortalInterfaceTestApp {
         // catch (IDNotRecognisedException ex){
         //     System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage)");
         // }
-        // try{
-        //     portal.deleteRiderResultsInStage(0, 1113);
-        // }
-        // catch (IDNotRecognisedException ex){
-        //     System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad RaceID)");
-        // }
-        // try{
-        //     portal.deleteRiderResultsInStage(11, 0);
-        // }
-        // catch (IDNotRecognisedException ex){
-        //     System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad StageID)");
-        // }
+        try{
+            portal.removeRider(1112);
+        }
+        catch(IDNotRecognisedException ex){
+           System.out.println("ID not recognised you pillock");
+        }
+        try{
+            portal.deleteRiderResultsInStage(0, 1113);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad RaceID)");
+        }
+        try{
+            portal.deleteRiderResultsInStage(11, 0);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad StageID)");
+        }
         try{
             portal.getRidersRankInStage(12);
-            System.out.println("holy shit did that work?");
         }
         catch (IDNotRecognisedException ex){
             System.out.println("StageID not recognised (getRidersRankInStage)");
         }
+        // try{
+        //     portal.getRidersRankInStage(0);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("StageID not recognised (getRidersRankInStage) EXPECTED A FAILURE OK (bad StageID)");
+        // }
         try{
-            portal.getRidersRankInStage(0);
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("StageID not recognised (getRidersRankInStage) EXPECTED A FAILURE OK (bad StageID)");
-        }
-
-        try{
-            portal.getRankedAdjustedElapsedTimesInStage(11);
+            LocalTime[] cheeky = portal.getRankedAdjustedElapsedTimesInStage(12);
+            for (LocalTime x:cheeky){
+                System.out.println(x);
+            }
         }
         catch (IDNotRecognisedException ex){
             System.out.println("StageID not recognised (getRankedAdjustedElapsedTimesInStage)");
         }
-        try{
-            portal.getRankedAdjustedElapsedTimesInStage(0);
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("StageID not recognised (getRankedAdjustedElapsedTimesInStage) EXPECTED A FAILURE OK (bad StageID)");
-        }
+        // try{
+        //     portal.getRankedAdjustedElapsedTimesInStage(0);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("StageID not recognised (getRankedAdjustedElapsedTimesInStage) EXPECTED A FAILURE OK (bad StageID)");
+        // }
 
-        try{
-            portal.getRidersPointsInStage(11);
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("Stage ID not recognised (getRidersPointsInStage)");
-        }
-        try{
-            portal.getRidersPointsInStage(0);
-        }
-        catch (IDNotRecognisedException ex){
-            System.out.println("Stage ID not recognised (getRidersPointsInStage) EXPECTED A FAILURE OK (bad StageID)");
-        }
+        // try{
+        //     portal.getRidersPointsInStage(11);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("Stage ID not recognised (getRidersPointsInStage)");
+        // }
+        // try{
+        //     portal.getRidersPointsInStage(0);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("Stage ID not recognised (getRidersPointsInStage) EXPECTED A FAILURE OK (bad StageID)");
+        // }
+
+
+
+
+
         // try{
         //     portal.getRidersMountainPointsInStage(11);
         // }

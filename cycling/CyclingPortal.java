@@ -203,8 +203,10 @@ public class CyclingPortal implements CyclingPortalInterface {
 			return 0;
 		}
 		int segmentIndex = 0;
+		int segmentCount = 0;
+		System.out.println("What the hell, u only got " + Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments().size() + " segments");
 		for (Segment x:Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments()){
-			segmentIndex = 2*segmentIndex + 2;
+			segmentIndex = 2*segmentCount + 2;
 			if (x.getSegmentType() == SegmentType.SPRINT){
 				RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, segmentIndex);
 				int[] pointsArray;
@@ -224,8 +226,9 @@ public class CyclingPortal implements CyclingPortalInterface {
 					++replaceCount;
 				}
 			}
-
+			++segmentCount;
 		}
+
 		return 0;
 			
 	}
@@ -237,8 +240,9 @@ public class CyclingPortal implements CyclingPortalInterface {
 			return 0;
 		}
 		int segmentIndex = 0;
+		int segmentCount = 0;
 		for (Segment x:Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments()){
-			segmentIndex = 2*segmentIndex + 2;
+			segmentIndex = 2*segmentCount + 2;
 			if (x.getSegmentType() != SegmentType.SPRINT){
 				RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, segmentIndex);
 				int[] pointsArray;
@@ -277,6 +281,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 					++replaceCount;
 				}
 			}
+			++segmentCount;
 		}
 		return 0;
 			
@@ -745,7 +750,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		return outputArray;	
 	}
 	@Override
-	public int[] getRidersMountainPointsInStage(int stageId) throws IDNotRecognisedException { //not coded yet, probs should
+	public int[] getRidersMountainPointsInStage(int stageId) throws IDNotRecognisedException { //not QuiTE FinIShed AS WEll
 		int stageLocation[] = findStage(stageId);
 		if (stageLocation[0] == -1){
 			throw new IDNotRecognisedException();

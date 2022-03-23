@@ -26,6 +26,8 @@ public class CyclingPortalInterfaceTestApp {
 	public static void main(String[] args) {
 		System.out.println("The system compiled and started the execution...");
 		CyclingPortalInterface portal = new CyclingPortal();
+        // setup for in depth team testing, teams stored in portal.
+        // also tests the methods to create the team and add riders, etc
         try{
             portal.createTeam("Wild Planets", "This is a sample description for the team Wild Planets.");
             portal.createTeam("Road Blockers", "This is a sample description for the team Road Blockers.");
@@ -44,6 +46,7 @@ public class CyclingPortalInterfaceTestApp {
         catch(IDNotRecognisedException ex){
             System.out.println("fail");
         }
+        // test methods to add riders to a team
         try{
             portal.createRider(112, "Wawa", 2003);
             portal.createRider(112, "Wewe", 2006);
@@ -53,21 +56,27 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("fail");
         }
+        // console print to find the riders in the team, can manually verify earlier createRider 
+        // methods worked as expected (also tests getTeamRiders method)
         try{
             System.out.println("Team Riders: " + portal.getTeamRiders(112)[0]);
         }
         catch (IDNotRecognisedException ex){
             System.out.println("failed to locate RiderID");
         }
+        // same kind of test, prints all RiderIDs on the same line
         try{
             System.out.println("Team Riders: " + portal.getTeamRiders(112)[0] +", " + portal.getTeamRiders(112)[1] + ", " + portal.getTeamRiders(112)[2]);
         }
         catch (IDNotRecognisedException ex){
             System.out.println("failed to locate RiderID");
         }
+        // check that the method is acting as expected (should contain no values)
         if (portal.getRaceIds() instanceof int[]){
             System.out.println("empty array worked!");
         }
+        // define racesList, create all the races for more rigorous testing
+        // also tests methods to create races
         String racesList;
         try{
             portal.createRace("CheepCheepBeach", "A temperate and sunny race along Cheep Cheep Beach.");
@@ -80,14 +89,24 @@ public class CyclingPortalInterfaceTestApp {
         catch(InvalidNameException ex){
             System.out.println("failure - name is not valid");
         }
+        // print each member of racesList to console to check that they exist
         racesList = "Races: " + portal.getRaceIds()[0] + ", " + portal.getRaceIds()[1] + ", " + portal.getRaceIds()[2];
         System.out.println(racesList); 
+        // check functionality of viewRaceDetails
         try{
             System.out.println(portal.viewRaceDetails(12));
         }
         catch (IDNotRecognisedException ex){
             System.out.println("that race doesn't exist dumbass");
         }
+        // check errors are thrown correctly for viewRaceDetails (on purpose failure)
+        try{
+            System.out.println(portal.viewRaceDetails(0));
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("that race doesn't exist dumbass");
+        }
+        // test removeRaceByID (currently broken)
         // try{
         //      portal.removeRaceById(13);
         // }
@@ -96,7 +115,11 @@ public class CyclingPortalInterfaceTestApp {
         // }
         // racesList = "Races: " + portal.getRaceIds()[0] + ", " + portal.getRaceIds()[1];
         // System.out.println(racesList);
+        
+        // create time object for use in later tests
         LocalDateTime dateTime = LocalDateTime.now();
+        // add example stages to a race for further testing of methods
+        // also tests stage creation methods
         try{
             portal.addStageToRace(12, "Test Flat Stage Innit", "It's just a stage bruh", 5.0, dateTime, StageType.FLAT);
             dateTime = LocalDateTime.now();
@@ -117,6 +140,7 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("Don't think that race exists mate");
         }
+        // TODO broken section of testing? 
         // try{
         //     System.out.println(portal.getNumberOfStages(12));
         // }
@@ -144,6 +168,8 @@ public class CyclingPortalInterfaceTestApp {
         // catch (IDNotRecognisedException ex){
         //     System.out.println("that stage doesn't exist dumbass");
         // }
+        
+        //test adding segments to stages
         try{
             portal.addCategorizedClimbToStage(12, 3.0, SegmentType.C1, 15.0, 2.0);
             portal.addIntermediateSprintToStage(12, 4.0);
@@ -159,13 +185,15 @@ public class CyclingPortalInterfaceTestApp {
         }
         catch(InvalidStageTypeException ex){
             System.out.println("That stage is a time trial, idot");
+        // test that stages were added correctly
         }
         try{
-            System.out.println(portal.getStageSegments(12).length);
+            System.out.println("Segments in stage:" + portal.getStageSegments(12).length);
         }
         catch(IDNotRecognisedException ex){
             System.out.println("that stage doesn't exist dumbass");
         }
+        // test removal of specific segments
         try{
             portal.removeSegment(1112);
         }
@@ -175,12 +203,14 @@ public class CyclingPortalInterfaceTestApp {
         catch(InvalidStageStateException ex){
             System.out.println("That stage is concluded forehead");
         }
+        // verify last test was successful
         try{
-            System.out.println(portal.getStageSegments(12).length);
+            System.out.println("Segments in stage after deletion:" + portal.getStageSegments(12).length);
         }
         catch(IDNotRecognisedException ex){
             System.out.println("that stage doesn't exist dumbass");
         }
+        // test stage prep state
         try{
             portal.concludeStagePreparation(12);
         }
@@ -190,6 +220,7 @@ public class CyclingPortalInterfaceTestApp {
         catch(InvalidStageStateException ex){
             System.out.println("that stage is already concluded you silly goose!");
         }
+        // test that the prep state is working correctly
         try{
             portal.addCategorizedClimbToStage(12, 3.0, SegmentType.C1, 15.0, 2.0);
         }
@@ -200,21 +231,24 @@ public class CyclingPortalInterfaceTestApp {
             System.out.println("That location will not fit in the stage, duh");
         }
         catch(InvalidStageStateException ex){
-            System.out.println("That stage is concluded forehead");
+            System.out.println("That stage is concluded forehead (EXPECTED ERROR OK)");
         }
         catch(InvalidStageTypeException ex){
             System.out.println("That stage is a time trial, idot");
         }
+        // test removal of entire team
         try{
             portal.removeTeam(113);
         }
         catch(IDNotRecognisedException ex){
             System.out.println("that team doesn't exist dumbass");
         }
+        // logic to check team was removed correctly
         int[] testingArray = portal.getTeams();
         for (int x:testingArray){
             System.out.println(x);
         }
+        // TODO more broken tests?
         // try{
         //     portal.removeRider(1112);
         // }
@@ -261,12 +295,14 @@ public class CyclingPortalInterfaceTestApp {
         // catch(NameNotRecognisedException ex){
         //    System.out.println("Name of said race is not recognised.");
         // }
+
+        // setup for testing checkpoints and timing data
         testingArray = portal.getRaceIds();
         System.out.println("Race IDs:");
         for (int x:testingArray){
             System.out.println(x);
         }
-
+        // add checkpoint data to stage
         try{
             LocalTime[] checkpointArray1;
             LocalTime[] checkpointArray2;
@@ -293,6 +329,7 @@ public class CyclingPortalInterfaceTestApp {
         catch (InvalidStageStateException ex){
             System.out.println("Stage state incompatible with action (registerRiderResultsInStage)");
         }
+        // test fetching rider results
         try{
             LocalTime[] outputArray = portal.getRiderResultsInStage(12, 1113);
             System.out.println(outputArray.length);
@@ -300,6 +337,7 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("Rider or Stage ID not recognised (getRiderResultsInStage)");
         }
+        // test fetching rider results with bad data on purpose (should throw expected errors)
         try{
             LocalTime[] outputArray = portal.getRiderResultsInStage(10000, 1113);
             System.out.println(outputArray.length);
@@ -313,12 +351,14 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("Rider or Stage ID not recognised (getRiderResultsInStage) EXPECTED A FAILURE OK (bad RiderID)");
         }
+        // tests for getting adjusted times
         try{
             System.out.println(portal.getRiderAdjustedElapsedTimeInStage(12, 1114));
         }
         catch (IDNotRecognisedException ex){
             System.out.println("Rider or Stage ID not recogised (getRiderAdjustedTimeInStage)");
         }
+        // test for getting adjusted times with bad data (should throw expected errors)
         try{
             portal.getRiderAdjustedElapsedTimeInStage(0, 1113);
         }
@@ -332,6 +372,7 @@ public class CyclingPortalInterfaceTestApp {
             System.out.println("Rider or Stage ID not recogised (getRiderAdjustedTimeInStage) EXPECTED A FAILURE OK (bad StageID)");
         }
         
+        // TODO more tests commented out
         // try{
         //     portal.deleteRiderResultsInStage(12, 1113);
         // }
@@ -356,11 +397,26 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad StageID)");
         }
+        // try{
+        //     portal.deleteRiderResultsInStage(0, 1113);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad RaceID)");
+        // }
+        // try{
+        //     portal.deleteRiderResultsInStage(11, 0);
+        // }
+        // catch (IDNotRecognisedException ex){
+        //     System.out.println("Rider or Stage ID not recognised (deleteRiderResultsInStage) EXPECTED A FAILURE OK (bad StageID)");
+        // }
+
+        // test for pulling rider ranks (likely failure point, difficult logic in methods)
         try{
             portal.getRidersRankInStage(12);
         }
         catch (IDNotRecognisedException ex){
             System.out.println("StageID not recognised (getRidersRankInStage)");
+        // test with bad input (expecting errors)
         }
         // try{
         //     portal.getRidersRankInStage(0);
@@ -373,6 +429,14 @@ public class CyclingPortalInterfaceTestApp {
             for (LocalTime x:cheeky){
                 System.out.println(x);
             }
+            portal.getRidersRankInStage(0);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("StageID not recognised (getRidersRankInStage) EXPECTED A FAILURE OK (bad StageID)");
+        }
+        // test getting ranked adjusted times 
+        try{
+            portal.getRankedAdjustedElapsedTimesInStage(12);
         }
         catch (IDNotRecognisedException ex){
             System.out.println("StageID not recognised (getRankedAdjustedElapsedTimesInStage)");
@@ -401,19 +465,41 @@ public class CyclingPortalInterfaceTestApp {
 
 
 
+        // same test again with bad data (expecting error)
+        try{
+            portal.getRankedAdjustedElapsedTimesInStage(0);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("StageID not recognised (getRankedAdjustedElapsedTimesInStage) EXPECTED A FAILURE OK (bad StageID)");
+        }
+        // test points being retrieved per rider properly
+        try{
+            portal.getRidersPointsInStage(12);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Stage ID not recognised (getRidersPointsInStage)");
+        }
+        // test points retrieval with bad data (expecting errors)
+        try{
+            portal.getRidersPointsInStage(0);
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Stage ID not recognised (getRidersPointsInStage) EXPECTED A FAILURE OK (bad StageID)");
+        }
         // try{
         //     portal.getRidersMountainPointsInStage(11);
         // }
         // catch (IDNotRecognisedException ex){ // method not programmed yet
         //     System.out.println("Stage ID not recognised (getRidersMountainPointsInStage)");
         // }
+
+        // test saving and loading the portal
         try{
             portal.saveCyclingPortal("testSavePortal");
         }
         catch (IOException ex){
             System.out.println("IO Error (saveCyclingPortal)");
         }
-
         try{
             portal.loadCyclingPortal("testSavePortal");
         }
@@ -423,7 +509,17 @@ public class CyclingPortalInterfaceTestApp {
         catch (ClassNotFoundException ex){
             System.out.println("Class not found - is the read data corrupt or formatted wrong? (loadCyclingPortal)");
         }
-
+        // test loading portal with name that doesn't exist (expecting error)
+        try{
+            portal.loadCyclingPortal("INVALIDNAME");
+        }
+        catch (IOException ex){
+            System.out.println("IO Error (loadCyclingPortal)");
+        }
+        catch (ClassNotFoundException ex){
+            System.out.println("Class not found - is the read data corrupt or formatted wrong? (loadCyclingPortal) EXPECTED A FAILURE OK (bad name)");
+        }
+        // test removing a race
         try{
             portal.removeRaceByName("ShroomRidge");
             System.out.println("Attempted to remove ShroomRidge; races...");
@@ -432,7 +528,17 @@ public class CyclingPortalInterfaceTestApp {
         catch (NameNotRecognisedException ex){
             System.out.println("Name of race does not exist - unexpected error (removeRaceByName)");
         }
+        // test removing race with name that doesn't exist (expecting error)
+        try{
+            portal.removeRaceByName("BADRACENAME");
+            System.out.println("removing non existent race...");
+            System.out.println(racesList);
         }
-	}
+        catch (NameNotRecognisedException ex){
+            System.out.println("Name of race does not exist - EXPECTED ERROR OK (removeRaceByName)");
+        }
+    }
+}
+
 
 

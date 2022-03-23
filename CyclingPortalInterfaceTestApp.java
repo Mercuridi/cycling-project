@@ -271,11 +271,12 @@ public class CyclingPortalInterfaceTestApp {
             LocalTime[] checkpointArray2;
             LocalTime[] checkpointArray3;
             checkpointArray1 = new LocalTime[]{LocalTime.of(00, 12, 41), LocalTime.of(00, 16, 42), LocalTime.of(01, 01, 12)};
-            checkpointArray2 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(01, 01, 12, 50)};
-            checkpointArray3 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(01, 01, 13)};
+            checkpointArray2 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(01, 01, 13)};
+            checkpointArray3 = new LocalTime[]{LocalTime.of(00, 11, 40), LocalTime.of(00, 14, 42), LocalTime.of(01, 01, 14)};
             portal.registerRiderResultsInStage(12, 1112, checkpointArray1);
-            portal.registerRiderResultsInStage(12, 1113, checkpointArray2);
             portal.registerRiderResultsInStage(12, 1114, checkpointArray3);
+            portal.registerRiderResultsInStage(12, 1113, checkpointArray2);
+            
         }
         catch (IDNotRecognisedException ex){
             System.out.println("Stage or Rider ID not recognised (registerRiderResultsInStage)");
@@ -348,6 +349,7 @@ public class CyclingPortalInterfaceTestApp {
         // }
         try{
             portal.getRidersRankInStage(12);
+            System.out.println("holy shit did that work?");
         }
         catch (IDNotRecognisedException ex){
             System.out.println("StageID not recognised (getRidersRankInStage)");

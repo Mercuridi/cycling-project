@@ -126,14 +126,17 @@ public class CyclingPortal implements CyclingPortalInterface {
 	public RiderStageResult[] sortStageResultsByTime(ArrayList<RiderStageResult> unsortedArray, int checkpointIndex){
 		RiderStageResult[] outputArray;
 		outputArray = new RiderStageResult[unsortedArray.size()];
+		boolean inserted = false;
 		for (RiderStageResult x:unsortedArray){
-			int count = 0;
-			if (outputArray[count] == null){
-				outputArray[count] = x;
-			}
-			else {
-				LocalTime insertTime;
-				if (checkpointIndex == -1){
+			int internalCount = 0;
+			while (inserted == false){
+				if (outputArray[internalCount] == null){
+					outputArray[internalCount] = x;
+					inserted = true;
+				}
+				else {
+					LocalTime insertTime;
+					if (checkpointIndex == -1){
 					try{
 						insertTime = getRiderAdjustedElapsedTimeInStage(x.getStageID(), x.getRiderID());
 					}
@@ -141,35 +144,33 @@ public class CyclingPortal implements CyclingPortalInterface {
 						return null;
 					}
 				}
-				else{
-					 insertTime = x.getCheckpoints()[checkpointIndex];
-				}
-				int compareValue = 2; //can't be processed
-				try{
-					compareValue = insertTime.compareTo(getRiderAdjustedElapsedTimeInStage(outputArray[count].getStageID(), outputArray[count].getRiderID()));
-					if (compareValue==0 || compareValue==-1){ //in the case that the current time is below/equal to the current value in the array
-						++count;
+					else{
+					insertTime = x.getCheckpoints()[checkpointIndex];
 					}
-					else{ //in the case that the current time is above the current value in the array 
-						int pushCount = unsortedArray.size() - 1;
-						System.out.println("Output array =  " +unsortedArray.size());
-						while (pushCount > count){
-							if (outputArray[pushCount] != null){
-								outputArray[pushCount + 1] = outputArray[pushCount];
-								outputArray[pushCount] = null;
-							}
-							else
-								--pushCount;
+					int compareValue = 2; //can't be processed
+					try{
+						compareValue = insertTime.compareTo(getRiderAdjustedElapsedTimeInStage(outputArray[internalCount].getStageID(), outputArray[internalCount].getRiderID()));
+						if (compareValue==0 || compareValue==1){ //in the case that the current time is above/equal to the current value in the array
+							continue;
 						}
-						outputArray[count] = x;
+						else{ //in the case that the current time is above the current value in the array 
+							int pushCount = unsortedArray.size() - 1;
+							while (pushCount >= internalCount){
+								if ((outputArray[pushCount] != null) & (pushCount != unsortedArray.size() - 1)){
+									outputArray[pushCount + 1] = outputArray[pushCount];
+									outputArray[pushCount] = null;
+								}
+								--pushCount;
+								}
+							outputArray[internalCount] = x;
+							inserted = true;
+							}
+					}
+					catch(IDNotRecognisedException ex){
+						return null;
 					}
 				}
-				catch(IDNotRecognisedException ex){
-					return null;
-				}
-				catch(NullPointerException ex){
-					outputArray[count] = x;
-				}
+			++internalCount;
 			}
 		}
 		return outputArray;

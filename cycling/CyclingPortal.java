@@ -505,58 +505,66 @@ public class CyclingPortal implements CyclingPortalInterface {
 	@Override
 	public int addIntermediateSprintToStage(int stageId, double location) //complete!
 		throws IDNotRecognisedException, InvalidLocationException, InvalidStageStateException, InvalidStageTypeException {
-		Segment newSegment; 
+		Segment newSegment; // setup segment to be customised and added to stage
 		newSegment = new Segment(stageId, location);
 		int []indexArray = findStage(stageId);
-		if (indexArray[0] == -1){
+		if (indexArray[0] == -1){ // throw error if the findStage method doesnt return the array of stageIDs to be placed into the indexArray
 			throw new IDNotRecognisedException();
 		}
-		else {
-			Stage concernedStage = Races.get(indexArray[0]).getStages().get(indexArray[1]);
-			if (concernedStage.getConcluded() == true) {
+		else { // normal method for when the array is returned properly
+			Stage concernedStage = Races.get(indexArray[0]).getStages().get(indexArray[1]); // find stage to add the new segment to and assign it
+			// check for errors that would crash the program
+			if (concernedStage.getConcluded() == true) { // if the stage is concluded you cannot change its contents
 				throw new InvalidStageStateException();
 			}
-			else if ((concernedStage.getStageLength()) < location){
+			else if ((concernedStage.getStageLength()) < location){ // if segment finishes after stage length throw an exception
 				throw new InvalidLocationException();
 			}
-			else if (concernedStage.getStageType() == StageType.TT){
+			else if (concernedStage.getStageType() == StageType.TT){ // time trials cannot have segments
 				throw new InvalidStageTypeException();
 			}
+			// normal method for when the concernedStage is found correctly (constructs and adds the new segment)
 			else{
 				newSegment.setRaceID(Races.get(indexArray[0]).getRaceID());
 				Races.get(indexArray[0]).getStages().get(indexArray[1]).addSegmentToStage(newSegment);
-				return newSegment.getSegmentID();
+				return newSegment.getSegmentID(); // segmentID is returned
 			}
 		}		
 	}
 	@Override
 	public void removeSegment(int segmentId) throws IDNotRecognisedException, InvalidStageStateException { //complete!
+		// setup variables for use to find the segment to remove
 		int raceCount = 0;
 		boolean segmentFound = false;
+		// loop to iterate over each segment that exists in all races until correct 
+		// search races
 		while (segmentFound != true && raceCount <= Races.size()-1){
-			int stageCount = 0;
+			int stageCount = 0; // set stage iterations per race
 			Race currentRace = Races.get(raceCount);
 			int numberOfStages = currentRace.getStages().size();
+			// search stages
 			while (segmentFound != true && stageCount <= (numberOfStages-1)){
-				int segmentCount = 0;
+				int segmentCount = 0; // set segment iterations per stage
 				Stage currentStage = Races.get(raceCount).getStages().get(stageCount);
 				int numberOfSegments = currentRace.getStages().get(stageCount).getSegments().size();
+				// search segments
 				while (segmentFound != true && segmentCount <= (numberOfSegments-1)){
-					Segment currentSegment = currentStage.getSegments().get(segmentCount);
+					Segment currentSegment = currentStage.getSegments().get(segmentCount); // get the current segment being searched to remove
 					if (currentSegment.getSegmentID() == segmentId){
 						segmentFound = true;
+						// deletion of all segment attributes if the segment has been found
 						if (Races.get(raceCount).getStages().get(stageCount).getConcluded() == false){
 							Races.get(raceCount).getStages().get(stageCount).removeSegment(segmentCount);
 							Races.get(raceCount).getStages().get(stageCount).decreaseLength(currentSegment.getSegmentLength());;
 						}
 						else
-							throw new InvalidStageStateException();
+							throw new InvalidStageStateException(); // throws an exception if the stage of the segment is concluded (and therefore cannot be edited)
 					}
-					++segmentCount;
+					++segmentCount; // increment segmentCount in the loop to find a new segment next iteration
 				}
-				++stageCount; 
+				++stageCount; // increment stageCount in the loop to find a new segment next iteration
 			}
-			++raceCount;
+			++raceCount; // increment raceCount in the loop to find a new segment next iteration
 		}
 		if (segmentFound == false) {
 			throw new IDNotRecognisedException();
@@ -564,33 +572,35 @@ public class CyclingPortal implements CyclingPortalInterface {
 	}
 	@Override
 	public void concludeStagePreparation(int stageId) throws IDNotRecognisedException, InvalidStageStateException { //complete!
+		// set up the indexArray that contains the stage information of the stage to be finished with prep
 		int[] indexArray = findStage(stageId);
-		if (indexArray[0] == -1){
+		if (indexArray[0] == -1){ 	// throw error if the findStage method doesnt return the array of stageIDs to be placed into the indexArray
 			throw new IDNotRecognisedException();
 		}
-		else if (Races.get(indexArray[0]).getStages().get(indexArray[1]).getConcluded() == true){
+		else if (Races.get(indexArray[0]).getStages().get(indexArray[1]).getConcluded() == true){ // throw error if the stage is already concluded and cannot be edited
 			throw new InvalidStageStateException();
 		}
-		else
+		else	// method to conclude the stage prep if all checks are passed
 			Races.get(indexArray[0]).getStages().get(indexArray[1]).setConcluded(true);
 	}
 	@Override
 	public int[] getStageSegments(int stageId) throws IDNotRecognisedException { //complete!
+		// set up the indexArray that contains the stage information of the stage to have its segments returned
 		int[] indexArray = findStage(stageId);
-		if (indexArray[0] != -1) {
-			ArrayList<Segment> tempArrayList = new ArrayList<Segment>();
-			tempArrayList = Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments();
+		if (indexArray[0] != -1) { // normal method for when indexArray contains some information
+			ArrayList<Segment> tempArrayList = new ArrayList<Segment>(); // create temporary array of segments
+			tempArrayList = Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments(); // add a set of segments to 
 			int[] outputArray;
-			outputArray = new int[tempArrayList.size()];
-			int count = 0;
-			for (Segment x:tempArrayList){
-				outputArray[count] = x.getSegmentID();
-				++count;
+			outputArray = new int[tempArrayList.size()]; // convert the tempArrayList to the int array to send as the return for the method
+			int count = 0; // count of the number of segments so each new segment is assigned to a new index in the list of segments
+			for (Segment x:tempArrayList){ // search the segments in the stage for the next one
+				outputArray[count] = x.getSegmentID(); // add the new segment to the output array
+				++count; // iterate to next segment
 			}
 			return outputArray;
 		}
 		else
-			throw new IDNotRecognisedException();
+			throw new IDNotRecognisedException(); // throw error if the stageID does not correspond to a stage
 		
 	}
 	@Override

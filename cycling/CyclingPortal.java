@@ -292,6 +292,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 	public int[] getRaceIds() { //complete!
 		int count = 0;
 		int[] outputArray;
+		System.out.println(Races.size() + " races to check (at getRaceIDs).");
 		if (Races.size() != 0){
 			outputArray = new int[Races.size()];
 			for (Race x:Races){
@@ -372,7 +373,9 @@ public class CyclingPortal implements CyclingPortalInterface {
 			newStage = new Stage(raceId, stageName, description, length, startTime, type);
 			Races.get(targetIndex).addStageToRace(newStage);
 			return newStage.getStageID();
-		}
+			}
+
+		
 		
 	}
 	@Override
@@ -587,14 +590,12 @@ public class CyclingPortal implements CyclingPortalInterface {
 		throws IDNotRecognisedException, IllegalArgumentException {
 		if ((yearOfBirth >= 1900) && (name.length() != 0) && (name != null)){
 			Rider newRider;
-            boolean addCheck = false;
             newRider = new Rider(teamID, name, yearOfBirth);
            	int teamCount = 0;
 			while (teamCount <= Teams.size()-1) {
                 if (Teams.get(teamCount).getTeamID() == teamID){ //idea what might be going wrong... riders are added to x, not the actual team concerned.
                 	Teams.get(teamCount).addRider(newRider);
-                 	addCheck = true;
-                  	return newRider.getRiderID();
+                 	return newRider.getRiderID();
 				}
 				++teamCount;
             }
@@ -625,10 +626,14 @@ public class CyclingPortal implements CyclingPortalInterface {
 			int temp = locateRiderStageResult(stageId, riderId);
 			if (temp != -1)
 				throw new DuplicatedResultException();
-			if (findStage(stageId)[0] == -1)
+			if (findStage(stageId)[0] == -1){
+				System.out.println("stage wasn't found bruhhh");
 				throw new IDNotRecognisedException();
-			if (locateRider(riderId)[0] == -1)
+			}	
+			if (locateRider(riderId)[0] == -1){
+				System.out.println("rider wasn't found bruhhh");
 				throw new IDNotRecognisedException();
+			}
 			RiderStageResult newStageResult; 
 			newStageResult = new RiderStageResult(stageId, riderId, checkpoints);
 			RiderStageResults.add(newStageResult);
@@ -657,9 +662,12 @@ public class CyclingPortal implements CyclingPortalInterface {
 			else{
 				LocalTime comparisonTime = x.getElapsedTime();
 				Duration timeDifference = Duration.between(adjustTime, comparisonTime);
-				if ((timeDifference.getNano() < 900000000) & (timeDifference.getNano() > 900000000)){
-					if (comparisonTime.isBefore(adjustTime) == true){
-						adjustTime = comparisonTime;
+				if ((timeDifference.getSeconds() <= 1) & (timeDifference.getSeconds() >= -1)){
+					timeDifference = Duration.between(adjustTime, comparisonTime);
+					if ((timeDifference.getNano() <= 999999999) & (timeDifference.getNano() >= -999999999)){
+						if (comparisonTime.isBefore(adjustTime) == true){
+							adjustTime = comparisonTime;
+						}
 					}
 				}
 				}

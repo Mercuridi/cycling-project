@@ -496,7 +496,6 @@ public class CyclingPortalInterfaceTestApp {
             System.out.println("Stage ID not recognised (getRidersPointsInStage) EXPECTED A FAILURE OK (bad StageID)");
         }
         try{
-            System.out.println("Look here!");
             int[] pointArray = portal.getRidersMountainPointsInStage(12);
             for (int j:pointArray){
                 System.out.println(j);
@@ -654,10 +653,8 @@ public class CyclingPortalInterfaceTestApp {
         catch (InvalidNameException ex){
             System.out.println("Race name invalid. (Thorough system, race creation)");
         }
-
         racesList = "Race IDs: " + thorough.getRaceIds()[0] + ", " + thorough.getRaceIds()[1];
         System.out.println(racesList); 
-
         try{
             dateTime = LocalDateTime.now();
             thorough.addStageToRace(15, "TestFlatStage", "Test flat stage in Silverstone.", 5.0, dateTime, StageType.FLAT);
@@ -682,7 +679,7 @@ public class CyclingPortalInterfaceTestApp {
 
         try{
             dateTime = LocalDateTime.now();
-            thorough.addStageToRace(16, "TestFlatStage", "Test flat stage in CheepCheepBeach.", 9.1, dateTime, StageType.FLAT);
+            System.out.println("StageID for TestFlatStage: " +thorough.addStageToRace(16, "TestFlatStage", "Test flat stage in CheepCheepBeach.", 9.1, dateTime, StageType.FLAT));
             dateTime = LocalDateTime.now();
             thorough.addStageToRace(16, "TestHighMountainStage", "Test high mountain stage in CheepCheepBeach.", 5.0, dateTime, StageType.HIGH_MOUNTAIN);
             dateTime = LocalDateTime.now();
@@ -752,28 +749,29 @@ public class CyclingPortalInterfaceTestApp {
             checkpointArray21 = new LocalTime[]{LocalTime.of(00, 16, 53), LocalTime.of(00, 17, 47), LocalTime.of(00, 34, 52), LocalTime.of(00, 41,  6), LocalTime.of(00, 48,  4), LocalTime.of(01, 52, 43)};
             checkpointArray22 = new LocalTime[]{LocalTime.of(00, 45, 23), LocalTime.of(00, 54, 28), LocalTime.of(01,  8, 56), LocalTime.of(01, 21,  2), LocalTime.of(01, 25,  8), LocalTime.of(01, 35, 34)};
 
-            portal.registerRiderResultsInStage(15, 1116, checkpointArray1);
-            portal.registerRiderResultsInStage(15, 1117, checkpointArray2);
-            portal.registerRiderResultsInStage(15, 1118, checkpointArray3);
-            portal.registerRiderResultsInStage(15, 1119, checkpointArray4);
-            portal.registerRiderResultsInStage(15, 1120, checkpointArray5);
-            portal.registerRiderResultsInStage(15, 1121, checkpointArray6);
-            portal.registerRiderResultsInStage(15, 1122, checkpointArray7);
-            portal.registerRiderResultsInStage(15, 1123, checkpointArray8);
-            portal.registerRiderResultsInStage(15, 1124, checkpointArray9);
-            portal.registerRiderResultsInStage(15, 1125, checkpointArray10);
-            portal.registerRiderResultsInStage(15, 1126, checkpointArray11);
-            portal.registerRiderResultsInStage(15, 1127, checkpointArray12);
-            portal.registerRiderResultsInStage(15, 1128, checkpointArray13);
-            portal.registerRiderResultsInStage(15, 1129, checkpointArray14);
-            portal.registerRiderResultsInStage(15, 1130, checkpointArray15);
-            portal.registerRiderResultsInStage(15, 1131, checkpointArray16);
-            portal.registerRiderResultsInStage(15, 1132, checkpointArray17);
-            portal.registerRiderResultsInStage(15, 1133, checkpointArray18);
-            portal.registerRiderResultsInStage(15, 1134, checkpointArray19);
-            portal.registerRiderResultsInStage(15, 1135, checkpointArray20);
-            portal.registerRiderResultsInStage(15, 1136, checkpointArray21);
-            portal.registerRiderResultsInStage(15, 1137, checkpointArray22);
+            thorough.registerRiderResultsInStage(18, 1116, checkpointArray1);
+            thorough.registerRiderResultsInStage(18, 1117, checkpointArray2);
+            thorough.registerRiderResultsInStage(18, 1118, checkpointArray3);
+            thorough.registerRiderResultsInStage(18, 1119, checkpointArray4);
+            thorough.registerRiderResultsInStage(18, 1120, checkpointArray5);
+            thorough.registerRiderResultsInStage(18, 1121, checkpointArray6);
+            thorough.registerRiderResultsInStage(18, 1122, checkpointArray7);
+            thorough.registerRiderResultsInStage(18, 1123, checkpointArray8);
+            thorough.registerRiderResultsInStage(18, 1124, checkpointArray9);
+            thorough.registerRiderResultsInStage(18, 1125, checkpointArray10);
+            thorough.registerRiderResultsInStage(18, 1126, checkpointArray11);
+            thorough.registerRiderResultsInStage(18, 1127, checkpointArray12);
+            thorough.registerRiderResultsInStage(18, 1128, checkpointArray13);
+            thorough.registerRiderResultsInStage(18, 1129, checkpointArray14);
+            thorough.registerRiderResultsInStage(18, 1130, checkpointArray15);
+            thorough.registerRiderResultsInStage(18, 1131, checkpointArray16);
+            thorough.registerRiderResultsInStage(18, 1132, checkpointArray17);
+            thorough.registerRiderResultsInStage(18, 1133, checkpointArray18);
+            thorough.registerRiderResultsInStage(18, 1134, checkpointArray19);
+            thorough.registerRiderResultsInStage(18, 1135, checkpointArray20);
+            thorough.registerRiderResultsInStage(18, 1136, checkpointArray21);
+            thorough.registerRiderResultsInStage(18, 1137, checkpointArray22);
+            System.out.println("results added???????? pog???");
 
         }
         catch (IDNotRecognisedException ex){
@@ -788,56 +786,92 @@ public class CyclingPortalInterfaceTestApp {
         catch (InvalidStageStateException ex){
             System.out.println("Stage state incompatible with action. (Thorough system, result registration)");
         }
-
         try{
             System.out.println("Begin checking individual rider for results presence...");
-            LocalTime[] outputArray1 = thorough.getRiderResultsInStage(15, 1116);
+            LocalTime[] outputArray1 = thorough.getRiderResultsInStage(18, 1116);
             System.out.println(outputArray1.length);
-            LocalTime[] outputArray2 = thorough.getRiderResultsInStage(15, 1117);
+            LocalTime[] outputArray2 = thorough.getRiderResultsInStage(18, 1117);
             System.out.println(outputArray2.length);
-            LocalTime[] outputArray3 = thorough.getRiderResultsInStage(15, 1118);
+            LocalTime[] outputArray3 = thorough.getRiderResultsInStage(18, 1118);
             System.out.println(outputArray3.length);
-            LocalTime[] outputArray4 = thorough.getRiderResultsInStage(15, 1119);
+            LocalTime[] outputArray4 = thorough.getRiderResultsInStage(18, 1119);
             System.out.println(outputArray4.length);
-            LocalTime[] outputArray5 = thorough.getRiderResultsInStage(15, 1120);
+            LocalTime[] outputArray5 = thorough.getRiderResultsInStage(18, 1120);
             System.out.println(outputArray5.length);
-            LocalTime[] outputArray6 = thorough.getRiderResultsInStage(15, 1121);
+            LocalTime[] outputArray6 = thorough.getRiderResultsInStage(18, 1121);
             System.out.println(outputArray6.length);
-            LocalTime[] outputArray7 = thorough.getRiderResultsInStage(15, 1122);
+            LocalTime[] outputArray7 = thorough.getRiderResultsInStage(18, 1122);
             System.out.println(outputArray7.length);
-            LocalTime[] outputArray8 = thorough.getRiderResultsInStage(15, 1123);
+            LocalTime[] outputArray8 = thorough.getRiderResultsInStage(18, 1123);
             System.out.println(outputArray8.length);
-            LocalTime[] outputArray9 = thorough.getRiderResultsInStage(15, 1124);
+            LocalTime[] outputArray9 = thorough.getRiderResultsInStage(18, 1124);
             System.out.println(outputArray9.length);
-            LocalTime[] outputArray10 = thorough.getRiderResultsInStage(15, 1125);
+            LocalTime[] outputArray10 = thorough.getRiderResultsInStage(18, 1125);
             System.out.println(outputArray10.length);
-            LocalTime[] outputArray11 = thorough.getRiderResultsInStage(15, 1126);
+            LocalTime[] outputArray11 = thorough.getRiderResultsInStage(18, 1126);
             System.out.println(outputArray11.length);
-            LocalTime[] outputArray12 = thorough.getRiderResultsInStage(15, 1127);
+            LocalTime[] outputArray12 = thorough.getRiderResultsInStage(18, 1127);
             System.out.println(outputArray12.length);
-            LocalTime[] outputArray13 = thorough.getRiderResultsInStage(15, 1128);
+            LocalTime[] outputArray13 = thorough.getRiderResultsInStage(18, 1128);
             System.out.println(outputArray13.length);
-            LocalTime[] outputArray14 = thorough.getRiderResultsInStage(15, 1129);
+            LocalTime[] outputArray14 = thorough.getRiderResultsInStage(18, 1129);
             System.out.println(outputArray14.length);
-            LocalTime[] outputArray15 = thorough.getRiderResultsInStage(15, 1130);
+            LocalTime[] outputArray15 = thorough.getRiderResultsInStage(18, 1130);
             System.out.println(outputArray15.length);
-            LocalTime[] outputArray16 = thorough.getRiderResultsInStage(15, 1131);
+            LocalTime[] outputArray16 = thorough.getRiderResultsInStage(18, 1131);
             System.out.println(outputArray16.length);
-            LocalTime[] outputArray17 = thorough.getRiderResultsInStage(15, 1132);
+            LocalTime[] outputArray17 = thorough.getRiderResultsInStage(18, 1132);
             System.out.println(outputArray17.length);
-            LocalTime[] outputArray18 = thorough.getRiderResultsInStage(15, 1133);
+            LocalTime[] outputArray18 = thorough.getRiderResultsInStage(18, 1133);
             System.out.println(outputArray18.length);
-            LocalTime[] outputArray19 = thorough.getRiderResultsInStage(15, 1134);
+            LocalTime[] outputArray19 = thorough.getRiderResultsInStage(18, 1134);
             System.out.println(outputArray19.length);
-            LocalTime[] outputArray20 = thorough.getRiderResultsInStage(15, 1135);
+            LocalTime[] outputArray20 = thorough.getRiderResultsInStage(18, 1135);
             System.out.println(outputArray20.length);
-            LocalTime[] outputArray21 = thorough.getRiderResultsInStage(15, 1136);
+            LocalTime[] outputArray21 = thorough.getRiderResultsInStage(18, 1136);
             System.out.println(outputArray21.length);
-            LocalTime[] outputArray22 = thorough.getRiderResultsInStage(15, 1137);
+            LocalTime[] outputArray22 = thorough.getRiderResultsInStage(18, 1137);
             System.out.println(outputArray22.length);
         }
         catch (IDNotRecognisedException ex){
             System.out.println("Stage or Rider ID not recognised. (Thorough system, result registration checking)");
+        }
+        try{
+            System.out.println("Organise elapsed times in stage from fastest to slowest...");
+            LocalTime[] cheeky = thorough.getRankedAdjustedElapsedTimesInStage(18);
+            for (LocalTime x:cheeky){
+                System.out.println(x);
+            }
+            System.out.println("Organise riderID's in stage from fastest to slowest...");
+            int[] riderIDArray = thorough.getRidersRankInStage(18);
+            for (int y:riderIDArray){
+                System.out.println(y);
+            }
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("StageID not recognised (getRidersRankInStage) EXPECTED A FAILURE OK (bad StageID)");
+        }
+        // test getting ranked adjusted times 
+        
+        try{;
+            System.out.println("Organise rider sprint points in stage, according to finish time...");
+            int[] pointArray = thorough.getRidersPointsInStage(18);
+            for (int j:pointArray){
+                System.out.println(j);
+            }
+        }
+        catch (IDNotRecognisedException ex){
+            System.out.println("Stage ID not recognised (getRidersPointsInStage)");
+        }
+        try{
+            System.out.println("Organise rider mountain points in stage, according to finish time...");
+            int[] pointArray = thorough.getRidersMountainPointsInStage(18);
+            for (int j:pointArray){
+                System.out.println(j);
+            }
+        }
+        catch (IDNotRecognisedException ex){ // method not programmed yet
+            System.out.println("Stage ID not recognised (getRidersMountainPointsInStage)");
         }
     }
 }

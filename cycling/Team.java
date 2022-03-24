@@ -1,10 +1,18 @@
 package cycling;
 
+// imports for Team class
 import java.util.ArrayList;
 import java.io.Serializable;
 
+// creation of Team class
+/**
+ * class Team for use in CyclingPortal.java and other project files
+ * holds all relevant information and data for teams
+ * @author Laurie Harbord and Kai Barber
+ * @version 1.0
+ */
 public class Team implements Serializable{
-    //attributes
+    // attributes setup
     private static int nextTeamID = 111;
     private int teamID;
     private String teamName;

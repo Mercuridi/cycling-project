@@ -12,11 +12,9 @@ import java.io.Serializable;
  * @version 1.0
  */
 public class Segment implements Serializable{
-    // variables setup
+    // attributes setup
     private static int nextSegmentID = 1111;
     private int segmentID;
-    private int stageID;
-    private int raceID;
     private SegmentType segmentType;
     private double segmentLength;
     private Double segmentLocation;

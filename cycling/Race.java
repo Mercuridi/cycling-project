@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Race implements Serializable {
-    // variables setup
+    // attributes setup
     private static int nextRaceID = 11;
     private int raceID;
     private String raceName;

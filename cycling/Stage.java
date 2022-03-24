@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @version 1.0
  */
 public class Stage implements Serializable{
-    // variables setup
+    // attributes setup
     private static int nextStageID = 11;
     private int stageID;
     private int raceID;

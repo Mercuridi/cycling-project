@@ -16,6 +16,7 @@ public class RiderStageResult{
     private int resultID;
     private int stageID;
     private int riderID;
+    private int raceID;
     private int mountainPoints;
     private int sprintPoints;
     private LocalTime[] checkpoints; //example [5:00, 5:34, 5:49, 6:10] 

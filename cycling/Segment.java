@@ -15,6 +15,8 @@ public class Segment implements Serializable{
     // attributes setup
     private static int nextSegmentID = 1111;
     private int segmentID;
+    private int raceID;
+    private int stageID;
     private SegmentType segmentType;
     private double segmentLength;
     private Double segmentLocation;

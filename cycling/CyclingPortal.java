@@ -31,8 +31,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 	public ArrayList<Team> Teams = new ArrayList<Team>();
 	public ArrayList<Race> Races = new ArrayList<Race>();
 	public ArrayList<RiderStageResult> RiderStageResults = new ArrayList<RiderStageResult>();
-
-	//our own methods!!!
 	/**
 	 * 
 	 * @param teamID the ID of the team to be located
@@ -43,14 +41,15 @@ public class CyclingPortal implements CyclingPortalInterface {
 		int searchCount = 0;
 		Team currentTeam;
 		int tempID; 
-		while (searchCount <= Teams.size()-1) {
+		while (searchCount <= Teams.size()-1) { //uses searchCount to index through Teams
+			//and comparing retrieved teamID with input TeamID at every iteration
             currentTeam = (Teams.get(searchCount));
             tempID = currentTeam.getTeamID();
-            if (tempID == teamID) {
-                return searchCount;
+            if (tempID == teamID) { //if the two IDs are the same, the Team has been found
+                return searchCount; 
             }
             else {
-                searchCount += 1;
+                searchCount += 1; //iterates searchCount
             }
         }
 		return -1; //-1 is a rouge value
@@ -65,7 +64,8 @@ public class CyclingPortal implements CyclingPortalInterface {
 		int searchCount = 0;
 		Race currentRace;
 		int tempID; 
-		while (searchCount <= Races.size()-1) {
+		while (searchCount <= Races.size()-1) { //uses searchCount to index through Races
+			//and comparing retrieved raceID with input raceID at every iteration
             currentRace = (Races.get(searchCount));
             tempID = currentRace.getRaceID();
             if (tempID == raceID) {
@@ -91,14 +91,14 @@ public class CyclingPortal implements CyclingPortalInterface {
 		outputArray = new int[2];
 		int teamCount = 0;
 		Rider currentRider;
-		while (teamCount <= Teams.size()-1){
+		while (teamCount <= Teams.size()-1){ //uses teamCount to index through Teams
 			int riderCount = 0;
 			Team currentTeam = Teams.get(teamCount);
 			int numberOfRiders = currentTeam.getRidersInTeam().size();
-			while (riderCount <= (numberOfRiders-1)){
+			while (riderCount <= (numberOfRiders-1)){ //uses riderCount to index through all the riders of the current Team
 				currentRider = currentTeam.getRidersInTeam().get(riderCount);
-				if (riderID == currentRider.getRiderID()){
-					outputArray[0] = teamCount;
+				if (riderID == currentRider.getRiderID()){ //compares current search item riderID with input riderID
+					outputArray[0] = teamCount; 
 					outputArray[1] = riderCount;
 					return outputArray;
 				} 
@@ -106,8 +106,8 @@ public class CyclingPortal implements CyclingPortalInterface {
 			}
 			++teamCount;
 		}
-		outputArray[0] = -1;
-		outputArray[1] = -1;
+		outputArray[0] = -1; //in case of the entered RiderID not being found. 
+		outputArray[1] = -1; //fills output index with null values
 		return outputArray;
 	}
 	/**
@@ -123,13 +123,13 @@ public class CyclingPortal implements CyclingPortalInterface {
 		int raceCount = 0;
 		int[] output;
 		output = new int[2];
-		while (raceCount <= Races.size()-1){
+		while (raceCount <= Races.size()-1){ //uses raceCount to index through Races
 			int stageCount = 0;
 			Race currentRace = Races.get(raceCount);
 			int numberOfStages = currentRace.getStages().size();
-			while (stageCount <= numberOfStages-1){
+			while (stageCount <= numberOfStages-1){ //uses stageCount to index through all the stages of the current Race
 				Stage currentStage = Races.get(raceCount).getStages().get(stageCount);
-				if (stageID == currentStage.getStageID()){
+				if (stageID == currentStage.getStageID()){ //compares current search item stageID with input stageID
 					output[0] = raceCount;
 					output[1] = stageCount;
 					return output;
@@ -151,15 +151,16 @@ public class CyclingPortal implements CyclingPortalInterface {
 	 */
 	public int locateRiderStageResult(int stageID, int riderID){ //complete!
 		int resultsCount = 0;
-		while (resultsCount <= RiderStageResults.size()-1){
-			if (stageID == RiderStageResults.get(resultsCount).getStageID()){
-				if (riderID == RiderStageResults.get(resultsCount).getRiderID()){
+		while (resultsCount <= RiderStageResults.size()-1){ //simple search algorithm using resultsCount to index
+			if (stageID == RiderStageResults.get(resultsCount).getStageID()){ //if stageID of current search item equals the 
+				//input stageID, the algorithm moves onto the next test to confirm if the result has been truly found 
+				if (riderID == RiderStageResults.get(resultsCount).getRiderID()){ //compares riderID's
 					return resultsCount;
 				}
 			}
 			++resultsCount;
 		}
-		return -1;
+		return -1; //returns the rogue value the case that the target result is not found
 	}
 	/**
 	 * 
@@ -169,9 +170,9 @@ public class CyclingPortal implements CyclingPortalInterface {
 	 */
 	public ArrayList<RiderStageResult> retrieveResultsForStage(int stageID){
 		ArrayList<RiderStageResult> outputArray = new ArrayList<RiderStageResult>();
-		for (RiderStageResult x:RiderStageResults){
-			if (x.getStageID() == stageID)
-				outputArray.add(x);
+		for (RiderStageResult x:RiderStageResults){ //iterates through RiderStageResults
+			if (x.getStageID() == stageID) //where the current RiderStageResult stageID is equal to inptu stageID
+				outputArray.add(x); //add current RiderStageResult to outputArray
 		}
 		return outputArray;
 	}
@@ -186,11 +187,11 @@ public class CyclingPortal implements CyclingPortalInterface {
 	public RiderStageResult[] sortStageResultsByTime(ArrayList<RiderStageResult> unsortedArray, int checkpointIndex){
 		RiderStageResult[] outputArray;
 		outputArray = new RiderStageResult[unsortedArray.size()];
-		for (RiderStageResult x:unsortedArray){
+		for (RiderStageResult x:unsortedArray){ //iterates through every element of the input array (all elements to be inserted)
 			boolean inserted = false;
 			int internalCount = 0;
-			while (inserted == false){
-				if (outputArray[internalCount] == null){
+			while (inserted == false){ //iterates until an element has found it's place in the outpt array
+				if (outputArray[internalCount] == null){ //if current index in the list is empty, element can be inserted
 					outputArray[internalCount] = x;
 					inserted = true;
 				}
@@ -199,7 +200,8 @@ public class CyclingPortal implements CyclingPortalInterface {
 					if (checkpointIndex == -1){ //uses the input checkpointIndex int to determine whether the results will be sorted 
 						//by their final result, or by another one.
 						try{
-							insertTime = getRiderAdjustedElapsedTimeInStage(x.getStageID(), x.getRiderID());
+							insertTime = getRiderAdjustedElapsedTimeInStage(x.getStageID(), x.getRiderID()); //retrieves adjusted 
+							//elapsed time
 						}
 						catch (IDNotRecognisedException ex){
 							return null;
@@ -208,23 +210,23 @@ public class CyclingPortal implements CyclingPortalInterface {
 					else{
 						insertTime = x.getCheckpoints()[checkpointIndex];
 					}
-					int compareValue = 2; //can't be processed
+					int compareValue = 2; //can't be processed, will be set in future functions
 					try{
-						//still not quite finished... this needs to consider for instances where checkpointIndex isn't -1. should be easy tho.
-						if (checkpointIndex == -1)
+						if (checkpointIndex == -1) //-1 equates to "use adjusted elapsed time" as opposed to a specific checkpoint time
 							compareValue = insertTime.compareTo(getRiderAdjustedElapsedTimeInStage(outputArray[internalCount].getStageID(), outputArray[internalCount].getRiderID()));
 						else
 							compareValue = insertTime.compareTo(outputArray[internalCount].getCheckpoints()[checkpointIndex]);
 						if (compareValue==-1){ //in the case that the current time is below the current value in the array
 							int pushCount = unsortedArray.size() - 1;
-							while (pushCount >= internalCount){
+							while (pushCount >= internalCount){ //this loops pushes back all other elements in the list to "insert"
+							//the new value
 								if ((outputArray[pushCount] != null) & (pushCount != unsortedArray.size() - 1)){
 									outputArray[pushCount + 1] = outputArray[pushCount];
 									outputArray[pushCount] = null;
 								}
-								--pushCount;
+								--pushCount; //decrements push count
 								}
-							outputArray[internalCount] = x;
+							outputArray[internalCount] = x; //inserts element into its correct position
 							inserted = true;
 							}
 					}
@@ -232,7 +234,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 						return null;
 					}
 					}
-				++internalCount;
+				++internalCount; //increments internal counter (which finds an elements place in the list)
 			}
 		}
 		return outputArray;
@@ -250,23 +252,24 @@ public class CyclingPortal implements CyclingPortalInterface {
 			//no segments present = no extra sprint points
 		}
 		else {
-			int segmentIndex = 0;
-			int segmentCount = 0;
-			System.out.println("What the hell, u only got " + Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments().size() + " segments");
+			int segmentIndex = 0; //segmentIndex is the value fed into sortStageResultsByTime
+			//It points to a specific LocalTime in checkpoints that contains a rider's time within a segment 
+			int segmentCount = 0; //the count for iterating through each segment retrieved
 			for (Segment x:Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments()){
-				segmentIndex = 2*segmentCount + 2;
-				if (x.getSegmentType() == SegmentType.SPRINT){
-					RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, segmentIndex);
+				segmentIndex = 2*segmentCount + 2; //the finish time of a checkpoint is always 2n+2 where n is segmentCount
+				if (x.getSegmentType() == SegmentType.SPRINT){ //if the current segment is an Intermediate Sprint segment
+					RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, segmentIndex); //sorts results by segment finish time
 					int[] pointsArray;
 					pointsArray = new int[]{20,17,15,13,11,10,9,8,7,6,5,4,3,2,1};
 					int count = 0;
 					while ((count <= sortedResults.length - 1) & (count != 15)){
-						sortedResults[count].addToSprintPoints(pointsArray[count]);
-						System.out.print(pointsArray[count] + " sprint points given to " + sortedResults[count].getRiderID() + "\n");
+						sortedResults[count].addToSprintPoints(pointsArray[count]); //adds points to RiderStageResults items relative
+						//to their position
 						++count;
 					}
-					int replaceCount = 0;
-					for (RiderStageResult z:sortedResults){
+					int replaceCount = 0; //establishes a new count for replacement iteration
+					for (RiderStageResult z:sortedResults){ //replacement iteration that uses ResultID's to replace old
+						//elements of RiderStageResults with new results (with updated SprintPoints)
 						if (RiderStageResults.get(replaceCount).getResultID() == z.getResultID()){
 							RiderStageResults.remove(replaceCount);
 							RiderStageResults.add(z);
@@ -274,7 +277,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 						++replaceCount;
 					}
 				}
-				++segmentCount;
+				++segmentCount; //increments
 			}
 		}
 	}
@@ -284,13 +287,13 @@ public class CyclingPortal implements CyclingPortalInterface {
 	 * @return nothing - function returns void. However, the array list RiderStageResults is edited with
 	 * potentially several results having their attribute MountainPoints affected
 	 */
-	public void gatherMountainPoints(int stageID){
+	public void gatherMountainPoints(int stageID){ 
 		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageID);
 		int[] indexArray = findStage(stageID);
 		if (Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments().size() == 0){
 			//no segments present = no extra mountain points
 		}
-		else{
+		else{ //exact same logic as the previous function
 			int segmentIndex = 0;
 			int segmentCount = 0;
 			for (Segment x:Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments()){
@@ -298,7 +301,8 @@ public class CyclingPortal implements CyclingPortalInterface {
 				if (x.getSegmentType() != SegmentType.SPRINT){
 					RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, segmentIndex);
 					int[] pointsArray;
-					switch (x.getSegmentType()){
+					switch (x.getSegmentType()){ //use of a case select determind by each Stage Type's individual 
+					//points per rank
 						case C1:
 							pointsArray = new int[]{1};
 							break;
@@ -321,7 +325,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 					int count = 0;
 					while ((count <= sortedResults.length - 1) & (count != 15)){
 						sortedResults[count].addToMountainPoints(pointsArray[count]);
-						System.out.print(pointsArray[count] + " mountain points given to " + sortedResults[count].getRiderID() + "\n");
 						++count;
 					}
 					int replaceCount = 0;
@@ -337,21 +340,20 @@ public class CyclingPortal implements CyclingPortalInterface {
 			}
 		}
 	}
-	//end of our own methods
 	@Override
 	public int[] getRaceIds() { //complete!
 		int count = 0;
 		int[] outputArray;
 		System.out.println(Races.size() + " races to check (at getRaceIDs).");
-		if (Races.size() != 0){
-			outputArray = new int[Races.size()];
-			for (Race x:Races){
+		if (Races.size() != 0){ //checks that any races exist
+			outputArray = new int[Races.size()]; //instantiates an array to store all the RaceIDs
+			for (Race x:Races){ //iterates through Races, using count to write to outputArray
 				outputArray[count] = x.getRaceID();
 				++count;
 			}
 			return outputArray;
 		}
-		else {
+		else { //in case of no races being present, an empty int array is returned
 			outputArray = new int[0];
 			return outputArray;
 		}
@@ -359,35 +361,37 @@ public class CyclingPortal implements CyclingPortalInterface {
 	@Override
 	public int createRace(String name, String description) throws IllegalNameException, InvalidNameException { //complete!
 		if ((name.length() > 30) || (name.length() == 0) || (name == null) || (name.contains(" ") == true)){
-			throw new InvalidNameException();
+			//above check validates the data input into the function
+			throw new InvalidNameException(); 
 		}
 		for (Race x:Races){
-			if (x.getRaceName().equals(name)){
+			if (x.getRaceName().equals(name)){ //iterates through Races and compares each existing name to the
+				//proposed name for the new race. If there is a match, a race with the input name already exists
 				throw new IllegalNameException();
 			}
 		}
-		Race newRace = new Race(name, description);
-		Races.add(newRace);
-		return newRace.getRaceID();
+		Race newRace = new Race(name, description); //with checks out the way, Race is constructed
+		Races.add(newRace); //added to Races
+		return newRace.getRaceID(); //RaceID returned
 	}
 	@Override
 	public String viewRaceDetails(int raceId) throws IDNotRecognisedException { //complete!
-		int targetIndex = locateRace(raceId);
-		if (targetIndex != -1){
-			return Races.get(targetIndex).createDescription();
+		int targetIndex = locateRace(raceId); //locates race index in Races
+		if (targetIndex != -1){ //if returned value isn't rogue...
+			return Races.get(targetIndex).createDescription(); //return Description (method in Race class)
 		}
 		else
-			throw new IDNotRecognisedException();
+			throw new IDNotRecognisedException(); //in case of rogue value, throw exception
 		
 	}
 	@Override
 	public void removeRaceById(int raceId) throws IDNotRecognisedException { //complete!
 		int targetIndex = locateRace(raceId);
-		if (targetIndex != -1){
-			Races.remove(targetIndex);
+		if (targetIndex != -1){ //if returned index isn't rogue...
+			Races.remove(targetIndex); //race of entered raceID is removed
 		}
 		else
-			throw new IDNotRecognisedException();
+			throw new IDNotRecognisedException(); //exception thrown in the case of rogue
 	}
 	@Override
 	public int getNumberOfStages(int raceId) throws IDNotRecognisedException { //complete!
@@ -405,9 +409,10 @@ public class CyclingPortal implements CyclingPortalInterface {
 			throws IDNotRecognisedException, IllegalNameException, InvalidNameException, InvalidLengthException {
 		Stage newStage;
 		if ((stageName.length() > 30) || (stageName.length() == 0) || (stageName == null)){
+			//the above tests will assure teh validity of entered data, throwing an exception otherwise
 			throw new InvalidNameException();
 		}
-		if (length < 5)
+		if (length < 5) //a stage can't be less than 5km
 			throw new InvalidLengthException();
 		int targetIndex = locateRace(raceId);
 		if (targetIndex == -1){
@@ -415,29 +420,27 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 		else {
 			ArrayList<Stage> ExistingStages = Races.get(targetIndex).getStages(); 
-			for (Stage x:ExistingStages){
-				if (x.getStageName().equals(stageName)){
-					throw new IllegalNameException();
+			for (Stage x:ExistingStages){ //iterates through all Stages within the race
+				if (x.getStageName().equals(stageName)){ //will detect a Stage with the same name
+					throw new IllegalNameException(); //and throw an exception
 				}
 			}
-			newStage = new Stage(raceId, stageName, description, length, startTime, type);
-			Races.get(targetIndex).addStageToRace(newStage);
-			return newStage.getStageID();
+			newStage = new Stage(raceId, stageName, description, length, startTime, type); //if all checks are passed,
+			//new Stage is constructed
+			Races.get(targetIndex).addStageToRace(newStage); //and added to the correct Race in Races
+			return newStage.getStageID(); //stageID returned
 			}
-
-		
-		
 	}
 	@Override
 	public int[] getRaceStages(int raceId) throws IDNotRecognisedException { //complete!
 		int raceIndex = locateRace(raceId);
 		if (raceIndex != -1){
-			ArrayList<Stage> tempArrayList = new ArrayList<Stage>();
-			int[] outputArray;
+			ArrayList<Stage> tempArrayList = new ArrayList<Stage>(); //creates a Stage array list to read from
+			int[] outputArray; //creates an int array for output
 			tempArrayList = Races.get(raceIndex).getStages();
-			outputArray = new int[tempArrayList.size()];
+			outputArray = new int[tempArrayList.size()]; //instantiates outputArray
 			int count = 0;
-			for (Stage x:tempArrayList){
+			for (Stage x:tempArrayList){ //iterates through the array list, adding stage IDs to the output list
 				outputArray[count] = x.getStageID();
 				++count;
 			}
@@ -449,20 +452,27 @@ public class CyclingPortal implements CyclingPortalInterface {
 	@Override
 	public double getStageLength(int stageId) throws IDNotRecognisedException { //complete!
 		int[] indexArray = findStage(stageId);
-		if (indexArray[0] != -1){
-			return Races.get(indexArray[0]).getStages().get(indexArray[1]).getStageLength();
+		if (indexArray[0] != -1){ //unless the returned index contains rogue values...
+			return Races.get(indexArray[0]).getStages().get(indexArray[1]).getStageLength(); //uses the indexArray to point to StageLength
 		}
 		else
-			throw new IDNotRecognisedException();
+			throw new IDNotRecognisedException(); //throw exception if Stage isn't found
 	}
 	@Override
 	public void removeStageById(int stageId) throws IDNotRecognisedException { //complete!
 		int[] indexArray = findStage(stageId);
 		if (indexArray[0] != -1){
-			Races.get(indexArray[0]).removeStageFromRace(indexArray[1]);
+			Races.get(indexArray[0]).removeStageFromRace(indexArray[1]); //uses indexArray to remove correct Stage from correct Race
+			int removeCount = 0;
+			for (RiderStageResult x:RiderStageResults){ //iterates through all the existing stage results
+				if (x.getStageID() == stageId){ //locates any with the input stageID
+					RiderStageResults.remove(removeCount); //and deletes them
+				}
+				++removeCount;
+			}
 		}
 		else
-			throw new IDNotRecognisedException();
+			throw new IDNotRecognisedException(); //throws exception in case stage isn't found
 	}
 	@Override
 	public int addCategorizedClimbToStage(int stageId, Double location, SegmentType type, Double averageGradient, //complete!
@@ -471,15 +481,15 @@ public class CyclingPortal implements CyclingPortalInterface {
 		Segment newSegment;
 		newSegment = new Segment(stageId, location, type, averageGradient, length);
 		int []indexArray = findStage(stageId);
-		if (indexArray[0] == -1){
+		if (indexArray[0] == -1){ //in case stage of input stageID is not found
 			throw new IDNotRecognisedException();
 		}
 		else {
-			Stage concernedStage = Races.get(indexArray[0]).getStages().get(indexArray[1]);
-			if (concernedStage.getConcluded() == true) {
+			Stage concernedStage = Races.get(indexArray[0]).getStages().get(indexArray[1]); //stage is retrieved
+			if (concernedStage.getConcluded() == true) { //state of stage is retrieved - if true, stage has been concluded
 				throw new InvalidStageStateException();
 			}
-			else if ((concernedStage.getStageLength()) < location){
+			else if ((concernedStage.getStageLength()) < location){ //if segment finishes after stage length, throw exception
 				throw new InvalidLocationException();
 			}
 			else if (concernedStage.getStageType() == StageType.TT){

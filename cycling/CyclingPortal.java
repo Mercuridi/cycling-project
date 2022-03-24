@@ -161,6 +161,12 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 		return -1;
 	}
+	/**
+	 * 
+	 * @param stageID the stageID that the retrieved results must relate to
+	 * @return an array list of RiderStageResult objects that each bear a stageID
+	 * identical to the input stageID 
+	 */
 	public ArrayList<RiderStageResult> retrieveResultsForStage(int stageID){
 		ArrayList<RiderStageResult> outputArray = new ArrayList<RiderStageResult>();
 		for (RiderStageResult x:RiderStageResults){
@@ -169,6 +175,14 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 		return outputArray;
 	}
+	/**
+	 * 
+	 * @param unsortedArray an arraylist of results to be sorted
+	 * @param checkpointIndex an integer that determines by which time the results will be sorted.
+	 * if this is set to -1, the results are sorted by their elapsed time. If not, they are sorted by
+	 * the checkpoint at the index this checkpointIndex points to
+	 * @return a sorted RiderStageResultArray, null if any of the entered data is invalid
+	 */
 	public RiderStageResult[] sortStageResultsByTime(ArrayList<RiderStageResult> unsortedArray, int checkpointIndex){
 		RiderStageResult[] outputArray;
 		outputArray = new RiderStageResult[unsortedArray.size()];
@@ -221,102 +235,107 @@ public class CyclingPortal implements CyclingPortalInterface {
 				++internalCount;
 			}
 		}
-		// System.out.println("Returning Array:");
-		// for (RiderStageResult z:outputArray){
-		// 	System.out.println(z.getRiderID());
-		// }
 		return outputArray;
 		}
-	public int gatherSprintPoints(int stageID){
+	/**
+	 * 
+	 * @param stageID the stageID for the stage that sprint points are being calculated for 
+	 * @return nothing - function returns void. However, the array list RiderStageResults is edited with
+	 * potentially several results having their attribute SprintPoints affected
+	 */
+	public void gatherSprintPoints(int stageID){
 		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageID);
 		int[] indexArray = findStage(stageID);
 		if (Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments().size() == 0){
 			//no segments present = no extra sprint points
-			return 0;
 		}
-		int segmentIndex = 0;
-		int segmentCount = 0;
-		System.out.println("What the hell, u only got " + Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments().size() + " segments");
-		for (Segment x:Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments()){
-			segmentIndex = 2*segmentCount + 2;
-			if (x.getSegmentType() == SegmentType.SPRINT){
-				RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, segmentIndex);
-				int[] pointsArray;
-				pointsArray = new int[]{20,17,15,13,11,10,9,8,7,6,5,4,3,2,1};
-				int count = 0;
-				while ((count <= sortedResults.length - 1) & (count != 15)){
-					sortedResults[count].addToSprintPoints(pointsArray[count]);
-					System.out.print(pointsArray[count] + " sprint points given to " + sortedResults[count].getRiderID() + "\n");
-					++count;
-				}
-				int replaceCount = 0;
-				for (RiderStageResult z:sortedResults){
-					if (RiderStageResults.get(replaceCount).getResultID() == z.getResultID()){
-						RiderStageResults.remove(replaceCount);
-						RiderStageResults.add(z);
+		else {
+			int segmentIndex = 0;
+			int segmentCount = 0;
+			System.out.println("What the hell, u only got " + Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments().size() + " segments");
+			for (Segment x:Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments()){
+				segmentIndex = 2*segmentCount + 2;
+				if (x.getSegmentType() == SegmentType.SPRINT){
+					RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, segmentIndex);
+					int[] pointsArray;
+					pointsArray = new int[]{20,17,15,13,11,10,9,8,7,6,5,4,3,2,1};
+					int count = 0;
+					while ((count <= sortedResults.length - 1) & (count != 15)){
+						sortedResults[count].addToSprintPoints(pointsArray[count]);
+						System.out.print(pointsArray[count] + " sprint points given to " + sortedResults[count].getRiderID() + "\n");
+						++count;
 					}
-					++replaceCount;
+					int replaceCount = 0;
+					for (RiderStageResult z:sortedResults){
+						if (RiderStageResults.get(replaceCount).getResultID() == z.getResultID()){
+							RiderStageResults.remove(replaceCount);
+							RiderStageResults.add(z);
+						}
+						++replaceCount;
+					}
 				}
+				++segmentCount;
 			}
-			++segmentCount;
 		}
-
-		return 0;
-			
 	}
-	public int gatherMountainPoints(int stageID){
+	/**
+	 * 
+	 * @param stageID the stageID for the stage that mountain points are being calculated for 
+	 * @return nothing - function returns void. However, the array list RiderStageResults is edited with
+	 * potentially several results having their attribute MountainPoints affected
+	 */
+	public void gatherMountainPoints(int stageID){
 		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageID);
 		int[] indexArray = findStage(stageID);
 		if (Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments().size() == 0){
 			//no segments present = no extra mountain points
-			return 0;
 		}
-		int segmentIndex = 0;
-		int segmentCount = 0;
-		for (Segment x:Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments()){
-			segmentIndex = 2*segmentCount + 2;
-			if (x.getSegmentType() != SegmentType.SPRINT){
-				RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, segmentIndex);
-				int[] pointsArray;
-				switch (x.getSegmentType()){
-					case C1:
-						pointsArray = new int[]{1};
+		else{
+			int segmentIndex = 0;
+			int segmentCount = 0;
+			for (Segment x:Races.get(indexArray[0]).getStages().get(indexArray[1]).getSegments()){
+				segmentIndex = 2*segmentCount + 2;
+				if (x.getSegmentType() != SegmentType.SPRINT){
+					RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, segmentIndex);
+					int[] pointsArray;
+					switch (x.getSegmentType()){
+						case C1:
+							pointsArray = new int[]{1};
+							break;
+						case C2:
+							pointsArray = new int[]{2, 1};
+							break;
+						case C3:
+							pointsArray = new int[]{5, 3, 2, 1};
+							break;
+						case C4:
+							pointsArray = new int[]{10, 8, 6, 4, 2, 1};
+							break;
+						case HC:
+							pointsArray = new int[]{20, 15, 12, 10, 8, 6, 4, 2};
 						break;
-					case C2:
-						pointsArray = new int[]{2, 1};
-						break;
-					case C3:
-						pointsArray = new int[]{5, 3, 2, 1};
-						break;
-					case C4:
-						pointsArray = new int[]{10, 8, 6, 4, 2, 1};
-						break;
-					case HC:
-						pointsArray = new int[]{20, 15, 12, 10, 8, 6, 4, 2};
-					break;
-					default:
-						pointsArray = new int[1];
-						//this should never be called!
-				}
-				int count = 0;
-				while ((count <= sortedResults.length - 1) & (count != 15)){
-					sortedResults[count].addToMountainPoints(pointsArray[count]);
-					System.out.print(pointsArray[count] + " mountain points given to " + sortedResults[count].getRiderID() + "\n");
-					++count;
-				}
-				int replaceCount = 0;
-				for (RiderStageResult z:sortedResults){
-					if (RiderStageResults.get(replaceCount).getResultID() == z.getResultID()){
-						RiderStageResults.remove(replaceCount);
-						RiderStageResults.add(z);
+						default:
+							pointsArray = new int[1];
+							//this should never be called!
 					}
-					++replaceCount;
+					int count = 0;
+					while ((count <= sortedResults.length - 1) & (count != 15)){
+						sortedResults[count].addToMountainPoints(pointsArray[count]);
+						System.out.print(pointsArray[count] + " mountain points given to " + sortedResults[count].getRiderID() + "\n");
+						++count;
+					}
+					int replaceCount = 0;
+					for (RiderStageResult z:sortedResults){
+						if (RiderStageResults.get(replaceCount).getResultID() == z.getResultID()){
+							RiderStageResults.remove(replaceCount);
+							RiderStageResults.add(z);
+						}
+						++replaceCount;
+					}
 				}
+				++segmentCount;
 			}
-			++segmentCount;
 		}
-		return 0;
-			
 	}
 	//end of our own methods
 	@Override

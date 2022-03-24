@@ -775,18 +775,18 @@ public class CyclingPortal implements CyclingPortalInterface {
 		return outputRanks;
 	}
 	@Override
-	public int[] getRidersPointsInStage(int stageId) throws IDNotRecognisedException { //TODO not QUITE finished! test with 16 riders :)
+	public int[] getRidersPointsInStage(int stageId) throws IDNotRecognisedException { //complete!
 		int stageLocation[] = findStage(stageId);
-		if (stageLocation[0] == -1){
+		if (stageLocation[0] == -1){ //in case stageID is not found
 			throw new IDNotRecognisedException();
 		}
-		gatherSprintPoints(stageId);
-		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageId);
-		RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, -1);
+		gatherSprintPoints(stageId); //runs function to add all Sprint Points for segments to Results objects
+		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageId); //retrieve results for the concerned stage
+		RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, -1); //sort these results by elapsed time
 		StageType stageType = Races.get(stageLocation[0]).getStages().get(stageLocation[1]).getStageType();
 		int[] pointArray;
 		int[] outputArray;
-		switch (stageType){
+		switch (stageType){ //uses a case select to determine what point array to use, determined by stage type
 			case TT:
 				pointArray = new int[]{20,17,15,13,11,10,9,8,7,6,5,4,3,2,1};
 				break;
@@ -803,14 +803,14 @@ public class CyclingPortal implements CyclingPortalInterface {
 				pointArray = new int[1];
 				//this should never be called!
 		}
-		int ridersToAllocate = sortedResults.length;
+		int ridersToAllocate = sortedResults.length; //finds number of riders/results to return for
 		outputArray = new int[ridersToAllocate];
 		int count = 0; 
-		while ((count != 15) & (count <= ridersToAllocate - 1)){
-			outputArray[count] = pointArray[count] + sortedResults[count].getSprintPoints();
+		while ((count != 15) & (count <= ridersToAllocate - 1)){ //each rider is given points relative to their position
+			outputArray[count] = pointArray[count] + sortedResults[count].getSprintPoints(); //+ points gained during sprint segments
 			++count;
 		}
-		if (count == 15){
+		if (count == 15){ //for all results after 15, they will only recieve points for segments
 			while (count <= ridersToAllocate - 1){ 
 					outputArray[count] = 0 + sortedResults[count].getSprintPoints();
 					++count;
@@ -819,67 +819,67 @@ public class CyclingPortal implements CyclingPortalInterface {
 		return outputArray;	
 	}
 	@Override
-	public int[] getRidersMountainPointsInStage(int stageId) throws IDNotRecognisedException { //not QuiTE FinIShed AS WEll
-		int stageLocation[] = findStage(stageId);
-		if (stageLocation[0] == -1){
+	public int[] getRidersMountainPointsInStage(int stageId) throws IDNotRecognisedException { //complete!
+		int stageLocation[] = findStage(stageId); 
+		if (stageLocation[0] == -1){ //in case stageID is not found
 			throw new IDNotRecognisedException();
 		}
-		gatherMountainPoints(stageId);
-		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageId);
-		RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, -1);
+		gatherMountainPoints(stageId); //runs function to add all Mountain Points for segments to Results objects
+		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageId); //retrieve results for the concerned stage
+		RiderStageResult[] sortedResults = sortStageResultsByTime(relevantResults, -1); //sort these results by elapsed time
 		int[] outputArray;
-		int ridersToAllocate = sortedResults.length;
+		int ridersToAllocate = sortedResults.length; //finds number of riders/results to return for
 		outputArray = new int[ridersToAllocate];
-		int count = 0; 
-		while ((count != 15) & (count <= ridersToAllocate - 1)){
-			outputArray[count] = sortedResults[count].getMountainPoints();
-			++count;
+		int zeroCount = 0;
+		for (int x:outputArray){ //sets every value of the outputArray initially to 0
+			outputArray[zeroCount] = 0;
+			++zeroCount; 
 		}
-		if (count == 15){
-			while (count <= ridersToAllocate - 1){ 
-					outputArray[count] = 0 + sortedResults[count].getMountainPoints();
-					++count;
-				}
+		int count = 0; 
+		while (count <= ridersToAllocate - 1){ //for each rider with results in the stage
+			outputArray[count] += sortedResults[count].getMountainPoints(); //add their mountain points to their position
+			//within the array
+			++count; //increment
 		}
 		return outputArray;	
 	}
 	@Override
 	public void eraseCyclingPortal() { //complete!
-		Teams.clear();
+		Teams.clear(); //clears every array list within CyclingPortal
 		Races.clear();
 		RiderStageResults.clear();
-		System.out.println("Portal erased successfully!");
 	}
 	@Override
 	public void saveCyclingPortal(String filename) throws IOException { //complete!
 		try {
 			ObjectOutputStream save = new ObjectOutputStream(new FileOutputStream(filename));
-			save.writeObject(Teams);
+			save.writeObject(Teams); //writes data stored in CyclingPortal to file
 			save.writeObject(Races);
 			save.writeObject(RiderStageResults);
-			System.out.println("saved succesfully!");
-			save.close();
+			save.close(); //closes ObjectOutputStream
 		}
-		catch (IOException ex){
+		catch (IOException ex){ //in case of an error opening provided filename
 			throw new IOException();
 		}
 	}
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //this suppression is used to control type warnings. These warnings
+	//halt compilation and do not contribute to the program in any way, and cannot be handled in other ways
+	//due to the nature of java ObjectInputStreams
 	public void loadCyclingPortal(String filename) throws IOException, ClassNotFoundException { //complete!
 		try{
-			ObjectInputStream load = new ObjectInputStream(new FileInputStream(filename));
-			eraseCyclingPortal();
-		Object objectData = load.readObject();
+			ObjectInputStream load = new ObjectInputStream(new FileInputStream(filename)); //opens filestream for saved portal 
+			eraseCyclingPortal(); //current cycling portal is cleared
+		Object objectData = load.readObject(); //reads Teams
 		if (objectData instanceof ArrayList<?>){
-			Teams = (ArrayList<Team>) objectData;
+			Teams = (ArrayList<Team>) objectData; //data is written into the portal from file
 			}
-		else{
+		else{ //in case the write fails, file input stream is closed and exception thrown
 			load.close();
 			throw new ClassNotFoundException();
 		
 		}
-		objectData = load.readObject();
+		objectData = load.readObject(); //reads Races
 		if (objectData instanceof ArrayList){
 			Races = (ArrayList<Race>) objectData;
 		}
@@ -887,11 +887,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 			load.close();
 			throw new ClassNotFoundException();
 		}
-		// objectData = load.readObject();
-		// if (objectData instanceof ArrayList){
-		// 	RaceResults = (ArrayList<RaceResult>) objectData;
-		// 	}		commented instead of deleted because i feel like this might break now it's commented and i want it here in case we have to leave it in to fix things
-		objectData = load.readObject();
+		objectData = load.readObject(); //reads RiderStageResults
 		if (objectData instanceof ArrayList){
 			RiderStageResults = (ArrayList<RiderStageResult>) objectData;
 		}
@@ -899,9 +895,9 @@ public class CyclingPortal implements CyclingPortalInterface {
 			load.close();
 			throw new ClassNotFoundException();
 		}
-		load.close();
+		load.close(); //file stream is closed after reading
 		}
-		catch (IOException ex){
+		catch (IOException ex){ //in case of an error opening provided filename
 			throw new IOException();
 		}
 		
@@ -911,21 +907,22 @@ public class CyclingPortal implements CyclingPortalInterface {
 		boolean raceFound = false;
 		int searchCount = 0;
 		Race currentRace;
-		while (raceFound == false && searchCount <= Races.size() - 1) {
+		while (raceFound == false && searchCount <= Races.size() - 1) { //iterates while Race hasn't been found or
+		//until Races has been exhausted
             currentRace = (Races.get(searchCount));
             String tempName = currentRace.getRaceName();
-            if (tempName.equals(name)) {
+            if (tempName.equals(name)) { //compares names of input and current
                 raceFound = true;
             }
-            else {
+            else { //else is used to avoid incrementing searchCount before using searchCount as an index
                 searchCount += 1;
             }
         }
-		if (raceFound == true) {
+		if (raceFound == true) { //if race has been found, race at searchCount is removed
 			Races.remove(searchCount);
 		}
 		else
-			throw new NameNotRecognisedException();
+			throw new NameNotRecognisedException(); //else, race was not found and an exception is thrown
 
 	}
 

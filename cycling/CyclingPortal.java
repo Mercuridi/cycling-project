@@ -648,129 +648,140 @@ public class CyclingPortal implements CyclingPortalInterface {
 	@Override
 	public int createRider(int teamID, String name, int yearOfBirth) //complete!
 		throws IDNotRecognisedException, IllegalArgumentException {
-		if ((yearOfBirth >= 1900) && (name.length() != 0) && (name != null)){
-			Rider newRider;
+		if ((yearOfBirth >= 1900) && (name.length() != 0) && (name != null)){ //ensures the validity of entered data
+			Rider newRider; //constructs new Rider
             newRider = new Rider(teamID, name, yearOfBirth);
            	int teamCount = 0;
-			while (teamCount <= Teams.size()-1) {
-                if (Teams.get(teamCount).getTeamID() == teamID){ //idea what might be going wrong... riders are added to x, not the actual team concerned.
-                	Teams.get(teamCount).addRider(newRider);
-                 	return newRider.getRiderID();
+			while (teamCount <= Teams.size()-1) { //iterates through existing Teams to find a team with matching teamID
+				//to the one entered
+                if (Teams.get(teamCount).getTeamID() == teamID){ //if found...
+                	Teams.get(teamCount).addRider(newRider); //new rider is added to the correct Team
+                 	return newRider.getRiderID(); //riderID is returned
 				}
 				++teamCount;
             }
-			throw new IDNotRecognisedException();
+			throw new IDNotRecognisedException(); //if this statement is reached, team was not found
 			}
-			else
-				throw new IllegalArgumentException();
+		else
+			throw new IllegalArgumentException(); //if this statement is reached, parameters were invalid
 		}
-
 	@Override
 	public void removeRider(int riderId) throws IDNotRecognisedException { //complete!
-		int[] indexArray = locateRider(riderId);
+		int[] indexArray = locateRider(riderId); //searches for Rider
 		if (indexArray[0] == -1)
 			throw new IDNotRecognisedException();
-		ArrayList<RiderStageResult>	tempList = new ArrayList<RiderStageResult>();
-		for (RiderStageResult x:RiderStageResults){
+		ArrayList<RiderStageResult>	tempList = new ArrayList<RiderStageResult>(); //creates a temporary array list to contain
+		//all the stage results that are not associated with the entered riderID
+		for (RiderStageResult x:RiderStageResults){ 
 			if (x.getRiderID() != riderId){
 				tempList.add(x);
 			}
 		}
-		RiderStageResults = tempList;
-		Teams.get(indexArray[0]).removeRider(indexArray[1]);
+		RiderStageResults = tempList; //overwrites old RiderStageResults with new tempList
+		//which does not contain any results with the entered riderID
+		Teams.get(indexArray[0]).removeRider(indexArray[1]); //rider is removed from relevant team
 	}
 	@Override
 	public void registerRiderResultsInStage(int stageId, int riderId, LocalTime... checkpoints) //complete!
 			throws IDNotRecognisedException, DuplicatedResultException, InvalidCheckpointsException,
 			InvalidStageStateException {
-			int temp = locateRiderStageResult(stageId, riderId);
-			if (temp != -1)
+			int temp = locateRiderStageResult(stageId, riderId); //searchs for stage result of the same
+			//riderID and stageID as entered. This search should fail if a new result is being made.
+			if (temp != -1) //in case of success, throw an exception
 				throw new DuplicatedResultException();
-			if (findStage(stageId)[0] == -1){
-				System.out.println("stage wasn't found bruhhh");
+			if (findStage(stageId)[0] == -1){ //assures that a stage with entered stageID exists
 				throw new IDNotRecognisedException();
 			}	
-			if (locateRider(riderId)[0] == -1){
-				System.out.println("rider wasn't found bruhhh");
+			if (locateRider(riderId)[0] == -1){ //assures that a rider with entered riderID exists
 				throw new IDNotRecognisedException();
 			}
-			RiderStageResult newStageResult; 
+			RiderStageResult newStageResult;  //in the case that all checks pass, new result is constructed and added
+			//to RiderStageResults
 			newStageResult = new RiderStageResult(stageId, riderId, checkpoints);
 			RiderStageResults.add(newStageResult);
 		}
 	@Override
 	public LocalTime[] getRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException { //complete!
-		int targetIndex = locateRiderStageResult(stageId, riderId);
-		if (targetIndex == -1){
+		int targetIndex = locateRiderStageResult(stageId, riderId); //locates rider stage result
+		if (targetIndex == -1){ //in case search fails, exception is thrown
 			throw new IDNotRecognisedException();
 		}
-		else 
-			return RiderStageResults.get(targetIndex).getCheckpoints();
+		else //otherwise...
+			return RiderStageResults.get(targetIndex).getCheckpoints(); //returns checkpoints of result, an array of local times
 		}
 	@Override
 	public LocalTime getRiderAdjustedElapsedTimeInStage(int stageId, int riderId) throws IDNotRecognisedException { //complete!
-		int targetRiderIndex = locateRiderStageResult(stageId, riderId);
-		if (targetRiderIndex == -1){
-			throw new IDNotRecognisedException();
+		int targetRiderIndex = locateRiderStageResult(stageId, riderId); //locates result associated with entered riderID 
+		//in the stage with the input stageID
+		if (targetRiderIndex == -1){ //in case of search failure
+			throw new IDNotRecognisedException(); //throw exception
 		}
-		LocalTime adjustTime = RiderStageResults.get(targetRiderIndex).getElapsedTime();
-		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageId);
-		for (RiderStageResult x:relevantResults){
-			if (x.getRiderID() == riderId){
-				break;
+		LocalTime adjustTime = RiderStageResults.get(targetRiderIndex).getElapsedTime(); //gets time of rider within Stage
+		ArrayList<RiderStageResult> relevantResults = retrieveResultsForStage(stageId); //retrieves all results associated
+		//with input stageID
+		for (RiderStageResult x:relevantResults){ //iterates through all relevant results looking for a "close" result 
+		//(within less than a second)
+			if (x.getRiderID() == riderId){ //if the current result is the same as the result being adjusted
+				break; //skip
 			}
 			else{
-				LocalTime comparisonTime = x.getElapsedTime();
-				Duration timeDifference = Duration.between(adjustTime, comparisonTime);
-				if ((timeDifference.getSeconds() <= 1) & (timeDifference.getSeconds() >= -1)){
-					timeDifference = Duration.between(adjustTime, comparisonTime);
-					if ((timeDifference.getNano() <= 999999999) & (timeDifference.getNano() >= -999999999)){
-						if (comparisonTime.isBefore(adjustTime) == true){
+				LocalTime comparisonTime = x.getElapsedTime(); //get time for the current result within Stage
+				Duration timeDifference = Duration.between(adjustTime, comparisonTime); //finds time between both results
+				if ((timeDifference.getSeconds() <= 1) & (timeDifference.getSeconds() >= -1)){ //if time between the two segments is a second
+					timeDifference = Duration.between(adjustTime, comparisonTime); //extra precision is used
+					if ((timeDifference.getNano() <= 999999999) & (timeDifference.getNano() >= -999999999)){ //in case of the two being
+						//within less than a second
+						if (comparisonTime.isBefore(adjustTime) == true){ //if the current result is before the result
+							//being adjusted, the adjusted result becomes the current result
 							adjustTime = comparisonTime;
 						}
 					}
 				}
 				}
 		}
-		return adjustTime;
+		return adjustTime; //returns adjusted time
 	}
 	@Override
 	public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException { //complete!
-		int targetIndex = locateRiderStageResult(stageId, riderId);
-		if (targetIndex == -1)
-			throw new IDNotRecognisedException();
+		int targetIndex = locateRiderStageResult(stageId, riderId); //locates result associated with entered riderID 
+		//in the stage with the input stageID
+		if (targetIndex == -1) //in case of search failure
+			throw new IDNotRecognisedException(); //throw exception
 		else
-			RiderStageResults.remove(targetIndex);
+			RiderStageResults.remove(targetIndex); //removes value at index
 	}
 	@Override
 	public int[] getRidersRankInStage(int stageId) throws IDNotRecognisedException { //complete!
-		ArrayList<RiderStageResult> relevantStageResults = retrieveResultsForStage(stageId);
-		RiderStageResult[] sortedResultArray = sortStageResultsByTime(relevantStageResults, -1);
-		if (sortedResultArray == null)
+		ArrayList<RiderStageResult> relevantStageResults = retrieveResultsForStage(stageId); //retrieves all results
+		//associated with stage of the input stageID
+		RiderStageResult[] sortedResultArray = sortStageResultsByTime(relevantStageResults, -1); 
+		//sorts using adjusted elapsed time
+		if (sortedResultArray == null) //in the case that the sort fails
 			throw new IDNotRecognisedException();
 		int [] outputRanks;
 		outputRanks = new int[relevantStageResults.size()];
 		int count = 0; 
-		for (RiderStageResult x:sortedResultArray){
-			outputRanks[count] = x.getRiderID();
+		for (RiderStageResult x:sortedResultArray){ //iterates through sorted result array...
+			outputRanks[count] = x.getRiderID(); //and writes RiderID's to the output Array
 			++count;
 		}
 		return outputRanks;
 	}
 	@Override
 	public LocalTime[] getRankedAdjustedElapsedTimesInStage(int stageId) throws IDNotRecognisedException { //complete!
-		ArrayList<RiderStageResult> relevantStageResults = retrieveResultsForStage(stageId);
-		System.out.println(relevantStageResults.size());
-		RiderStageResult[] sortedResultArray = sortStageResultsByTime(relevantStageResults, -1);
-		if (sortedResultArray == null){
+		ArrayList<RiderStageResult> relevantStageResults = retrieveResultsForStage(stageId); //retrieves all results
+		//associated with stage of the input stageID
+		RiderStageResult[] sortedResultArray = sortStageResultsByTime(relevantStageResults, -1); //sorts using adjusted elapsed time
+		if (sortedResultArray == null){ //in the case that the sort fails
 			throw new IDNotRecognisedException();
 		}
 		LocalTime [] outputRanks;
 		outputRanks = new LocalTime[relevantStageResults.size()];
 		int count = 0; 
 		for (RiderStageResult x:sortedResultArray){
-			outputRanks[count] = getRiderAdjustedElapsedTimeInStage(x.getStageID(), x.getRiderID());
-			++count;
+			outputRanks[count] = getRiderAdjustedElapsedTimeInStage(x.getStageID(), x.getRiderID()); //for each 
+			//riderResult in the sorted array of results, recalculate the adjusted elapsed time
+			++count; //increment
 		}
 		return outputRanks;
 	}

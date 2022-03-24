@@ -492,13 +492,13 @@ public class CyclingPortal implements CyclingPortalInterface {
 			else if ((concernedStage.getStageLength()) < location){ //if segment finishes after stage length, throw exception
 				throw new InvalidLocationException();
 			}
-			else if (concernedStage.getStageType() == StageType.TT){
+			else if (concernedStage.getStageType() == StageType.TT){ //if stage type is a time trial, segments cannot be added
 				throw new InvalidStageTypeException();
 			}
-			else{
+			else{ //if all checks pass, segment is constructed and added
 				newSegment.setRaceID(Races.get(indexArray[0]).getRaceID());
 				Races.get(indexArray[0]).getStages().get(indexArray[1]).addSegmentToStage(newSegment);
-				return newSegment.getSegmentID();
+				return newSegment.getSegmentID(); //segmentID is returned
 			}
 		}
 	}

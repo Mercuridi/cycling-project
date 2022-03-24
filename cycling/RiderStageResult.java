@@ -22,21 +22,21 @@ public class RiderStageResult{
 
     /**
      * Method to obtain the resultID for a given RiderStageResult
-     * @return the int resultID of the current RiderStageResult (unique identifier of the object)
+     * @return the int "resultID" of the current RiderStageResult (unique identifier of the object)
      */
     public int getResultID(){
         return resultID;
     }
     /**
      * Method to obtain the stageID for a given RiderStageResult
-     * @return the int stageID corresponding to the stage of the current RiderStageResult
+     * @return the int "stageID" corresponding to the stage of the current RiderStageResult
      */
     public int getStageID(){
         return stageID;
     }
     /**
      * Method to obtain the riderID for a given RiderStageResult
-     * @return the int riderID corresponding to the rider of the current RiderStageResult
+     * @return the int "riderID" corresponding to the rider of the current RiderStageResult
      */
     public int getRiderID(){
         return riderID;
@@ -50,14 +50,14 @@ public class RiderStageResult{
     }
     /**
      * Method to obtain the mountainPoints for a given RiderStageResult
-     * @return the int mountainPoints of the current RiderStageResult
+     * @return the int "mountainPoints" of the current RiderStageResult
      */
     public int getMountainPoints(){
         return mountainPoints;
     }
     /**
      * Method to obtain the sprintPoints for a given RiderStageResult
-     * @return the int sprintPoints of the current RiderStageResult
+     * @return the int "sprintPoints" of the current RiderStageResult
      */
     public int getSprintPoints(){
         return sprintPoints;
@@ -78,7 +78,7 @@ public class RiderStageResult{
     }
     /**
      * Method to set a custom/new resultID for teh given RiderStageResult
-     * @param resultID the int resultID to be set as the new resultID (overwrites old value)
+     * @param resultID the int "resultID" to be set as the new resultID (overwrites old value)
      */
     public void setResultID(int resultID){
         this.resultID = resultID;

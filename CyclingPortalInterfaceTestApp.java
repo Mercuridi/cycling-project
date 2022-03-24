@@ -566,8 +566,10 @@ public class CyclingPortalInterfaceTestApp {
             System.out.println("Team ID of Aperture Science: " + thorough.createTeam("Aperture Science", "A rival to Black Mesa, responsible for the development of the Aperture Science Handheld Portal Device. (Aperture Science)"));      // expected team ID 118
             System.out.println("Team ID of Ultra Mutants: " + thorough.createTeam("Ultra Mutants", "A ragtag band of irradiated mutants. (Ultra Mutants)"));                                                                                 // expected team ID 119
             System.out.println("All 5 teams created. Check print to verify: ");
-            System.out.println("New teamIDs: " + thorough.getTeams());
-            System.out.println("Team names: " ); // TODO thorough.getTeams() is having a strange error, it isn't returning the IDs of the teams like it should, returns something insane
+            System.out.println("New teamIDs: ");
+            for (int x:thorough.getTeams()){
+                System.out.println(x);
+            }
                                                  // added logic to the createTeam method to actually return the teamID upon team creation; currently using print lines to find out what the ID would be
         }
         catch (IllegalNameException ex){

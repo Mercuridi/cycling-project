@@ -543,12 +543,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 		newTeam = new Team(name, description);
 		Teams.add(newTeam);
-		for (Team x:Teams){
-			if (x.getTeamName().equals(name)){
-				return x.getTeamID();
-			}
-		}
-		return 0;
+		return newTeam.getTeamID();
 		
 	}
 	@Override
@@ -592,12 +587,12 @@ public class CyclingPortal implements CyclingPortalInterface {
 			throws IDNotRecognisedException, IllegalArgumentException {
 			if ((yearOfBirth >= 1900) && (name.length() != 0) && (name != null)){
 				Rider newRider;
-            boolean addCheck = false;
-            newRider = new Rider(teamID, name, yearOfBirth);
-            for (Team x:Teams) {
-                if (x.getTeamID() == teamID){
-                    x.addRider(newRider);
-                    addCheck = true;
+            	boolean addCheck = false;
+            	newRider = new Rider(teamID, name, yearOfBirth);
+           		for (Team x:Teams) {
+                	if (x.getTeamID() == teamID){ //idea what might be going wrong... riders are added to x, not the actual team concerned.
+                    	x.addRider(newRider);
+                    	addCheck = true;
                     break;
                 }
 				if (addCheck == false){

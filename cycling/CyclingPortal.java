@@ -81,9 +81,10 @@ public class CyclingPortal implements CyclingPortalInterface {
 	 * 
 	 * @param riderID the ID of the rider to be located
 	 * @return returns a one-dimensional array of 2 indexes which contains the index addresses
-	 * of the requested RiderID's team in the array of Teams. The first part of the array equates to the index of the team
-	 * the rider is in in the array of teams "Teams" while second part of the array equates to the index
-	 * of the rider within said Team.
+	 * of the requested RiderID's rider in the array of Teams. The first part of the array equates to the index of the team
+	 * the rider is in in the array of teams "Teams" while the second part of the array equates to the index
+	 * of the rider within said Team. If a rider with the entered ID does not exist, 
+	 * the both indexes of the output array are set to -1.
 	 */
 	public int[] locateRider(int riderID){
 		int outputArray[];
@@ -112,7 +113,11 @@ public class CyclingPortal implements CyclingPortalInterface {
 	/**
 	 * 
 	 * @param stageID the ID of the stage to be located
-	 * @return
+	 * @return returns a one-dimensional array of 2 indexes which contains the index addresses
+	 * of the requested StageID's Stage in the array of Races. The first part of the array equates to the index of the race
+	 * the rider is in in the array of races "Races" while the second part of the array equates to the index
+	 * of the Stage within said Race. If a stage with the entered ID does not exist, 
+	 * the both indexes of the output array are set to -1.
 	 */
 	public int[] findStage(int stageID) { //complete!
 		int raceCount = 0;
@@ -137,6 +142,13 @@ public class CyclingPortal implements CyclingPortalInterface {
 		output[1] = -1;
 		return output;
 	}
+	/**
+	 * 
+	 * @param stageID the stageID that the result to be found must relate to
+	 * @param riderID the riderID that the result to be found must relate to
+	 * @return returns the index of the requested RiderStageResult's team in the array of rider stage results "RiderStageResults". If a result with the
+	 * entered ID does not exist, the rogue value -1 is returned
+	 */
 	public int locateRiderStageResult(int stageID, int riderID){ //complete!
 		int resultsCount = 0;
 		while (resultsCount <= RiderStageResults.size()-1){

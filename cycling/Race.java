@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Race implements Serializable {
-    // variables setup
+    // attributes setup
     private static int nextRaceID = 11;
     private int raceID;
     private String raceName;
@@ -23,21 +23,21 @@ public class Race implements Serializable {
 
     /**
      * Method to obtain raceID for a given race
-     * @return the int raceID of the current race
+     * @return the int "raceID" of the current race
      */
     public int getRaceID(){
         return raceID;
     }
     /**
      * Method to obtain raceName for a given race
-     * @return the String raceName of the current race
+     * @return the String "raceName" of the current race
      */
     public String getRaceName() {
         return raceName;
     }
     /**
      * Method to obtain raceDescription for a given race
-     * @return the String raceDescription of the current race
+     * @return the String "raceDescription" of the current race
      */
     public String getRaceDescription(){
         return raceDescription;
@@ -64,8 +64,8 @@ public class Race implements Serializable {
         return raceLength;
     }
     /**
-     * Method to obtain the nextRaceID in relation to the given race
-     * @return int "nextRaceID" in relation to the current race
+     * Method to obtain the next RaceID in relation to the given race
+     * @return the int "nextRaceID" in relation to the current race
      */
     public int getNextRaceID(){
         return nextRaceID;
@@ -78,8 +78,8 @@ public class Race implements Serializable {
         this.ridersInRace.add(newRider);
     }
     /**
-     * Method to remove a rider from a race's list of riders, found vie riderID
-     * @param targetRiderID the riderID of the rider to be removed from the race
+     * Method to remove a rider from a race's list of riders, found via riderID
+     * @param targetRiderID the int "riderID" of the rider to be removed from the race
      */
     public void removeRiderFromRace(int targetRiderID){
         boolean riderFound = false;
@@ -137,7 +137,7 @@ public class Race implements Serializable {
     }
     /**
      * Method to set the raceLength of the given race in kilometres (KM)
-     * @param raceLength the physical distance of the race in kilometres (KM)
+     * @param raceLength the physical distance of the race in kilometres (KM) as a double
      */
     public void setRaceLength(double raceLength){
         this.raceLength = raceLength;

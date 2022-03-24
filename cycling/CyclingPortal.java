@@ -543,7 +543,13 @@ public class CyclingPortal implements CyclingPortalInterface {
 		}
 		newTeam = new Team(name, description);
 		Teams.add(newTeam);
+		for (Team x:Teams){
+			if (x.getTeamName().equals(name)){
+				return x.getTeamID();
+			}
+		}
 		return 0;
+		
 	}
 	@Override
 	public void removeTeam(int teamId) throws IDNotRecognisedException { //complete!

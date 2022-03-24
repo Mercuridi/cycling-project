@@ -36,10 +36,10 @@ public class CyclingPortal implements CyclingPortalInterface {
 	/**
 	 * 
 	 * @param teamID the ID of the team to be located
-	 * @return returns the index of the requested TeamID's team in the array of teams "Teams"
-	 * @throws IDNotRecognisedException if the ID is not recognised as any ID in the system
+	 * @return returns the index of the requested TeamID's team in the array of teams "Teams". If a team with the
+	 * entered ID does not exist, the rogue value -1 is returned
 	 */
-	public int locateTeam(int teamID) throws IDNotRecognisedException { //complete!
+	public int locateTeam(int teamID) { //complete!
 		int searchCount = 0;
 		Team currentTeam;
 		int tempID; 
@@ -55,7 +55,13 @@ public class CyclingPortal implements CyclingPortalInterface {
         }
 		return -1; //-1 is a rouge value
 	}
-	public int locateRace(int raceID) throws IDNotRecognisedException { //complete!
+	/**
+	 * 
+	 * @param raceID the ID of the race to be located
+	 * @return returns the index of the requested RaceID's team in the array of races "Races". If a race with the
+	 * entered ID does not exist, the rogue value -1 is returned
+	 */
+	public int locateRace(int raceID) { //complete!
 		int searchCount = 0;
 		Race currentRace;
 		int tempID; 
@@ -71,6 +77,14 @@ public class CyclingPortal implements CyclingPortalInterface {
         }
 		return -1; //-1 is a rouge value
 	}
+	/**
+	 * 
+	 * @param riderID the ID of the rider to be located
+	 * @return returns a one-dimensional array of 2 indexes which contains the index addresses
+	 * of the requested RiderID's team in the array of Teams. The first part of the array equates to the index of the team
+	 * the rider is in in the array of teams "Teams" while second part of the array equates to the index
+	 * of the rider within said Team.
+	 */
 	public int[] locateRider(int riderID){
 		int outputArray[];
 		outputArray = new int[2];
@@ -95,6 +109,11 @@ public class CyclingPortal implements CyclingPortalInterface {
 		outputArray[1] = -1;
 		return outputArray;
 	}
+	/**
+	 * 
+	 * @param stageID the ID of the stage to be located
+	 * @return
+	 */
 	public int[] findStage(int stageID) { //complete!
 		int raceCount = 0;
 		int[] output;

@@ -597,46 +597,48 @@ public class CyclingPortal implements CyclingPortalInterface {
 	public int createTeam(String name, String description) throws IllegalNameException, InvalidNameException { //complete!
 		Team newTeam;
 		if ((name.length() > 30) || (name.length() == 0) || (name == null)){
-			throw new InvalidNameException();
+			//the above checks assure the validity of input data
+			throw new InvalidNameException(); //failure throws an exception
 		}
-		for (Team x:Teams){
-			if (x.getTeamName().equals(name)){
+		for (Team x:Teams){ //iterates through Teams searching for a team with the same name
+			//as the one entered into the method
+			if (x.getTeamName().equals(name)){ //if comparison is successful, there is a preexisting team with the same name
 				throw new IllegalNameException();
 			}
 		}
-		newTeam = new Team(name, description);
-		Teams.add(newTeam);
-		return newTeam.getTeamID();
+		newTeam = new Team(name, description); //if all checks pass, new team is constructed
+		Teams.add(newTeam); //and added to Teams
+		return newTeam.getTeamID(); //and TeamID is returned
 		
 	}
 	@Override
 	public void removeTeam(int teamId) throws IDNotRecognisedException { //complete!
-		int targetIndex = locateTeam(teamId);
-		if (targetIndex != -1) {
-			Teams.remove(targetIndex);
+		int targetIndex = locateTeam(teamId); //locates team index
+		if (targetIndex != -1) { //in case of successful search...
+			Teams.remove(targetIndex); //remove team at index
 		}
 		else 
-			throw new IDNotRecognisedException();
+			throw new IDNotRecognisedException(); //else throw an exception
 	}
 	@Override
 	public int[] getTeams() { //complete!
 		int []outputArray = new int[Teams.size()];
 		int indexCount = 0;
-		for (Team x:Teams) {
-			outputArray[indexCount] = x.getTeamID();
+		for (Team x:Teams) { //iterates through all the teams in Teams...
+			outputArray[indexCount] = x.getTeamID(); //adding each teamID to the out array
 			++indexCount;
 		}
 		return outputArray;
 	}
 	@Override
 	public int[] getTeamRiders(int teamId) throws IDNotRecognisedException { //complete!
-		int targetIndex = locateTeam(teamId);
+		int targetIndex = locateTeam(teamId); //locates team with relevant teamID
 		int[] outputArray; 
-		if (targetIndex != -1) {
-			outputArray = new int[Teams.get(targetIndex).getRidersInTeam().size()];
+		if (targetIndex != -1) { //if search is successful...
+			outputArray = new int[Teams.get(targetIndex).getRidersInTeam().size()]; //output array is instantiated
 			int count = 0;
-			for (Rider x: Teams.get(targetIndex).getRidersInTeam()){
-				outputArray[count] = x.getRiderID();
+			for (Rider x: Teams.get(targetIndex).getRidersInTeam()){ //iterates through all riders in the team...
+				outputArray[count] = x.getRiderID(); //adding each riderID to the outputArray
 				++count;
 			} 
 		}
@@ -936,8 +938,6 @@ public class CyclingPortal implements CyclingPortalInterface {
 			throw new NameNotRecognisedException(); //else, race was not found and an exception is thrown
 
 	}
-
-
 	@Override
 	public LocalTime[] getGeneralClassificationTimesInRace(int raceId) throws IDNotRecognisedException {
 		return null;

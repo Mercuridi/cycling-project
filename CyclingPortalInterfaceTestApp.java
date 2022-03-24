@@ -593,7 +593,7 @@ public class CyclingPortalInterfaceTestApp {
 
             thorough.createRider(116, "Ky Kiske", 2019);
             thorough.createRider(116, "Droz", 1980);
-            thorough.createRider(116, "Jane Shepard", 1750);        // far in the past birthday, test limits of system
+            thorough.createRider(116, "Jane Shepard", 1950);        // far in the past birthday, test limits of system. Consider limits tested...
             thorough.createRider(116, "Guy Spelunky", 2000);        // last Angel City Aces rider
             System.out.println("Angel City Aces riders created...");
 
@@ -623,7 +623,9 @@ public class CyclingPortalInterfaceTestApp {
         catch (IDNotRecognisedException ex){
             System.out.println("ID of team not recognised. (Thorough system, rider creation)");
         }
-        
+        catch (IllegalArgumentException ex){
+            System.out.println("Invalid data was passed into the rider data (thorough system, rider creation");
+        }
         try{
             System.out.println("Team Riders: WHITE SPACE:       " + thorough.getTeamRiders(115)[0] +", " + thorough.getTeamRiders(115)[1] + ", " + thorough.getTeamRiders(115)[2]);
             System.out.println("Team Riders: Angel City Aces:   " + thorough.getTeamRiders(116)[0] +", " + thorough.getTeamRiders(116)[1] + ", " + thorough.getTeamRiders(116)[2] + ", " + thorough.getTeamRiders(116)[3]);
@@ -636,6 +638,9 @@ public class CyclingPortalInterfaceTestApp {
         }
         catch (ArrayIndexOutOfBoundsException ex){
             System.out.println("Index out of bounds. Error in adding riders to team. (Thorough system, rider creation, printing check)");
+        }
+        catch (IllegalArgumentException ex){
+            System.out.println("Invalid data was passed into the rider data (thorough system, rider creation, printing check");
         }
 
         System.out.println("Creating races...");

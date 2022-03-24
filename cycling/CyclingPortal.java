@@ -584,27 +584,26 @@ public class CyclingPortal implements CyclingPortalInterface {
 	}
 	@Override
 	public int createRider(int teamID, String name, int yearOfBirth) //complete!
-			throws IDNotRecognisedException, IllegalArgumentException {
-			if ((yearOfBirth >= 1900) && (name.length() != 0) && (name != null)){
-				Rider newRider;
-            	boolean addCheck = false;
-            	newRider = new Rider(teamID, name, yearOfBirth);
-           		for (Team x:Teams) {
-                	if (x.getTeamID() == teamID){ //idea what might be going wrong... riders are added to x, not the actual team concerned.
-                    	x.addRider(newRider);
-                    	addCheck = true;
-                    break;
-                }
-				if (addCheck == false){
-					throw new IDNotRecognisedException();
+		throws IDNotRecognisedException, IllegalArgumentException {
+		if ((yearOfBirth >= 1900) && (name.length() != 0) && (name != null)){
+			Rider newRider;
+            boolean addCheck = false;
+            newRider = new Rider(teamID, name, yearOfBirth);
+           	int teamCount = 0;
+			while (teamCount <= Teams.size()-1) {
+                if (Teams.get(teamCount).getTeamID() == teamID){ //idea what might be going wrong... riders are added to x, not the actual team concerned.
+                	Teams.get(teamCount).addRider(newRider);
+                 	addCheck = true;
+                  	return newRider.getRiderID();
 				}
+				++teamCount;
+            }
+			throw new IDNotRecognisedException();
 			}
-			return 0;
-			}
-			else{
+			else
 				throw new IllegalArgumentException();
-			}
-        }
+		}
+
 	@Override
 	public void removeRider(int riderId) throws IDNotRecognisedException { //complete!
 		int[] indexArray = locateRider(riderId);

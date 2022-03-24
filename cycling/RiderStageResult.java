@@ -11,7 +11,7 @@ import java.time.LocalTime;
  * @version 1.0
  */
 public class RiderStageResult{
-    // variables setup
+    // attributes setup
     private static int nextResultID = 11111;
     private int resultID;
     private int stageID;
